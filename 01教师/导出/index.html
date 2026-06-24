@@ -897,7 +897,7 @@ button { font: inherit; }
   display: flex;
   min-width: 1180px;
   min-height: 100vh;
-  background: var(--color-bg-2);
+  background: var(--color-sidebar);
 }
 .sidebar {
   position: sticky;
@@ -1084,7 +1084,14 @@ button { font: inherit; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.main { flex: 1; min-width: 0; }
+.main {
+  flex: 1;
+  min-width: 0;
+  margin: 8px 8px 8px 0;
+  background: var(--color-bg-1);
+  border-radius: 16px;
+  overflow: hidden;
+}
 .page-padded { padding: 0 32px 40px; }
 .service-hall { min-height: calc(100vh - 56px); background: var(--color-bg-2); }
 .service-top-bar {
