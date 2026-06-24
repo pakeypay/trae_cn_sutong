@@ -31,7 +31,7 @@ button { font: inherit; }
   display: flex;
   min-width: 1180px;
   min-height: 100vh;
-  background: var(--color-bg-2);
+  background: var(--color-sidebar);
 }
 
 /* ================================================================
@@ -276,6 +276,10 @@ button { font: inherit; }
 .main {
   flex: 1;
   min-width: 0;
+  margin: 8px 8px 8px 0;
+  background: var(--color-bg-1);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 /* 标准页面 padding（工作台/服务大厅等） */
