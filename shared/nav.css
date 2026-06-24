@@ -44,7 +44,7 @@ button { font: inherit; }
   top: 0;
   display: flex;
   width: var(--sidebar-width);
-  height: 100vh;
+  height: calc(100vh - 16px);
   min-height: 640px;
   flex: 0 0 var(--sidebar-width);
   flex-direction: column;
