@@ -265,12 +265,12 @@
     if (!app.querySelector('.app-shell')) {
       app.innerHTML = '<div class="app-shell">'
         + renderSidebarHtml(role, active)
-        + '<div class="main"><div class="content"></div></div>'
+        + '<div class="main"><div class="main-inner"><div class="content"></div></div></div>'
         + '</div>';
     } else {
       var main = app.querySelector('.main');
       if (main && !main.querySelector('.content')) {
-        main.innerHTML = '<div class="content"></div>';
+        main.innerHTML = '<div class="main-inner"><div class="content"></div></div>';
       }
     }
 
