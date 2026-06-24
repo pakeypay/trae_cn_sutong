@@ -282,6 +282,7 @@ button { font: inherit; }
 
 /* 内容区白色卡片容器 */
 .main-inner {
+  height: calc(100vh - 16px);
   margin: 8px 8px 8px 0;
   background: var(--color-bg-1);
   border-radius: 16px;
