@@ -33,6 +33,7 @@ button { font: inherit; }
   min-height: 100vh;
   background: var(--color-sidebar);
   padding: 8px 8px 8px 0;
+  box-sizing: border-box;
 }
 
 /* ================================================================
@@ -277,10 +278,8 @@ button { font: inherit; }
 .main {
   flex: 1;
   min-width: 0;
-  height: calc(100vh - 16px);
   background: var(--color-bg-1);
   border-radius: 16px;
-  overflow-y: auto;
 }
 
 /* 标准页面 padding（工作台/服务大厅等） */
