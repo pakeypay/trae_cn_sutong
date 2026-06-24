@@ -1,0 +1,26 @@
+/* 排课工作台 — 使用全局 Design Token */
+
+.scheduler-workbench-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+/* 卡片 hover */
+.floating-panel-arco,
+.summary-card-arco,
+.room-card-arco,
+.teacher-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.floating-panel-arco:hover,
+.summary-card-arco:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.room-card-arco:hover,
+.teacher-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

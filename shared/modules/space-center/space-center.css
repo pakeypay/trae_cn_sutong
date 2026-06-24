@@ -1,0 +1,29 @@
+/* 空间中心 — 使用全局 Design Token */
+
+.space-center-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+/* KPI 卡片 hover */
+.kpi-card-arco {
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.kpi-card-arco:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* 房间/设备卡 hover */
+.room-card-arco,
+.equipment-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.room-card-arco:hover,
+.equipment-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

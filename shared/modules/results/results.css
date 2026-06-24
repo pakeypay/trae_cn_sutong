@@ -1,0 +1,15 @@
+/* 成果模块 — 使用全局 Design Token */
+
+.result-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.result-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.result-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

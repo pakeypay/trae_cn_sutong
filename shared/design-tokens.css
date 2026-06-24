@@ -1,0 +1,234 @@
+/**
+ * ╔══════════════════════════════════════════════════════════════╗
+ * ║   复旦附属儿科医院 · 教学管理系统 · 全局 Design Token       ║
+ * ║   Design Token — 唯一真相来源                                ║
+ * ║                                                              ║
+ * ║   设计语言：飞书风格 + Codex 风格                           ║
+ * ║   关键词：轻盈 · 克制 · 通透 · 细边框 · 浅灰底             ║
+ * ║                                                              ║
+ * ║   所有模块的 CSS 必须引用这里的变量，不允许在模块内         ║
+ * ║   硬编码颜色、圆角、字号、间距、阴影等视觉属性。           ║
+ * ║                                                              ║
+ * ║   ⚠  左侧导航颜色（#175898）为客户确认，不改动            ║
+ * ║   其余所有视觉属性均从本文件派生                           ║
+ * ╚══════════════════════════════════════════════════════════════╝
+ *
+ * ══════════════════════════════════════════════════════════════
+ * 组件使用规范（协作必读）
+ * ══════════════════════════════════════════════════════════════
+ *
+ * 一、选型规则
+ *   · 布局/容器/展示类 → 用自建组件（components.css）
+ *     s-card / s-toolbar / s-badge / s-table / s-stat / s-empty
+ *     s-btn-inline / s-link-btn / s-chip / s-segmented
+ *     s-detail-grid / s-section-title / s-drawer-header
+ *
+ *   · 交互/表单/数据类 → 用 Arco Design 组件
+ *     a-table / a-modal / a-drawer / a-form / a-select
+ *     a-input / a-date-picker / a-pagination / a-dropdown
+ *     a-tabs / a-breadcrumb / a-message / a-notification
+ *
+ *   · 禁止混用：不要在 s-card 里嵌套 a-card，
+ *     不要自建 a-button 的替代品。
+ *
+ * 二、样式规则
+ *   · 所有颜色/字号/圆角/间距/阴影 → 用 design-tokens 变量
+ *   · Arco 组件的样式 → 通过 arco-overrides.css 统一覆盖
+ *   · 模块 CSS 中禁止出现硬编码颜色值
+ *
+ * 三、文件职责
+ *   design-tokens.css  → 变量定义（唯一真相来源）
+ *   arco-overrides.css → Arco 组件样式覆盖
+ *   components.css     → 自建通用组件
+ *   patterns.css       → 业务模式组件
+ *   nav.css            → 导航/工作台布局
+ *   shell.css          → 应用外壳
+ *   modules/*.css      → 各模块专属样式
+ *
+ * ══════════════════════════════════════════════════════════════
+ */
+
+:root {
+
+  /* ================================================================
+     一、主色（品牌蓝）
+     由左侧导航颜色 #175898 派生的色系。
+     左侧导航颜色为客户确认，不改动。
+     其他位置使用本套派生色。
+     ================================================================ */
+  --color-primary:           #175898;
+  --color-primary-hover:     #2d76b0;
+  --color-primary-active:    #0f4a7a;
+  --color-primary-disabled:  #a5c2dd;
+  --color-primary-bg:        #edf4fb;   /* 浅蓝背景，选中行、标签底色 */
+  --color-primary-bg-hover:  #dbe8f2;
+  --color-primary-border:    #bcd0e2;   /* 蓝色描边 */
+
+  /* ================================================================
+     二、文字颜色（飞书风格：柔和分层）
+     ================================================================ */
+  --color-text-1: #1f2329;   /* 主文字：标题、重要数据 */
+  --color-text-2: #646a73;   /* 次文字：描述、标签名 */
+  --color-text-3: #8f959e;   /* 辅助文字：占位、元信息、时间 */
+  --color-text-4: #bbbfc4;   /* 禁用文字 */
+  --color-text-white: #ffffff;
+
+  /* ================================================================
+     三、背景颜色（飞书风格：轻盈通透）
+     ================================================================ */
+  --color-bg-1: #ffffff;   /* 卡片、面板、弹窗内部 */
+  --color-bg-2: #f5f6f7;   /* 页面底色（主内容区背景）*/
+  --color-bg-3: #fafbfc;   /* 表格表头、分组区块 */
+  --color-bg-4: #eef0f2;   /* hover 高亮、选中高亮 */
+  --color-bg-5: #fafbfc;   /* 预览面板头部等浅色区块 */
+
+  /* ================================================================
+     四、语义颜色（成功 / 警告 / 危险 / 紫色 / 青色）
+     柔和版：降低饱和度，更适合后台产品
+     ================================================================ */
+  /* 成功 */
+  --color-success:           #00a870;
+  --color-success-bg:        #e8fff5;
+  --color-success-border:    #7be9b9;
+
+  /* 警告 */
+  --color-warning:           #ff7d00;
+  --color-warning-bg:        #fff7ed;
+  --color-warning-border:    #ffd591;
+
+  /* 危险 / 错误 */
+  --color-danger:            #f53f3f;
+  --color-danger-hover:      #d32f2f;
+  --color-danger-bg:         #fff1f0;
+  --color-danger-border:     #ffbdbd;
+
+  /* 紫色（辅助强调） */
+  --color-purple:            #722ed1;
+  --color-purple-bg:         #f3ecff;
+  --color-purple-border:     #cba9f7;
+
+  /* 青色（数据展示用） */
+  --color-cyan:              #14c9c9;
+  --color-cyan-bg:           #e8fffb;
+  --color-cyan-border:       #7ddfdf;
+
+  /* 灰色（中性数据展示） */
+  --color-gray:              #8f959e;
+  --color-gray-bg:           #fafbfc;
+  --color-gray-border:       #dee0e3;
+
+  /* ================================================================
+     五、侧边导航（客户确认颜色，不改动）
+     ================================================================ */
+  --color-sidebar:        #175898;
+  --color-sidebar-soft:   rgba(255, 255, 255, 0.12);
+  --color-sidebar-hover:  rgba(255, 255, 255, 0.10);
+  --color-sidebar-active: rgba(255, 255, 255, 0.17);
+  --color-sidebar-text:   #d7e9ff;
+
+  /* ================================================================
+     六、角色标签（派生自主色）
+     ================================================================ */
+  --color-role-text:      #175898;
+  --color-role-bg:        #edf4fb;
+  --color-role-border:    #bcd0e2;
+
+  /* ================================================================
+     七、边框颜色（飞书风格：更柔和的灰）
+     ================================================================ */
+  --color-border:         #dee0e3;   /* 标准边框（卡片、输入框）*/
+  --color-border-light:   #eef0f2;   /* 浅色分隔线（表格行、细线）*/
+  --color-border-strong:  #bbbfc4;   /* 深色边框（强调区域）*/
+
+  /* ================================================================
+     八、圆角（5 档，统一标准 6px）
+     规则：
+       --radius-xs  → badge、chip、小按钮
+       --radius-sm  → 输入框、下拉菜单、toolbar 组件（标准 6px）
+       --radius-md  → 卡片、modal、drawer、表格容器（6px → 8px）
+       --radius-lg  → 大卡片、Hero Banner、特殊强调区
+       --radius-pill → 胶囊形
+     ================================================================ */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 999px;
+
+  /* ================================================================
+     九、字号（7 档，消灭非整数字号）
+     规则：
+       --font-xs   → 辅助标注、上标、极小说明
+       --font-sm   → 元信息、时间、标签文字、辅助说明
+       --font-md   → 正文主体（最常用）
+       --font-base → 正文（列表 item 等）
+       --font-lg   → 卡片标题、子标题、导航项
+       --font-xl   → 页面标题 h1
+       --font-2xl  → 大标题、Hero Banner 数字
+     ================================================================ */
+  --font-xs:   11px;
+  --font-sm:   12px;
+  --font-md:   13px;
+  --font-base: 14px;
+  --font-lg:   15px;
+  --font-xl:   18px;
+  --font-2xl:  24px;
+
+  /* 字重 */
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:    700;
+
+  /* 字体族（飞书字体栈） */
+  --font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* ================================================================
+     十、阴影（3 档 + 焦点环）
+     飞书风格：极其克制，几乎不使用大面积阴影
+     大部分卡片仅靠边框分隔，不使用阴影
+     ================================================================ */
+  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(23, 88, 152, 0.15);
+
+  /* ================================================================
+     十一、间距（基于 4px 基准网格）
+     ================================================================ */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  28px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ================================================================
+     十二、过渡动画
+     ================================================================ */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.22s ease;
+  --transition-slow:   0.35s ease;
+
+  /* 曲线（飞书曲线） */
+  --ease-standard: cubic-bezier(0.1, 0.8, 0.2, 1);
+  --ease-quick:    cubic-bezier(0.16, 0.84, 0.32, 1);
+
+  /* ================================================================
+     十三、布局
+     ================================================================ */
+  --sidebar-width:       220px;
+  --sidebar-collapsed:   64px;
+  --content-max-width:   1440px;
+  --content-padding:     24px 32px;
+
+  /* 行高 */
+  --line-height-tight:  1.3;
+  --line-height-normal: 1.5;
+  --line-height-loose:  1.7;
+
+}

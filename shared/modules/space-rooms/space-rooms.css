@@ -1,0 +1,15 @@
+/* 房间管理 — 使用全局 Design Token */
+
+.room-manage-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.room-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.room-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

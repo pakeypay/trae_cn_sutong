@@ -1,0 +1,27 @@
+/* 课程中心 — 使用全局 Design Token */
+
+.course-center-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+/* KPI 卡片 hover */
+.kpi-card-arco {
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.kpi-card-arco:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* 课程卡 hover */
+.course-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.course-card-arco:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}

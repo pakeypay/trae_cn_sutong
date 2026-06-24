@@ -1,0 +1,360 @@
+/* 教师工作台 Dashboard — 使用全局 Design Token */
+
+/* ── Wrapper ── */
+.teacher-dashboard-wrapper,
+.student-dashboard-wrapper {
+  padding: 24px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+/* ── Welcome Banner ── */
+.welcome-banner-card {
+  background: radial-gradient(circle at 80% 20%, var(--color-primary-bg) 0%, transparent 60%), var(--color-bg-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.welcome-banner-card .banner-title {
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+  margin: 0 0 6px 0;
+}
+
+.welcome-banner-card .banner-desc {
+  font-size: 13.5px;
+  color: var(--color-text-2);
+  margin: 0;
+}
+
+.welcome-banner-card .banner-desc .text-primary {
+  color: var(--color-primary);
+}
+
+.welcome-banner-card .banner-desc .text-warning {
+  color: var(--color-warning);
+}
+
+.welcome-banner-card .banner-tags {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.welcome-banner-card .banner-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Metrics Block ── */
+.metrics-block {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--color-primary);
+  transition: all var(--transition-fast);
+  cursor: default;
+}
+
+.metrics-block:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* 学员端指标卡用绿色左边框 */
+.student-dashboard-wrapper .metrics-block {
+  border-left-color: var(--color-success);
+}
+
+.metrics-block .metric-label {
+  font-size: var(--font-xs);
+  color: var(--color-text-3);
+}
+
+.metrics-block .metric-value {
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+  margin-top: 6px;
+}
+
+.student-dashboard-wrapper .metrics-block .metric-value {
+  font-size: 18px;
+}
+
+.metrics-block .metric-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+}
+
+.student-dashboard-wrapper .metrics-block .metric-icon {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+/* ── Dashboard Card (通用) ── */
+.db-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.db-card:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Schedule Item Row ── */
+.schedule-item-row {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--color-bg-2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.schedule-item-row:hover {
+  border-color: var(--color-primary-border);
+  background-color: var(--color-primary-bg);
+}
+
+.schedule-time-col {
+  text-align: center;
+  flex-shrink: 0;
+  min-width: 100px;
+  padding-right: 18px;
+  border-right: 2px solid var(--color-border);
+}
+
+.schedule-time-col .time-text {
+  font-size: var(--font-base);
+  color: var(--color-text-1);
+  display: block;
+}
+
+.schedule-time-col .duration-text {
+  font-size: 11px;
+  color: var(--color-text-3);
+}
+
+.schedule-detail-name {
+  font-size: 15px;
+  color: var(--color-text-1);
+}
+
+.schedule-detail-meta {
+  font-size: var(--font-xs);
+  color: var(--color-text-3);
+}
+
+.schedule-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── Todo Task Row ── */
+.todo-task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-1);
+  transition: all var(--transition-fast);
+}
+
+.todo-task-row:hover {
+  border-color: var(--color-primary-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.todo-task-row .task-title {
+  color: var(--color-text-1);
+  font-size: 13.5px;
+}
+
+.todo-task-row .task-title.completed {
+  text-decoration: line-through;
+  color: var(--color-text-3);
+}
+
+.todo-task-row .task-deadline {
+  font-size: 11px;
+  color: var(--color-warning);
+  margin-top: 2px;
+}
+
+.todo-task-row .task-meta {
+  font-size: 11px;
+  color: var(--color-text-3);
+  margin-top: 2px;
+}
+
+/* 学员端待办左侧蓝色边 */
+.student-dashboard-wrapper .todo-task-row {
+  border-left: 4px solid var(--color-primary);
+}
+
+.todo-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+}
+
+/* ── Notification Item ── */
+.notification-item {
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 12px;
+}
+
+.notification-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.notification-item .note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.notification-item .note-title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-sm);
+  color: var(--color-text-1);
+}
+
+.notification-item .note-desc {
+  font-size: var(--font-xs);
+  color: var(--color-text-3);
+  margin: 4px 0 0;
+}
+
+.notification-item .note-time {
+  font-size: 10.5px;
+  color: var(--color-text-3);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* ── Shortcut Box ── */
+.shortcut-box {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--color-bg-2);
+}
+
+.shortcut-box:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-primary-border);
+  background-color: var(--color-primary-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.shortcut-box .shortcut-label {
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-1);
+}
+
+/* ── Course Progress Item (学员端) ── */
+.course-progress-item {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--color-bg-2);
+}
+
+.course-progress-item .course-name {
+  font-size: 14px;
+  color: var(--color-text-1);
+}
+
+.course-progress-item .course-status {
+  font-size: 11.5px;
+  color: var(--color-text-3);
+  margin-left: 12px;
+}
+
+.course-progress-item .course-pct {
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.course-progress-item .course-tip {
+  font-size: 11.5px;
+  color: var(--color-warning);
+  margin-top: 8px;
+}
+
+/* ── Competency Radar (学员端) ── */
+.radar-container {
+  text-align: center;
+  background: var(--color-bg-2);
+  border-radius: var(--radius-md);
+  padding: 10px;
+}
+
+/* ── Calendar Drawer ── */
+.calendar-drawer-title {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+  margin-bottom: 16px;
+}
+
+.calendar-drawer-detail {
+  font-size: var(--font-xs);
+  color: var(--color-text-3);
+  margin-top: 4px;
+}
+
+.calendar-drawer-teacher {
+  font-size: 11.5px;
+  color: var(--color-text-3);
+  margin-top: 2px;
+}
+
+/* ── Column gap helper ── */
+.db-col-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

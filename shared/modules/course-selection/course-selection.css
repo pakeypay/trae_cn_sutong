@@ -1,0 +1,486 @@
+/* Modernized Medical Arco Course Selection Stylesheet - Design Agent Aligned */
+:root {
+  --cs-primary: var(--color-primary);
+  --cs-primary-light: var(--color-primary-bg);
+  --cs-primary-hover: var(--color-primary-hover);
+  --cs-success: var(--color-success);
+  --cs-success-light: var(--color-success-bg);
+  --cs-warning: var(--color-warning);
+  --cs-danger: var(--color-danger);
+  --cs-danger-light: var(--color-danger-bg);
+  --cs-border: var(--color-border);
+  --cs-bg: var(--color-bg-2);
+  --cs-card-bg: var(--color-bg-1);
+  --cs-text-title: var(--color-text-1);
+  --cs-text-body: var(--color-text-2);
+  --cs-text-muted: var(--color-text-3);
+}
+
+.cs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: csFadeIn 0.3s ease-out;
+  background: var(--cs-bg);
+  min-height: 100%;
+}
+
+@keyframes csFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Credit KPI Banner */
+.cs-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.cs-kpi-card {
+  background: var(--cs-card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--cs-border);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 10px rgba(23, 88, 152, 0.02);
+  transition: all 0.25s ease;
+}
+
+.cs-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(23, 88, 152, 0.06);
+}
+
+.cs-kpi-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cs-primary-light);
+  color: var(--cs-primary);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cs-kpi-info {
+  flex-grow: 1;
+}
+
+.cs-kpi-label {
+  font-size: 12px;
+  color: var(--cs-text-muted);
+  margin-bottom: 6px;
+}
+
+.cs-kpi-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--cs-text-title);
+  line-height: 1.1;
+}
+
+.cs-kpi-progress-bar {
+  height: 4px;
+  background: var(--color-bg-4);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.cs-kpi-progress-inner {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cs-primary), var(--color-primary-hover));
+  transition: width 0.3s ease;
+}
+
+/* Filter panel */
+.cs-filter-panel {
+  background: var(--cs-card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--cs-border);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+}
+
+.cs-tab-row {
+  display: flex;
+  border-bottom: 1px solid var(--cs-border);
+  gap: 24px;
+  overflow-x: auto;
+}
+
+.cs-tab-item {
+  padding: 12px 4px;
+  font-weight: 500;
+  color: var(--cs-text-body);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.cs-tab-item.active {
+  color: var(--cs-primary);
+  font-weight: 600;
+}
+
+.cs-tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--cs-primary);
+  border-radius: 2px 2px 0 0;
+}
+
+.cs-search-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Double column Workspace */
+.cs-workspace {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .cs-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left panel Course list */
+.cs-course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-course-card {
+  background: var(--cs-card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--cs-border);
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.22s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.22s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+
+.cs-course-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-border-strong);
+  box-shadow: 0 8px 20px rgba(23, 88, 152, 0.05);
+}
+
+.cs-course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.cs-course-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cs-course-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--cs-text-title);
+}
+
+.cs-course-desc {
+  font-size: 13px;
+  color: var(--cs-text-body);
+  line-height: 1.6;
+}
+
+.cs-course-meta-tags {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--cs-text-muted);
+}
+
+.cs-course-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cs-course-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.cs-course-credit {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cs-primary);
+  background: var(--cs-primary-light);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+/* Collapsible side timetable & cart */
+.cs-right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 16px;
+}
+
+.cs-side-card {
+  background: var(--cs-card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--cs-border);
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.01);
+}
+
+.cs-side-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--cs-border);
+  font-weight: 600;
+  color: var(--cs-text-title);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, var(--color-bg-3), var(--color-bg-1));
+}
+
+/* Timetable styling */
+.cs-timetable {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 35px repeat(5, 1fr);
+  gap: 4px;
+  background: var(--color-bg-1);
+}
+
+.cs-tt-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cs-text-muted);
+  text-align: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.cs-tt-time-label {
+  font-size: 10px;
+  color: var(--cs-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-right: 1px solid var(--cs-border);
+  line-height: 1.3;
+}
+
+.cs-tt-cell {
+  height: 46px;
+  background: var(--color-bg-2);
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-tt-cell.active-course {
+  background: var(--cs-primary-light);
+  border: 1px solid var(--color-primary-border);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--cs-primary);
+  text-align: center;
+  line-height: 1.3;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cs-tt-cell.active-course.conflict-cell {
+  background: var(--cs-danger-light);
+  border-color: var(--color-danger-border);
+  color: var(--cs-danger);
+}
+
+/* Shopping Cart */
+.cs-cart-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-cart-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--cs-text-muted);
+  font-size: 13px;
+}
+
+.cs-cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--color-bg-2);
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid transparent;
+  transition: all 0.18s;
+}
+
+.cs-cart-item:hover {
+  background: var(--color-bg-4);
+  border-color: var(--cs-border);
+}
+
+.cs-cart-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.cs-cart-title {
+  font-weight: 600;
+  color: var(--cs-text-title);
+}
+
+.cs-cart-time {
+  color: var(--cs-text-body);
+  font-size: 11px;
+}
+
+.cs-cart-remove {
+  color: var(--cs-text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  transition: color 0.15s;
+}
+
+.cs-cart-remove:hover {
+  color: var(--cs-danger);
+}
+
+.cs-cart-footer {
+  padding: 16px;
+  border-top: 1px solid var(--cs-border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cs-cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--cs-text-body);
+}
+
+.cs-cart-summary strong {
+  font-size: 16px;
+  color: var(--cs-primary);
+}
+
+/* Point-like/Circular Quota indicator */
+.cs-quota-circle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-quota-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.cs-quota-dot.success { background: var(--cs-success); }
+.cs-quota-dot.warning { background: var(--cs-warning); }
+.cs-quota-dot.danger { background: var(--cs-danger); }
+
+/* Slide Drawer Panel Layout Sessions */
+.cs-drawer-sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.cs-drawer-session-card {
+  background: var(--color-bg-2);
+  border: 1px solid var(--cs-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.2s;
+}
+
+.cs-drawer-session-card:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-1);
+}
+
+.cs-drawer-session-card.selected {
+  background: var(--cs-primary-light);
+  border-color: var(--color-primary-border);
+}
+
+.cs-drawer-session-card.conflict-card {
+  background: var(--cs-danger-light);
+  border-color: var(--color-danger-border);
+}
+
+.cs-conflict-label {
+  display: inline-flex;
+  font-size: 11px;
+  color: var(--cs-danger);
+  font-weight: 500;
+  margin-top: 4px;
+}

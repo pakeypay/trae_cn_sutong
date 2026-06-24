@@ -1,0 +1,15 @@
+/* 科室管理 — 使用全局 Design Token */
+
+.department-mgmt-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.department-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.department-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

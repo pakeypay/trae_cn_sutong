@@ -1,0 +1,25 @@
+/* 排课模块 — 使用全局 Design Token */
+
+.schedule-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+/* 日程卡片 hover */
+.schedule-card {
+  transition: all var(--transition-fast);
+}
+
+.schedule-card:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* 冲突卡片 */
+.schedule-conflict-card {
+  transition: all var(--transition-fast);
+}
+
+.schedule-conflict-card:hover {
+  box-shadow: var(--shadow-sm) !important;
+}

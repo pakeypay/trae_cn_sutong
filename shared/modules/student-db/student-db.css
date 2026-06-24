@@ -1,0 +1,17 @@
+/* 学员数据库 — 使用全局 Design Token */
+
+.student-db-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.student-card-arco,
+.student-upload-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.student-card-arco:hover,
+.student-upload-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

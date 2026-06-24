@@ -1,0 +1,547 @@
+/* Modernized Medical Arco Space Approval Stylesheet - Design Agent Aligned */
+:root {
+  --sa-primary: var(--color-primary);
+  --sa-primary-light: var(--color-primary-bg);
+  --sa-primary-hover: var(--color-primary-hover);
+  --sa-success: var(--color-success);
+  --sa-success-light: var(--color-success-bg);
+  --sa-warning: var(--color-warning);
+  --sa-warning-light: var(--color-warning-bg);
+  --sa-danger: var(--color-danger);
+  --sa-danger-light: var(--color-danger-bg);
+  --sa-border: var(--color-border);
+  --sa-bg: var(--color-bg-2);
+  --sa-card-bg: var(--color-bg-1);
+  --sa-text-title: var(--color-text-1);
+  --sa-text-body: var(--color-text-2);
+  --sa-text-muted: var(--color-text-3);
+}
+
+#sa-app[v-cloak] {
+  display: none;
+}
+
+.sa-page {
+  min-height: calc(100vh - 56px);
+  margin: -28px -32px;
+  padding: 24px 32px;
+  background: var(--sa-bg);
+  color: var(--sa-text-body);
+  animation: saFadeIn 0.3s ease-out;
+}
+
+@keyframes saFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sa-card {
+  overflow: hidden;
+  border: 1px solid var(--sa-border);
+  border-radius: 8px;
+  background: var(--sa-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+}
+
+.sa-tabs {
+  display: flex;
+  align-items: stretch;
+  min-height: 64px;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--sa-border);
+  background: var(--color-bg-1);
+}
+
+.sa-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 130px;
+  padding: 0 16px;
+  border: 0;
+  background: transparent;
+  color: var(--sa-text-body);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sa-tab:hover {
+  color: var(--sa-text-title);
+}
+
+.sa-tab.active {
+  color: var(--sa-primary);
+  font-weight: 600;
+}
+
+.sa-tab.active::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  bottom: -1px;
+  left: 16px;
+  height: 3px;
+  background: var(--sa-primary);
+  border-radius: 2px 2px 0 0;
+}
+
+.sa-tab b {
+  display: inline-grid;
+  min-width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-bg-4);
+  color: var(--sa-text-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sa-tab.active b {
+  background: var(--sa-primary-light);
+  color: var(--sa-primary);
+}
+
+.sa-tab.orange.active b {
+  background: var(--sa-warning-light);
+  color: var(--sa-warning);
+}
+
+.sa-tab.green.active b {
+  background: var(--sa-success-light);
+  color: var(--sa-success);
+}
+
+.sa-tab.red.active b {
+  background: var(--sa-danger-light);
+  color: var(--sa-danger);
+}
+
+.sa-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--sa-border);
+  background: var(--color-bg-1);
+}
+
+.sa-search {
+  width: 320px;
+}
+
+.sa-filter {
+  width: 170px;
+}
+
+.sa-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.sa-conflict-banner {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 0;
+  border-left: 4px solid var(--sa-danger);
+  background: var(--sa-danger-light);
+  color: var(--sa-danger);
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  font-size: 13px;
+}
+
+.sa-conflict-banner:hover {
+  opacity: 0.9;
+}
+
+.sa-conflict-banner strong {
+  font-weight: 600;
+  flex: 1;
+}
+
+.sa-conflict-banner em {
+  font-style: normal;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.sa-alert-icon {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--sa-danger);
+  color: var(--color-text-white);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Premium Grid Table Layout */
+.sa-table {
+  width: 100%;
+  background: var(--color-bg-1);
+}
+
+.sa-head,
+.sa-row {
+  display: grid;
+  grid-template-columns: 200px 1.4fr 200px 140px 150px 120px 150px;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.sa-head {
+  min-height: 48px;
+  border-bottom: 1px solid var(--sa-border);
+  background: var(--color-bg-3);
+  color: var(--sa-text-title);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sa-head span,
+.sa-row > div {
+  padding: 12px 14px;
+}
+
+.sa-row {
+  min-height: 96px;
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-bg-1);
+  transition: all 0.2s;
+}
+
+.sa-row:hover {
+  background: var(--color-bg-4);
+}
+
+.sa-row.conflict {
+  background: var(--color-warning-bg);
+}
+
+.sa-row.conflict:hover {
+  background: var(--color-warning-bg);
+}
+
+.sa-applicant {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sa-avatar {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-text-white);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sa-applicant strong,
+.sa-topic strong,
+.sa-time strong,
+.sa-submit strong {
+  display: block;
+  color: var(--sa-text-title);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.sa-applicant small,
+.sa-time span,
+.sa-submit span {
+  display: block;
+  color: var(--sa-text-muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.sa-topic p {
+  margin: 4px 0 0;
+  color: var(--sa-text-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sa-conflict-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-danger-border);
+  border-radius: 4px;
+  background: var(--sa-danger-light);
+  color: var(--sa-danger);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.sa-conflict-chip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--sa-danger);
+}
+
+.sa-source-chip,
+.sa-resource-chip {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  margin-right: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--color-primary-border);
+  border-radius: 4px;
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.sa-resource-chip {
+  border-color: var(--color-warning-border);
+  color: var(--color-warning);
+  background: var(--color-warning-bg);
+}
+
+.sa-venue {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--sa-primary-light);
+  color: var(--sa-primary);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sa-venue.warning {
+  background: var(--sa-warning-light);
+  color: var(--sa-warning);
+}
+
+.sa-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sa-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.sa-status.pending {
+  background: var(--sa-warning-light);
+  color: var(--sa-warning);
+}
+
+.sa-status.coordinating {
+  color: var(--sa-primary);
+  background: var(--sa-primary-light);
+}
+
+.sa-status.approved {
+  background: var(--sa-success-light);
+  color: var(--sa-success);
+}
+
+.sa-status.rejected {
+  background: var(--sa-danger-light);
+  color: var(--sa-danger);
+}
+
+.sa-op {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sa-primary-btn,
+.sa-light-btn {
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--sa-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sa-primary-btn:hover,
+.sa-light-btn:hover {
+  color: var(--sa-primary-hover);
+  background: var(--sa-primary-light);
+  border-radius: 4px;
+}
+
+.sa-empty {
+  padding: 48px 20px;
+  color: var(--sa-text-muted);
+  text-align: center;
+}
+
+.sa-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sa-conflict-panel {
+  padding: 12px 14px;
+  border: 1px solid var(--color-danger-border);
+  border-radius: 6px;
+  background: var(--sa-danger-light);
+}
+
+.sa-conflict-panel > strong {
+  color: var(--sa-danger);
+  font-size: 14px;
+}
+
+.sa-conflict-panel > p {
+  margin: 6px 0 10px;
+  color: var(--sa-text-body);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sa-rec-panel {
+  padding: 12px;
+  border-radius: 6px;
+  background: var(--color-bg-1);
+  border: 1px solid var(--sa-border);
+}
+
+.sa-rec-panel > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--sa-primary);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.sa-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.sa-detail-grid > div {
+  padding: 10px 12px;
+  border: 1px solid var(--sa-border);
+  border-radius: 6px;
+  background: var(--color-bg-3);
+}
+
+.sa-detail-grid > div.wide {
+  grid-column: 1 / -1;
+}
+
+.sa-detail-grid span {
+  display: block;
+  color: var(--sa-text-muted);
+  font-size: 11px;
+}
+
+.sa-detail-grid strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--sa-text-title);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sa-comment span {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--sa-text-title);
+}
+
+.sa-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.sa-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: var(--color-bg-3);
+  border: 1px solid var(--sa-border);
+}
+
+.sa-timeline div {
+  display: grid;
+  grid-template-columns: 14px 120px 1fr;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.sa-timeline i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.sa-timeline i.done {
+  background: var(--sa-success);
+}
+
+.sa-timeline i.reject {
+  background: var(--sa-danger);
+}
+
+.sa-timeline strong {
+  color: var(--sa-text-title);
+}
+
+.sa-timeline span {
+  color: var(--sa-text-muted);
+}
+
+@media (max-width: 1400px) {
+  .sa-head,
+  .sa-row {
+    grid-template-columns: 160px 1.2fr 180px 120px 130px 100px 130px;
+  }
+
+  .sa-head span,
+  .sa-row > div {
+    padding: 10px 12px;
+  }
+}

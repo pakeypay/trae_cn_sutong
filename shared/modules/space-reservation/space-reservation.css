@@ -1,0 +1,538 @@
+/* 空间预约 — 使用全局 Design Token */
+
+:root {
+  /* 空间预约模块特有颜色（紫色、琥珀色用于分类标识） */
+  --sr-purple: var(--color-purple, #722ed1);
+  --sr-purple-light: var(--color-purple-bg, #f9f0ff);
+  --sr-amber: var(--color-warning, #ff7d00);
+  --sr-amber-light: var(--color-warning-bg, #fff7e6);
+}
+
+#sr-app[v-cloak] {
+  display: none;
+}
+
+.sr-module {
+  min-height: calc(100vh - 56px);
+  background: var(--color-bg-2);
+  margin: -28px -32px;
+  padding: 24px 32px;
+  animation: srFadeIn 0.35s ease-out;
+}
+
+@keyframes srFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sr-page-top {
+  margin-bottom: 20px;
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.sr-breadcrumb {
+  font-size: var(--font-xs);
+  color: var(--color-text-3);
+  margin-bottom: 4px;
+}
+
+.sr-title h2 {
+  font-size: var(--font-lg);
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+  line-height: 28px;
+}
+
+.sr-title p {
+  font-size: var(--font-sm);
+  color: var(--color-text-2);
+  margin: 4px 0 0;
+}
+
+/* Landing Split Layout Desk */
+.sr-workdesk-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.sr-card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.sr-card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-bg-2);
+}
+
+.sr-card-header .header-title {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sr-card-header .header-title i {
+  color: var(--color-primary);
+}
+
+/* Student Credit Bar Layout */
+.sr-student-credit-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--color-primary-bg);
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.sr-student-credit-bar .credit-metric {
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-student-credit-bar .credit-metric strong {
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-bold);
+}
+
+.text-amber { color: var(--color-warning); }
+.text-indigo { color: var(--sr-purple); }
+
+/* Schedule items styling */
+.sr-schedules-list {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 280px;
+}
+
+.sr-empty-schedule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--color-text-3);
+}
+
+.sr-empty-schedule .empty-icon {
+  font-size: var(--font-xl);
+  color: var(--color-text-3);
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.sr-empty-schedule p {
+  margin: 0;
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-1);
+}
+
+.sr-empty-schedule small {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--font-xs);
+}
+
+.sr-schedule-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--color-bg-1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  transition: all var(--transition-fast);
+}
+
+.sr-schedule-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* State highlights */
+.sr-schedule-item.in_use {
+  border-left: 4px solid var(--color-success);
+}
+.sr-schedule-item.approved {
+  border-left: 4px solid var(--color-primary);
+}
+.sr-schedule-item.pending {
+  border-left: 4px solid var(--color-warning);
+}
+
+.sr-schedule-item h4 {
+  margin: 8px 0;
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-1);
+}
+
+.sr-schedule-item .item-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sr-schedule-item .item-code code {
+  font-family: Consolas, monospace;
+  font-size: 11px;
+  color: var(--color-text-3);
+}
+
+.sr-schedule-item .item-time {
+  font-size: var(--font-xs);
+  color: var(--color-text-2);
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.sr-schedule-item .item-time i {
+  color: var(--color-text-3);
+}
+
+.sr-schedule-item .item-return-info {
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-warning);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sr-schedule-item .item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-height: 70px;
+}
+
+.sr-schedule-item .item-status-tag {
+  font-size: var(--font-xs);
+  font-weight: var(--font-weight-semibold);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+.sr-schedule-item .item-status-tag.pending { background: var(--color-warning-bg); color: var(--color-warning); }
+.sr-schedule-item .item-status-tag.approved { background: var(--color-primary-bg); color: var(--color-primary); }
+.sr-schedule-item .item-status-tag.in_use { background: var(--color-success-bg); color: var(--color-success); }
+
+.sr-schedule-item .item-buttons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.sr-schedule-item .item-buttons .arco-btn-text,
+.sr-schedule-item .item-buttons button {
+  padding: 0 8px;
+  font-size: var(--font-xs);
+  height: 28px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sr-schedule-item .免操作说明 {
+  font-size: 11px;
+  color: var(--color-success);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-success-bg);
+  padding: 3px 6px;
+  border-radius: var(--radius-xs);
+}
+
+/* Gateway Entrance Cards (Right Column) */
+.sr-gateways-list {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sr-gateway-card {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: var(--color-bg-1);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.sr-gateway-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.sr-gateway-card.blue::before { background: var(--color-primary); }
+.sr-gateway-card.purple::before { background: var(--sr-purple); }
+.sr-gateway-card.amber::before { background: var(--color-warning); }
+
+.sr-gateway-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.sr-gateway-card.blue:hover { border-color: var(--color-primary); }
+.sr-gateway-card.purple:hover { border-color: var(--sr-purple); }
+.sr-gateway-card.amber:hover { border-color: var(--color-warning); }
+
+.sr-gateway-card .gateway-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.sr-gateway-card.blue .gateway-icon { background: var(--color-primary-bg); color: var(--color-primary); }
+.sr-gateway-card.purple .gateway-icon { background: var(--sr-purple-light); color: var(--sr-purple); }
+.sr-gateway-card.amber .gateway-icon { background: var(--sr-amber-light); color: var(--color-warning); }
+
+.sr-gateway-card .gateway-body h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+}
+
+.sr-gateway-card .gateway-body p {
+  margin: 6px 0 10px;
+  font-size: var(--font-xs);
+  color: var(--color-text-2);
+  line-height: 1.5;
+}
+
+.sr-gateway-card .action-btn {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-semibold);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all var(--transition-fast);
+}
+
+.sr-gateway-card.blue .action-btn { color: var(--color-primary); }
+.sr-gateway-card.purple .action-btn { color: var(--sr-purple); }
+.sr-gateway-card.amber .action-btn { color: var(--color-warning); }
+
+.sr-gateway-card:hover .action-btn {
+  transform: translateX(3px);
+}
+
+/* Modals Forms */
+.form-section-title {
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+  margin: 18px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form-section-title:first-of-type {
+  margin-top: 0;
+}
+
+/* Rooms Grids in modal */
+.sr-room-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.sr-room-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  cursor: pointer;
+  background: var(--color-bg-1);
+  transition: all var(--transition-fast);
+}
+
+.sr-room-card:hover {
+  border-color: var(--color-primary);
+  background: var(--color-bg-2);
+}
+
+.sr-room-card.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.sr-room-card .sr-room-name {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-sm);
+  color: var(--color-text-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sr-room-card .sr-room-meta {
+  font-size: 11px;
+  color: var(--color-text-2);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.sr-room-card .sr-room-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+/* Mat searching */
+.sr-mat-search {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  gap: 8px;
+  background: var(--color-bg-1);
+}
+
+.sr-mat-search input {
+  border: 0;
+  outline: 0;
+  flex: 1;
+  font-size: var(--font-sm);
+}
+
+.sr-mat-results {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-1);
+  margin-top: 4px;
+  max-height: 160px;
+  overflow-y: auto;
+  display: none;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  position: absolute;
+  width: calc(100% - 32px);
+}
+
+.sr-mat-results.show {
+  display: block;
+}
+
+.sr-mat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border-light);
+  cursor: pointer;
+}
+
+.sr-mat-item:hover {
+  background: var(--color-bg-2);
+}
+
+.sr-selected-mats-panel {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.sr-selected-mats-panel .empty-list-label {
+  padding: 16px;
+  text-align: center;
+  color: var(--color-text-3);
+  font-size: var(--font-xs);
+}
+
+.sr-selected-mats-panel .mat-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--color-border-light);
+  font-size: var(--font-sm);
+}
+
+.sr-selected-mats-panel .mat-list-row:last-child {
+  border-bottom: 0;
+}
+
+.sr-return-method-card {
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-warning-bg);
+  padding: 14px;
+}
+
+.sr-return-method-card .method-title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-sm);
+  color: var(--color-warning);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* descriptions */
+.arco-descriptions {
+  background: var(--color-bg-1);
+}
+
+.sr-overdue-alert {
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  border-left: 4px solid var(--color-danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: var(--font-sm);
+  color: var(--color-danger);
+}
+
+@media (max-width: 1200px) {
+  .sr-workdesk-grid {
+    grid-template-columns: 1fr;
+  }
+  .sr-room-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,17 @@
+/* 角色权限管理 — 使用全局 Design Token */
+
+.role-mgmt-wrapper {
+  background-color: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.role-card-arco,
+.permission-card-arco {
+  transition: all var(--transition-fast);
+}
+
+.role-card-arco:hover,
+.permission-card-arco:hover {
+  border-color: var(--color-primary-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}

@@ -1,0 +1,310 @@
+/**
+ * ══════════════════════════════════════════════════════════════╗
+ * ║   Arco Design 组件 — 样式覆盖（飞书 + Codex 风格）         ║
+ * ║                                                              ║
+ * ║   目标：让 Arco 原生组件的视觉与设计系统保持一致           ║
+ * ║   策略：覆盖 Arco 内部 CSS 变量 → 同步组件级样式           ║
+ * ╚══════════════════════════════════════════════════════════════╝
+ *
+ *  Arco 内部使用 rgb(var(--primary-6)) 格式，
+ *  所以颜色变量必须提供 "R, G, B" 三原色数字。
+ */
+
+:root {
+  /* 一、主色系（派生自 #175898，与左侧导航对齐） */
+  --primary-1: 237, 244, 251;   /* #edf4fb → --color-primary-bg */
+  --primary-2: 219, 232, 242;   /* #dbe8f2 → --color-primary-bg-hover */
+  --primary-3: 188, 208, 226;   /* #bcd0e2 → --color-primary-border */
+  --primary-4: 165, 194, 221;   /* #a5c2dd → --color-primary-disabled */
+  --primary-5: 45, 118, 176;    /* #2d76b0 → --color-primary-hover */
+  --primary-6: 23, 88, 152;     /* #175898 → --color-primary */
+  --primary-7: 15, 74, 122;     /* #0f4a7a → --color-primary-active */
+
+  /* 二、语义色 */
+  --success-1: 232, 255, 245;
+  --success-2: 123, 233, 185;
+  --success-6: 0, 168, 112;
+
+  --warning-1: 255, 247, 237;
+  --warning-2: 255, 213, 145;
+  --warning-6: 255, 125, 0;
+
+  --danger-1: 255, 241, 240;
+  --danger-2: 255, 189, 189;
+  --danger-6: 245, 63, 63;
+
+  /* 三、文字色（飞书风格柔和色板） */
+  --color-text-1: #1f2329;
+  --color-text-2: #646a73;
+  --color-text-3: #8f959e;
+  --color-text-4: #bbbfc4;
+
+  /* 四、背景色 */
+  --color-bg-1: #ffffff;
+  --color-bg-2: #f5f6f7;
+  --color-bg-3: #fafbfc;
+  --color-bg-4: #eef0f2;
+  --color-bg-5: #bbbfc4;
+
+  /* 五、边框色 */
+  --color-border: #dee0e3;
+  --color-fill-1: #fafbfc;
+  --color-fill-2: #f5f6f7;
+  --color-fill-3: #eef0f2;
+  --color-fill-4: #dee0e3;
+
+  /* 六、圆角（标准 6px，卡片 8px） */
+  --border-radius-small: 4px;
+  --border-radius-medium: 6px;
+  --border-radius-large: 8px;
+
+  /* 七、字体（飞书字体栈） */
+  --font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* ================================================================
+   组件级覆盖：让 Arco 组件匹配飞书视觉
+   规则：细边框、浅灰底、柔文字、克制阴影、6px 圆角
+   ================================================================ */
+
+/* --- 按钮（飞书风格：细边框、悬停微浮、克制蓝色） */
+.arco-btn {
+  font-family: var(--font-family);
+  border-radius: var(--border-radius-medium);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-border);
+}
+
+.arco-btn-default {
+  color: var(--color-text-1);
+  background: var(--color-bg-1);
+}
+.arco-btn-default:hover {
+  color: rgb(var(--primary-6));
+  border-color: rgb(var(--primary-3));
+  background: var(--color-primary-bg);
+}
+
+.arco-btn-primary {
+  background-color: rgb(var(--primary-6));
+  border-color: rgb(var(--primary-6));
+  color: #fff;
+}
+.arco-btn-primary:hover {
+  background-color: rgb(var(--primary-5));
+  border-color: rgb(var(--primary-5));
+}
+.arco-btn-primary:active {
+  background-color: rgb(var(--primary-7));
+  border-color: rgb(var(--primary-7));
+}
+
+.arco-btn-text {
+  color: rgb(var(--primary-6));
+}
+.arco-btn-text:hover {
+  background: var(--color-primary-bg);
+}
+
+/* --- 输入框（飞书风格：6px 圆角、细边框、柔和焦点环） */
+.arco-input,
+.arco-textarea,
+.arco-select-view-single,
+.arco-picker {
+  border-radius: var(--border-radius-medium) !important;
+  font-family: var(--font-family);
+  border-color: var(--color-border) !important;
+}
+.arco-input-wrapper,
+.arco-textarea-wrapper,
+.arco-select-view-single,
+.arco-picker {
+  background: var(--color-bg-1);
+}
+.arco-input-wrapper:focus-within,
+.arco-textarea-wrapper:focus-within,
+.arco-select-view-single:focus-within,
+.arco-picker:focus-within {
+  box-shadow: 0 0 0 3px rgba(23, 88, 152, 0.15) !important;
+  border-color: rgb(var(--primary-3)) !important;
+}
+
+/* --- 下拉菜单（飞书风格：细边框、浅色分隔线） */
+.arco-dropdown-menu {
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+.arco-dropdown-menu-item {
+  font-size: var(--font-base);
+  color: var(--color-text-1);
+  border-radius: 4px;
+}
+.arco-dropdown-menu-item:hover {
+  background: var(--color-primary-bg);
+  color: rgb(var(--primary-6));
+}
+
+/* --- 标签 Tag（飞书风格：4px 圆角、柔和色） */
+.arco-tag {
+  border-radius: 4px;
+  font-size: var(--font-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* --- 徽标 Badge */
+.arco-badge {
+  font-family: var(--font-family);
+}
+
+/* --- 模态框 Modal（飞书风格：8px 圆角、标准阴影） */
+.arco-modal {
+  border-radius: var(--border-radius-large);
+  color: var(--color-text-1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.arco-modal-header {
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--space-4);
+}
+.arco-modal-title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-semibold);
+}
+.arco-modal-body {
+  padding: var(--space-6) var(--space-8);
+}
+.arco-modal-footer {
+  border-top: 1px solid var(--color-border-light);
+  padding-top: var(--space-4);
+}
+
+/* --- 抽屉 Drawer */
+.arco-drawer {
+  color: var(--color-text-1);
+  border-left: 1px solid var(--color-border);
+}
+.arco-drawer-header {
+  border-bottom: 1px solid var(--color-border-light);
+  padding: var(--space-5) var(--space-6);
+}
+.arco-drawer-title {
+  font-size: var(--font-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* --- 选项卡 Tabs（飞书风格：细线文字） */
+.arco-tabs-tab {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-base);
+  color: var(--color-text-2);
+}
+.arco-tabs-tab-active {
+  color: rgb(var(--primary-6));
+  font-weight: var(--font-weight-medium);
+}
+.arco-tabs-ink-bar {
+  background-color: rgb(var(--primary-6));
+}
+.arco-tabs-nav {
+  border-color: var(--color-border-light);
+}
+
+/* --- 面包屑 Breadcrumb（飞书风格：灰文字） */
+.arco-breadcrumb-item {
+  font-size: var(--font-sm);
+  color: var(--color-text-3);
+}
+.arco-breadcrumb-item-last {
+  color: var(--color-text-1);
+  font-weight: var(--font-weight-medium);
+}
+
+/* --- 消息提示 Message / Notification */
+.arco-message {
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border-light);
+}
+.arco-notification {
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border-light);
+}
+
+/* --- 分页 Pagination（飞书风格：4px 圆角） */
+.arco-pagination-item {
+  border-radius: 4px;
+  font-size: var(--font-sm);
+  color: var(--color-text-2);
+  border-color: var(--color-border);
+}
+.arco-pagination-item-active {
+  background-color: rgb(var(--primary-6));
+  border-color: rgb(var(--primary-6));
+  color: #fff;
+}
+.arco-pagination-item:hover {
+  color: rgb(var(--primary-6));
+  border-color: rgb(var(--primary-3));
+}
+
+/* --- 开关 Switch */
+.arco-switch.arco-switch-checked {
+  background-color: rgb(var(--primary-6));
+}
+
+/* --- 单选 / 复选 Radio / Checkbox */
+.arco-radio-checked .arco-radio-button,
+.arco-checkbox-checked .arco-checkbox-icon {
+  background-color: rgb(var(--primary-6));
+  border-color: rgb(var(--primary-6));
+}
+
+/* --- 进度条 Progress */
+.arco-progress-line-bar {
+  background-color: rgb(var(--primary-6));
+}
+
+/* --- 步骤条 Steps */
+.arco-steps-item-finish .arco-steps-icon {
+  background-color: rgb(var(--primary-6));
+  border-color: rgb(var(--primary-6));
+}
+.arco-steps-item-active .arco-steps-icon {
+  border-color: rgb(var(--primary-6));
+  color: rgb(var(--primary-6));
+}
+
+/* --- 空状态 Empty */
+.arco-empty {
+  color: var(--color-text-3);
+}
+.arco-empty-description {
+  font-size: var(--font-base);
+}
+
+/* --- 描述列表 Descriptions */
+.arco-descriptions-item-label {
+  color: var(--color-text-3);
+  font-size: var(--font-sm);
+}
+.arco-descriptions-item-value {
+  color: var(--color-text-1);
+  font-size: var(--font-base);
+}
+
+/* --- 链接 Link */
+.arco-link {
+  color: rgb(var(--primary-6));
+}
+.arco-link:hover {
+  color: rgb(var(--primary-5));
+}
+
+/* --- 头像 Avatar */
+.arco-avatar {
+  background-color: var(--color-bg-3);
+  color: var(--color-text-2);
+}
