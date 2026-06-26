@@ -11,8 +11,8 @@
     '报名情况': { css: ['modules/course-run/course-run.css'], js: ['modules/course-run/course-run.js'] },
 
     // scheduler-workbench
-    '排课工作台': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/visual-scheduler.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
-    '排课管理': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/visual-scheduler.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
+    '排课工作台': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/pending-course-list.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
+    '排课管理': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/pending-course-list.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
     '可视化排课': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/visual-scheduler.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
     '开课条件总览': { css: ['modules/launch-readiness/launch-readiness.css'], js: ['modules/launch-readiness/launch-readiness.js'] },
 
@@ -76,12 +76,19 @@
     // assessment and evaluation module
     '作业考试': { css: ['modules/assessment/assessment.css'], js: ['modules/assessment/assessment.js'] },
     '成绩评价': { css: ['modules/assessment/assessment.css'], js: ['modules/assessment/assessment.js'] },
-    '评估任务': { css: ['modules/assessment/assessment.css'], js: ['modules/assessment/assessment.js'] }
+    '评估任务': { css: ['modules/assessment/assessment.css'], js: ['modules/assessment/assessment.js'] },
+
+    // results module
+    '我的成果': { css: ['modules/results/results.css'], js: ['modules/results/results.js'] },
+    '成果申报': { css: ['modules/results/results.css'], js: ['modules/results/results.js'] },
+    '我的学员画像': { css: ['modules/results/results.css'], js: ['modules/results/results.js'] },
+    '我的画像': { css: ['modules/results/results.css'], js: ['modules/results/results.js'] },
+    '我的证书': { css: ['modules/results/results.css'], js: ['modules/results/results.js'] }
   };
 
   function getBasePath() {
-    var script = document.querySelector('script[src$="module-loader.js"]');
-    return script ? script.src.replace(/module-loader\.js$/, '') : '../shared/';
+    var script = document.querySelector('script[src*="module-loader.js"]');
+    return script ? script.src.replace(/module-loader\.js(?:\?.*)?$/, '') : '../shared/';
   }
 
   function loadCSS(url) {

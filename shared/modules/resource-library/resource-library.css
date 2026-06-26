@@ -157,10 +157,89 @@
 
 .resource-library-page {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     overflow: hidden;
     background: var(--color-bg-1);
+}
+
+.rl-top-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 64px;
+    padding: 0 32px;
+    border-bottom: 1px solid var(--color-border-light);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+}
+
+.rl-toolbar-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+}
+
+.rl-toolbar-title strong {
+    color: var(--color-text-1);
+    font-size: var(--font-lg);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+}
+
+.rl-toolbar-title span {
+    overflow: hidden;
+    color: var(--color-text-3);
+    font-size: var(--font-sm);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.rl-toolbar-search {
+    position: relative;
+    flex: 0 1 360px;
+    min-width: 240px;
+}
+
+.rl-toolbar-search input {
+    width: 100%;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0 14px 0 36px;
+    background: var(--color-bg-1);
+    color: var(--color-text-1);
+    font-size: var(--font-sm);
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.rl-toolbar-search input:focus {
+    border-color: var(--color-primary-border);
+    box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.08);
+}
+
+.rl-toolbar-search .arco-icon,
+.rl-toolbar-search svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-3);
+    pointer-events: none;
+}
+
+.rl-content-layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    min-height: 0;
+    flex: 1;
 }
 
 /* 消除外层 .main 的 padding 缺口，使分割线和侧边栏直达顶部和底部 */
@@ -173,9 +252,9 @@ body[data-active="教学资源库"] .main .content {
 
 /* --- 左侧侧边栏 --- */
 .sidebar-nested {
-    width: 240px;
+    width: auto;
     background: var(--color-bg-1); /* 改为纯白，与右侧通过分割线区分而非背景色 */
-    border-right: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border-light);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -197,7 +276,7 @@ body[data-active="教学资源库"] .main .content {
     align-items: center;
     gap: 12px;
     padding: 10px 14px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     cursor: pointer;
     font-size: 13px;
     color: var(--color-text-2);
@@ -226,11 +305,10 @@ body[data-active="教学资源库"] .main .content {
 
 /* --- 右侧主内容区 --- */
 .main-content-nested {
-    flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    padding: 24px 32px;
+    padding: 24px 32px 32px;
     background: var(--color-bg-1);
     min-width: 0;
 }
@@ -240,7 +318,7 @@ body[data-active="教学资源库"] .main .content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     gap: 16px;
     flex-wrap: wrap;
 }
@@ -263,7 +341,7 @@ body[data-active="教学资源库"] .main .content {
     background-color: var(--color-primary);
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: var(--radius-sm);
     padding: 8px 18px;
     font-size: 13px;
     font-weight: 600;
@@ -284,7 +362,7 @@ body[data-active="教学资源库"] .main .content {
     background-color: var(--color-bg-1);
     color: var(--color-text-1);
     border: 1px solid var(--color-border);
-    border-radius: 20px;
+    border-radius: var(--radius-sm);
     padding: 8px 18px;
     font-size: 13px;
     font-weight: 600;
@@ -300,41 +378,6 @@ body[data-active="教学资源库"] .main .content {
     border-color: var(--color-primary);
     color: var(--color-primary);
     background-color: var(--color-primary-bg);
-}
-
-/* 搜索框 */
-.main-content-nested .search-box {
-    position: relative;
-    width: 220px;
-}
-
-.main-content-nested .search-box input {
-    width: 100%;
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    padding: 7px 16px 7px 34px;
-    font-size: 13px;
-    outline: none;
-    transition: all 0.2s;
-    background: var(--color-bg-2);
-}
-
-.main-content-nested .search-box input:focus {
-    border-color: var(--color-primary);
-    background: var(--color-bg-1);
-    box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.1);
-}
-
-.main-content-nested .search-box i,
-.main-content-nested .search-box .arco-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-text-3);
-    font-size: 14px;
-    pointer-events: none;
-    z-index: 5;
 }
 
 /* 路径与筛选栏 */
@@ -392,6 +435,10 @@ body[data-active="教学资源库"] .main .content {
     flex-wrap: wrap;
 }
 
+.rl-filter-spacer {
+    flex: 1 1 auto;
+}
+
 .main-content-nested .pill-filter {
     border: 1px solid var(--color-border);
     background: var(--color-bg-1);
@@ -424,6 +471,24 @@ body[data-active="教学资源库"] .main .content {
     background: var(--color-bg-1);
     border: none;
     border-radius: 0;
+}
+
+@media (max-width: 1180px) {
+    .rl-content-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sidebar-nested {
+        display: none;
+    }
+
+    .rl-top-toolbar {
+        padding: 0 20px;
+    }
+
+    .main-content-nested {
+        padding: 20px;
+    }
 }
 
 .main-content-nested .quark-table {

@@ -1,7 +1,7 @@
 /* 课程运行 — 使用全局 Design Token */
 
 .course-run-page {
-  min-height: calc(100vh - 56px);
+  min-height: 100%;
   color: var(--color-text-1);
   background: var(--color-bg-1);
   margin: -28px -32px;

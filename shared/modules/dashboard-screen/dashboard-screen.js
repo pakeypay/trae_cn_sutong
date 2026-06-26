@@ -27,8 +27,8 @@
 
   function renderShell() {
     injectCSS();
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) {
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) {
       if (vueApp) {
         try { vueApp.unmount(); } catch (e) {}
         vueApp = null;
@@ -36,7 +36,7 @@
       return;
     }
 
-    main.innerHTML = '<div id="admin-dashboard-screen-app"></div>';
+    content.innerHTML = '<div id="admin-dashboard-screen-app"></div>';
 
     waitForVue(function () {
       var app = Vue.createApp({

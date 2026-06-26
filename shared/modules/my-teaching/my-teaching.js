@@ -9,7 +9,7 @@
     app = Vue.createApp({
       template: `
         <div class="mt-page">
-          <a-breadcrumb class="mt-breadcrumb"><a-breadcrumb-item>首页</a-breadcrumb-item><a-breadcrumb-item>我的教学</a-breadcrumb-item><a-breadcrumb-item>{{ view==='list'?'我的授课':selected.name }}</a-breadcrumb-item></a-breadcrumb>
+          <a-breadcrumb v-if="view==='list'" class="mt-breadcrumb"><a-breadcrumb-item>首页</a-breadcrumb-item><a-breadcrumb-item>我的教学</a-breadcrumb-item><a-breadcrumb-item>我的授课</a-breadcrumb-item></a-breadcrumb>
           <template v-if="view==='list'">
             <main class="mt-shell">
               <a-tabs v-model:active-key="status" class="mt-global-tabs">
@@ -45,18 +45,25 @@
           </template>
           <template v-else>
             <main class="mt-detail-shell">
-              <button class="mt-back" @click="view='list'">← 返回我的授课</button>
-              <section class="mt-hero">
-                <div class="mt-hero-cover"><img :src="cover" alt=""><span :class="['mt-cover-badge',statusClass(selected.status)]">{{statusName(selected.status)}}</span></div>
-                <div class="mt-hero-info"><div class="mt-card-kicker">{{selected.type}} · {{selected.audienceType}} · {{selected.role}}</div><h1>{{selected.name}}</h1><p class="mt-hero-desc">以真实临床情境为基础，通过规范示教、分组练习和即时反馈完成教学。</p>
-                  <div class="mt-hero-facts"><span><b>授课时间</b>{{selected.time}}</span><span><b>地点 / 平台</b>{{selected.place}}</span><span><b>授课对象</b>{{selected.audience}}</span></div>
-                  <div class="mt-actions"><a-button v-for="x in actions(selected.status)" :key="x" :type="x===primary(selected.status)?'primary':'outline'" @click="toast(x)">{{x}}</a-button></div>
+              <div class="mt-detail-toolbar">
+                <div class="mt-detail-toolbar-left">
+                  <button class="mt-back" @click="view='list'">返回</button>
+                  <strong>{{selected.name}}</strong>
                 </div>
-              </section>
-              <a-tabs v-model:active-key="detailTab" class="mt-global-tabs mt-detail-tabs"><a-tab-pane key="info" title="课程详情"/><a-tab-pane key="schedule" title="课程安排"/><a-tab-pane key="discussion" title="讨论区"/><a-tab-pane key="learning" title="学情分析"/><a-tab-pane key="teaching" title="教情分析"/></a-tabs>
-              <div class="mt-detail-grid">
-                <section class="mt-detail-content">
-                  <course-info v-if="detailTab==='info'" :course="selected"/><course-schedule v-if="detailTab==='schedule'"/><discussion v-if="detailTab==='discussion'"/><course-review v-if="detailTab==='learning'" :status="selected.status"/><teaching-analysis v-if="detailTab==='teaching'" :status="selected.status"/>
+              </div>
+              <div class="mt-detail-layout">
+                <section class="mt-detail-main">
+                  <section class="mt-hero">
+                    <div class="mt-hero-cover"><img :src="cover" alt=""><span :class="['mt-cover-badge',statusClass(selected.status)]">{{statusName(selected.status)}}</span></div>
+                    <div class="mt-hero-info"><div class="mt-card-kicker">{{selected.type}} · {{selected.audienceType}} · {{selected.role}}</div><h1>{{selected.name}}</h1><p class="mt-hero-desc">以真实临床情境为基础，通过规范示教、分组练习和即时反馈完成教学。</p>
+                      <div class="mt-hero-facts"><span><b>授课时间</b>{{selected.time}}</span><span><b>地点 / 平台</b>{{selected.place}}</span><span><b>授课对象</b>{{selected.audience}}</span></div>
+                      <div class="mt-actions"><a-button v-for="x in actions(selected.status)" :key="x" :type="x===primary(selected.status)?'primary':'outline'" @click="toast(x)">{{x}}</a-button></div>
+                    </div>
+                  </section>
+                  <a-tabs v-model:active-key="detailTab" class="mt-global-tabs mt-detail-tabs"><a-tab-pane key="info" title="课程详情"/><a-tab-pane key="schedule" title="课程安排"/><a-tab-pane key="discussion" title="讨论区"/><a-tab-pane key="learning" title="学情分析"/><a-tab-pane key="teaching" title="教情分析"/></a-tabs>
+                  <section class="mt-detail-content">
+                    <course-info v-if="detailTab==='info'" :course="selected"/><course-schedule v-if="detailTab==='schedule'"/><discussion v-if="detailTab==='discussion'"/><course-review v-if="detailTab==='learning'" :status="selected.status"/><teaching-analysis v-if="detailTab==='teaching'" :status="selected.status"/>
+                  </section>
                 </section>
                 <aside class="mt-task-card"><section class="mt-prep-section"><div class="mt-panel-heading"><small>课前准备</small><h2>授课准备情况</h2></div><button class="mt-prep-entry" @click="toast('人员和物资准备')"><span class="mt-prep-icon">人</span><div><b>人员和物资准备</b><small>教师 6人 · 协调员 1人 · 6类物资</small></div><i>›</i></button><button class="mt-prep-entry" @click="toast('课前信')"><span class="mt-prep-icon letter">信</span><div><b>课前信</b><small>已发布 · 含3个附件</small></div><i>›</i></button></section><section class="mt-progress-section"><div class="mt-task-title"><span class="mt-status-dot ongoing"></span><div><small>当前任务 / 进度</small><h2>{{pendingTaskCount}} 项待处理</h2></div></div><p class="mt-task-rule">任务根据课程安排自动生成：实践类任务需评价，理论测验由系统自动评分。</p><div class="mt-teacher-tasks"><div v-for="x in teacherTasks" :key="x.name" :class="['mt-teacher-task',{disabled:x.disabled}]"><span class="mt-task-icon">◎</span><div><b>{{x.name}}</b><span>{{x.meta}}</span></div><span :class="['mt-task-state',{pending:!x.disabled}]">{{x.disabled?'未开放':'待处理'}}</span><a-button size="mini" type="outline" :disabled="x.disabled" @click="toast(x.action)">{{x.action}}</a-button></div></div></section></aside>
               </div>

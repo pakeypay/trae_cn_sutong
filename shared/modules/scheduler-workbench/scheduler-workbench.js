@@ -141,14 +141,14 @@
     });
   }
   function renderShell() {
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) return;
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) return;
 
     var active = document.body.dataset.active;
     if (active === '可视化排课') {
-      main.innerHTML = '<section class="scheduler-module"><div id="scheduler-visual-app" class="scheduler-visual-view" v-cloak>' + visualTemplate + '</div></section>';
+      content.innerHTML = '<section class="scheduler-module"><div id="scheduler-visual-app" class="scheduler-visual-view" v-cloak>' + visualTemplate + '</div></section>';
     } else {
-      main.innerHTML = '<section class="scheduler-module">' +
+      content.innerHTML = '<section class="scheduler-module">' +
         '<div class="breadcrumb-row">' +
         '  <a-breadcrumb class="breadcrumb">' +
         '    <a-breadcrumb-item>首页</a-breadcrumb-item>' +

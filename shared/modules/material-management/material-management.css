@@ -1169,7 +1169,7 @@
 .material-page-content {
   position: relative;
   isolation: isolate;
-  min-height: calc(100vh - 56px);
+  min-height: 100%;
   background: var(--color-bg-2);
   margin: -28px -32px;
   padding: 28px 32px;
@@ -2184,18 +2184,18 @@
 }
 
 /* 统一滚动条样式提升视觉精致度 */
-::-webkit-scrollbar {
+.material-page-content ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-::-webkit-scrollbar-track {
+.material-page-content ::-webkit-scrollbar-track {
   background: transparent;
 }
-::-webkit-scrollbar-thumb {
+.material-page-content ::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
+.material-page-content ::-webkit-scrollbar-thumb:hover {
   background: var(--color-text-3);
 }
 

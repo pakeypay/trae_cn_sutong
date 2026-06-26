@@ -13,7 +13,7 @@
 }
 
 .sr-module {
-  min-height: calc(100vh - 56px);
+  min-height: 100%;
   background: var(--color-bg-2);
   margin: -28px -32px;
   padding: 24px 32px;

@@ -67,8 +67,8 @@
 
   function renderShell() {
     injectCSS();
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) {
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) {
       if (vueApp) {
         try { vueApp.unmount(); } catch (e) {}
         vueApp = null;
@@ -76,7 +76,7 @@
       return;
     }
 
-    main.innerHTML = '<div id="bdm-app" v-cloak>' + getTemplate() + '</div>';
+    content.innerHTML = '<div id="bdm-app" v-cloak>' + getTemplate() + '</div>';
 
     waitForDeps(function () {
       if (vueApp) {

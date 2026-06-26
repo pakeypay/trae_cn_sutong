@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   const script = document.querySelector('script[src*="resource-library.js"]');
   const basePath = script ? script.src.substring(0, script.src.lastIndexOf('/') + 1) : '../../shared/modules/resource-library/';
 
@@ -35,6 +35,17 @@
     vueApp = Vue.createApp({
       template: `
         <div class="resource-library-page">
+          <div class="rl-top-toolbar">
+            <div class="rl-toolbar-title">
+              <strong>教学资源库</strong>
+              <span>{{ getCategoryTitle(activeCategory) }}</span>
+            </div>
+            <div class="rl-toolbar-search">
+              <icon-search />
+              <input type="text" v-model="searchQuery" placeholder="搜索文件名称、标签..." @input="handleSearch">
+            </div>
+          </div>
+          <div class="rl-content-layout">
           <!-- 1. 左侧 Quark 网盘风格侧边栏 -->
           <aside class="sidebar-nested">
             <!-- 网盘分类目录 -->
@@ -154,10 +165,7 @@
               </div>
               <div v-else style="width: 10px;"></div>
               
-              <div class="search-box" style="margin-left: auto;">
-                <icon-search />
-                <input type="text" v-model="searchQuery" placeholder="搜索文件名、标签..." @input="handleSearch">
-              </div>
+              <div class="rl-filter-spacer"></div>
             </div>
 
             <!-- 列表与卡片显示区域 -->
@@ -373,6 +381,7 @@
               </table>
             </div>
           </main>
+          </div>
 
           <!-- 弹题设置 Modal -->
           <a-modal v-model:visible="quizModalVisible" title="视频弹题设置" width="1000px" @ok="saveQuizSettings" ok-text="保存全部设置">

@@ -24,7 +24,7 @@
 }
 
 .sast-page {
-  min-height: calc(100vh - 56px);
+  min-height: 100%;
   margin: -28px -32px;
   padding: 24px 32px;
   background: var(--sast-bg);

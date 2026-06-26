@@ -27,41 +27,30 @@
 
   function renderShell() {
     injectCSS();
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) {
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) {
       if (vueApp) { try { vueApp.unmount(); } catch (e) {} vueApp = null; }
       return;
     }
 
-    main.innerHTML = '<div id="assessment-app"></div>';
+    content.innerHTML = '<div id="assessment-app"></div>';
 
     waitForVue(function () {
       var app = Vue.createApp({
         template: `
           <div class="assessment-wrapper">
-            <!-- Breadcrumbs -->
-            <a-breadcrumb>
-              <a-breadcrumb-item>工作台</a-breadcrumb-item>
-              <a-breadcrumb-item>评估任务</a-breadcrumb-item>
-              <a-breadcrumb-item>{{ activePage }}</a-breadcrumb-item>
-            </a-breadcrumb>
-
-            <!-- Page Title & Top controls -->
-            <div class="assessment-page-header">
-              <div>
-                <h1 class="assessment-page-title">
-                  <i class="fas fa-file-signature text-primary"></i> {{ activePage }}
-                </h1>
-                <p class="assessment-page-desc">
-                  {{ activePage === '作业考试' ? '查收学生提交的课堂随堂测验及课后作业，进行形成性考核批改。' : '监控所带规培生多维度考核成绩，并通过数字化学员画像进行精准教研辅助。' }}
-                </p>
+            <div class="assessment-top-toolbar">
+              <div class="assessment-toolbar-title">
+                <strong>评估任务</strong>
+                <a-radio-group v-model="activePage" type="button" size="medium" @change="handlePageSwitch">
+                  <a-radio value="作业考试">作业考试</a-radio>
+                  <a-radio value="成绩评价">成绩评价</a-radio>
+                </a-radio-group>
               </div>
-
-              <!-- View Switcher -->
-              <a-radio-group v-model="activePage" type="button" size="medium" @change="handlePageSwitch">
-                <a-radio value="作业考试">作业考试</a-radio>
-                <a-radio value="成绩评价">成绩评价</a-radio>
-              </a-radio-group>
+              <label class="assessment-toolbar-search">
+                <i class="fas fa-search"></i>
+                <input v-model="filterHwName" type="search" :placeholder="activePage === '作业考试' ? '搜索作业、试卷...' : '搜索学员姓名...'">
+              </label>
             </div>
 
             <!-- ================= VIEW 1: HOMEWORK & EXAMS (作业考试) ================= -->
@@ -91,7 +80,6 @@
                       <a-option>新生儿插管术操作示教</a-option>
                       <a-option>急救护理综合实训</a-option>
                     </a-select>
-                    <a-input-search v-model="filterHwName" placeholder="搜索作业/试卷..." class="assessment-filter-search" size="small" allow-clear />
                   </a-space>
                   <a-button type="primary" size="small" @click="showToast('批量提醒已发送！')">
                     <template #icon><i class="fas fa-bell"></i></template>一键催缴未交作业
@@ -157,7 +145,7 @@
               <a-row :gutter="20">
                 <a-col :span="16">
                   <a-card title="学员综合考评成绩单 (PICU规培班)" :bordered="false" class="assessment-feedback-card">
-                    <a-table :data="gradeBook" :pagination="false" :bordered="false">
+                    <a-table :data="filteredGradeBook" :pagination="false" :bordered="false">
                       <template #columns>
                         <a-table-column title="学员姓名" data-index="name">
                           <template #cell="{ record }">
@@ -416,6 +404,13 @@
               if (this.filterCourse !== '全部课程' && a.course !== this.filterCourse) return false;
               if (q && a.name.toLowerCase().indexOf(q) === -1) return false;
               return true;
+            });
+          },
+          filteredGradeBook() {
+            var q = this.filterHwName.trim().toLowerCase();
+            if (!q) return this.gradeBook;
+            return this.gradeBook.filter(function (student) {
+              return student.name.toLowerCase().indexOf(q) !== -1;
             });
           },
           gradingFormTotal() {

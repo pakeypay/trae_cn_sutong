@@ -31,7 +31,7 @@
   }
 
   function assetUrl(name) {
-    var script = document.currentScript || document.querySelector('script[src$="nav-render.js"]');
+    var script = document.currentScript || document.querySelector('script[src*="nav-render.js"]');
     return new URL('assets/' + name, script.src).href;
   }
 
@@ -102,8 +102,138 @@
   }
 
   function serviceIcon(index) {
-    var iconNames = ['calendar', 'book', 'check', 'edit', 'folder', 'users', 'chart', 'space', 'package', 'award', 'settings', 'stethoscope'];
-    return window.RoleNav.icons[iconNames[index % iconNames.length]] || window.RoleNav.icons.grid;
+    // Fallback icon list for unmatched names
+    var fallbackIcons = ['calendar', 'book', 'check', 'edit', 'folder', 'users', 'chart', 'space', 'package', 'award', 'settings', 'stethoscope'];
+    return window.RoleNav.icons[fallbackIcons[index % fallbackIcons.length]] || window.RoleNav.icons.grid;
+  }
+
+  function iconForLabel(label) {
+    var icons = window.RoleNav.icons;
+    var map = {
+      '今日待办': icons.clipboardList,
+      '重点工作': icons.star,
+      '工作推进': icons.target,
+      '师资情况': icons.users,
+      '学员情况': icons.user,
+      '课程情况': icons.book,
+      '评估情况': icons.check,
+      '物资情况': icons.package,
+      '空间情况': icons.building,
+      '轮转安排': icons.calendar,
+      '教学活动': icons.presentation,
+      '课程开发': icons.edit,
+      '课程池': icons.database,
+      '课程实施': icons.list,
+      '排课工作台': icons.calendar,
+      '开课条件总览': icons.table,
+      '已排课表': icons.list,
+      '报名情况': icons.userPlus,
+      '空间预约审批': icons.building,
+      '空间资产管理': icons.box,
+      '班牌和大屏管理': icons.presentation,
+      '物资工作台': icons.package,
+      '物资档案': icons.folder,
+      '维修管理': icons.refresh,
+      '盘点管理': icons.clipboard,
+      '课程使用和临时借用': icons.box,
+      '归还签收': icons.check,
+      '个人云盘': icons.folder,
+      '科室云盘': icons.folder,
+      '公共库': icons.folder,
+      '师资管理': icons.users,
+      '学员管理': icons.user,
+      '科研成果': icons.award,
+      '教学奖励': icons.trophy,
+      '学员评价体系配置': icons.target,
+      '教师评价体系配置': icons.target,
+      '评估工具库': icons.clipboard,
+      '评估任务中心': icons.list,
+      '评估结果与分析': icons.chart,
+      '可视化排课': icons.calendar,
+      '冲突检查': icons.check,
+      '教师确认': icons.user,
+      '通知发送': icons.edit,
+      '调课 / 改课记录': icons.refresh,
+      '占用日历': icons.calendar,
+      '空间冲突': icons.check,
+      '临时场地调整': icons.edit,
+      '使用记录': icons.list,
+      '空间利用率': icons.chart,
+      '场地预约（含物资）': icons.building,
+      '我的申请': icons.list,
+      '待排课程': icons.calendar,
+      '已排课程管理': icons.list,
+      '物资申请（不包含场地）': icons.package,
+      '校外开放课程': icons.book,
+      '我的报名': icons.list,
+      '候补状态': icons.clock,
+      '已报名': icons.calendar,
+      '进行中': icons.refresh,
+      '已完成': icons.check,
+      '课次详情': icons.book,
+      '我的证书': icons.award,
+      '证书查询': icons.check,
+      '证书下载': icons.edit,
+      '基础标签': icons.folder,
+      '业务标签': icons.folder,
+      '系统规则标签': icons.settings,
+      '模型配置': icons.settings,
+      'API Key 授权': icons.settings,
+      '调用日志': icons.list,
+      '用户管理': icons.users,
+      '角色权限': icons.user,
+      '内容发布': icons.edit,
+      '公告配置': icons.edit,
+      '流量统计': icons.chart,
+      '安全加固': icons.settings,
+      '备份恢复': icons.refresh,
+      '第三方集成': icons.settings,
+      '我的授课': icons.calendar,
+      '课程草稿': icons.edit,
+      '已提交课程': icons.check,
+      '已发布课程': icons.book,
+      '新建课程': icons.edit,
+      '上传 / 生成教案': icons.edit,
+      '教学示范库': icons.folder,
+      '院级公共库': icons.folder,
+      '成绩录入': icons.edit,
+      '学生评价': icons.check,
+      '课程反馈': icons.list,
+      '作业批改': icons.edit,
+      '成果申报': icons.award,
+      '我的学员画像': icons.user,
+      '我的画像': icons.user,
+      '待完成任务': icons.clipboardList,
+      '学习进度': icons.chart,
+      '今日日程': icons.calendar,
+      '快捷应用': icons.grid,
+      '我的轮转': icons.calendar,
+      '我的课程': icons.book,
+      '自适应学习 ⚡': icons.star,
+      '可选课程': icons.book,
+      '报名审核状态': icons.list,
+      '自主训练': icons.refresh,
+      'OSCE': icons.check,
+      '作业考试': icons.clipboard,
+      '成绩评价': icons.check,
+      '课程评价': icons.list,
+      '老师评价': icons.user,
+      '胜任力框架配置': icons.target,
+      'EPA 评价框架': icons.target,
+      '培训目标管理': icons.target,
+      '评估表单': icons.clipboard,
+      '理论题库': icons.database,
+      '实操录评': icons.check,
+      '评估学员': icons.user,
+      '评估教师': icons.user,
+      '评估教学活动': icons.presentation,
+      '评估课程': icons.book,
+      '综合数据看板': icons.chart,
+      '学员画像': icons.user,
+      '教师画像': icons.user,
+      '教学质量分析': icons.chart,
+    };
+    return map[label] || null;
   }
 
   function getServices(role) {
@@ -138,8 +268,9 @@
     var groupsHtml = Object.keys(servicesByCategory).map(function (category, groupIdx) {
       var catServices = servicesByCategory[category];
       var cardsHtml = catServices.map(function (item, index) {
+        var svcIcon = iconForLabel(item.label) || serviceIcon(index);
         return '<button class="service-card" data-category="' + escapeHtml(item.category) + '" data-search="' + escapeHtml(item.label + ' ' + item.category) + '" data-service="' + escapeHtml(item.label) + '">' +
-          '<span class="service-icon tone-' + (index % 6) + '">' + serviceIcon(index) + '</span><span class="service-copy"><strong>' + escapeHtml(item.label) + '</strong><small>' + escapeHtml(item.description) + '</small></span>' +
+          '<span class="service-icon tone-' + (index % 6) + '">' + svcIcon + '</span><span class="service-copy"><strong>' + escapeHtml(item.label) + '</strong><small>' + escapeHtml(item.description) + '</small></span>' +
         '</button>';
       }).join('');
 
@@ -154,17 +285,17 @@
 
     return '<section class="service-hall">' +
       '<div class="service-top-bar">' +
-        '<div class="service-breadcrumb">' +
-          '<span class="service-breadcrumb-item">首页</span>' +
-          '<span class="service-breadcrumb-separator">/</span>' +
-          '<span class="service-breadcrumb-item service-breadcrumb-active">工作台</span>' +
+        '<div class="service-title">' +
+          '<strong>工作台</strong>' +
+          '<span>全部服务</span>' +
         '</div>' +
-        '<label class="service-search">' + window.RoleNav.icons.grid + '<input type="search" placeholder="搜索应用、服务及自助办理事项…" aria-label="搜索服务"><kbd>⌘+K</kbd></label>' +
+        '<label class="service-search">' + window.RoleNav.icons.grid + '<input type="search" placeholder="搜索应用、服务及自助办理事项..." aria-label="搜索服务"></label>' +
       '</div>' +
       '<div class="service-content">' +
         '<section class="common-section"><h2>常用服务</h2><div class="common-grid">' +
           common.map(function (item, index) {
-            return '<button class="common-card" data-service="' + escapeHtml(item.label) + '"><span class="service-icon tone-' + (index % 6) + '">' + serviceIcon(index) + '</span><strong>' + escapeHtml(item.label) + '</strong></button>';
+            var svcIcon = iconForLabel(item.label) || serviceIcon(index);
+            return '<button class="common-card" data-service="' + escapeHtml(item.label) + '"><span class="service-icon tone-' + (index % 6) + '">' + svcIcon + '</span><strong>' + escapeHtml(item.label) + '</strong></button>';
           }).join('') +
           '<button class="common-card add-common"><span class="add-icon">＋</span><strong>添加常用</strong></button>' +
         '</div></section>' +
@@ -185,7 +316,9 @@
     var content = document.querySelector('.content');
     if (!content) return;
 
-    if (isHome(active)) {
+    var roleKey = document.body.dataset.role || 'teacher';
+
+    if (isHome(active) && roleKey !== 'admin') {
       content.innerHTML = renderServiceHall(role);
       updateGroupDividers();
       return;
@@ -209,7 +342,7 @@
   function moduleCanLoad(active) {
     var role = document.body.dataset.role;
     if (active === '工作台' || active === '首页') {
-      return role === 'teacher' || role === 'student';
+      return role === 'teacher' || role === 'student' || role === 'admin';
     }
     return true;
   }

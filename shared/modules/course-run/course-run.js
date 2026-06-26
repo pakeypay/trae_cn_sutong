@@ -213,10 +213,10 @@
 
   function renderShell() {
     injectCSS();
-    var main = document.querySelector('.main');
-    if (!main || document.body.dataset.active !== '报名情况') return;
+    var content = document.querySelector('.content');
+    if (!content || document.body.dataset.active !== '报名情况') return;
 
-    main.innerHTML = 
+    content.innerHTML = 
       '<section class="course-run-page">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">' +
           '<div style="display:flex;flex-direction:column;gap:4px;">' +

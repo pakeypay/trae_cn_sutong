@@ -1128,8 +1128,8 @@
   }
 
   function renderShell() {
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) {
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) {
       if (appInstance) {
         try {
           appInstance.unmount();
@@ -1140,7 +1140,7 @@
     }
 
     loadModuleCss();
-    main.innerHTML = '<div id="scheduled-course-app" class="scheduled-course-container" v-cloak>' + template + '</div>';
+    content.innerHTML = '<div id="scheduled-course-app" class="scheduled-course-container" v-cloak>' + template + '</div>';
     mountApp();
   }
 

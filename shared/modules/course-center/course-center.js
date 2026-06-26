@@ -164,10 +164,10 @@
 
   function renderShell() {
     injectCSS();
-    var main = document.querySelector('.main');
+    var content = document.querySelector('.content');
     var validRoles = ['admin', 'teacher'];
-    if (!main || validRoles.indexOf(document.body.dataset.role) === -1 || courseCenterPages.indexOf(document.body.dataset.active) === -1) return;
-    main.innerHTML = '<section class="course-pool-page">' +
+    if (!content || validRoles.indexOf(document.body.dataset.role) === -1 || courseCenterPages.indexOf(document.body.dataset.active) === -1) return;
+    content.innerHTML = '<section class="course-pool-page">' +
       '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">' +
       '<div class="pool-tabs"><button class="pool-tab active" data-pool="student">学员培训课程池</button><button class="pool-tab" data-pool="teacher">师资培训课程池</button></div>' +
       '<label class="course-pool-search"><input id="globalCourseSearch" placeholder="搜索课程 / 教师"><span>⌕</span></label></div>' +

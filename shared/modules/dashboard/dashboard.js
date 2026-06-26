@@ -22,13 +22,13 @@
   function shouldHandle() {
     var role = document.body.dataset.role;
     var active = document.body.dataset.active;
-    return (role === 'teacher' || role === 'student') && (active === '工作台' || active === '首页');
+    return (role === 'teacher' || role === 'student' || role === 'admin') && (active === '工作台' || active === '首页');
   }
 
   function renderShell() {
     injectCSS();
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) {
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) {
       if (vueApp) { try { vueApp.unmount(); } catch (e) {} vueApp = null; }
       return;
     }
@@ -37,10 +37,13 @@
 
     var role = document.body.dataset.role;
     if (role === 'student') {
-      main.innerHTML = '<div id="student-dashboard-app"></div>';
+      content.innerHTML = '<div id="student-dashboard-app"></div>';
       renderStudentDashboard();
+    } else if (role === 'admin') {
+      content.innerHTML = '<div id="admin-dashboard-app"></div>';
+      renderAdminDashboard();
     } else {
-      main.innerHTML = '<div id="teacher-dashboard-app"></div>';
+      content.innerHTML = '<div id="teacher-dashboard-app"></div>';
       renderTeacherDashboard();
     }
   }
@@ -50,6 +53,17 @@
       var app = Vue.createApp({
         template: `
           <div class="teacher-dashboard-wrapper">
+            <div class="dashboard-top-toolbar">
+              <div class="dashboard-toolbar-title">
+                <strong>工作台</strong>
+                <span>今日教学</span>
+              </div>
+              <label class="dashboard-toolbar-search">
+                <i class="fas fa-search"></i>
+                <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、通知..." @keyup.enter="handleDashboardSearch">
+              </label>
+            </div>
+
             <!-- Welcome Banner Card -->
             <div class="welcome-banner-card">
               <div>
@@ -170,6 +184,7 @@
         `,
         data() {
           return {
+            dashboardQuery: '',
             metrics: [
               { label: '本季度累计课时', value: '36.5 小时', icon: 'fas fa-book-reader' },
               { label: '所授课程好评度', value: '98.4 %', icon: 'fas fa-star-and-crescent' },
@@ -211,6 +226,18 @@
             if (window.ArcoVue && window.ArcoVue.Message) {
               window.ArcoVue.Message.success('已标记任务【' + task.title + '】为完成状态');
             }
+          },
+          handleDashboardSearch() {
+            var q = this.dashboardQuery.trim();
+            if (!q) return;
+            var target = this.shortcuts.find(function (item) {
+              return item.title.indexOf(q) !== -1;
+            });
+            if (target) {
+              this.quickNavigate(target.module);
+            } else if (window.ArcoVue && window.ArcoVue.Message) {
+              window.ArcoVue.Message.info('未找到匹配的快捷入口');
+            }
           }
         }
       });
@@ -225,6 +252,17 @@
       var app = Vue.createApp({
         template: `
           <div class="student-dashboard-wrapper">
+            <div class="dashboard-top-toolbar">
+              <div class="dashboard-toolbar-title">
+                <strong>工作台</strong>
+                <span>学习概览</span>
+              </div>
+              <label class="dashboard-toolbar-search">
+                <i class="fas fa-search"></i>
+                <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、日程..." @keyup.enter="handleDashboardSearch">
+              </label>
+            </div>
+
             <!-- Welcome Banner Card -->
             <div class="welcome-banner-card">
               <div>
@@ -393,6 +431,7 @@
         `,
         data() {
           return {
+            dashboardQuery: '',
             calendarVisible: false,
             todoFilter: 'all',
             metrics: [
@@ -513,12 +552,195 @@
             } else {
               this.showToast('正在为您打开任务《' + task.name + '》答卷或自学页面...');
             }
+          },
+          handleDashboardSearch() {
+            var q = this.dashboardQuery.trim();
+            if (!q) return;
+            var target = this.shortcuts.find(function (item) {
+              return item.title.indexOf(q) !== -1;
+            });
+            if (target) {
+              this.quickNavigate(target.module);
+            } else {
+              this.showToast('未找到匹配的快捷入口');
+            }
           }
         }
       });
       app.use(window.ArcoVue);
       vueApp = app;
       vueApp.mount('#student-dashboard-app');
+    });
+  }
+
+  function renderAdminDashboard() {
+    waitForVue(function () {
+      var app = Vue.createApp({
+        template: `
+          <div class="admin-dashboard-wrapper">
+            <div class="dashboard-top-toolbar">
+              <div class="dashboard-toolbar-title">
+                <strong>工作台</strong>
+                <span>全部服务</span>
+              </div>
+              <label class="dashboard-toolbar-search">
+                <i class="fas fa-search"></i>
+                <input v-model="searchQuery" type="search" placeholder="搜索应用、服务及自助办理事项..." @keyup.enter="handleSearch">
+              </label>
+            </div>
+
+            <!-- Common Services -->
+            <div class="admin-section">
+              <h3 class="admin-section-title">常用服务</h3>
+              <div class="admin-common-grid">
+                <div v-for="svc in commonServices" :key="svc.label" class="admin-service-card" @click="handleServiceClick(svc)">
+                  <div class="admin-service-icon" :class="'tone-' + svc.tone">
+                    <i :class="svc.icon"></i>
+                  </div>
+                  <strong>{{ svc.label }}</strong>
+                </div>
+                <div class="admin-service-card add-common" @click="showToast('添加常用服务')">
+                  <div class="admin-service-icon tone-grey">
+                    <span style="font-size:20px;">+</span>
+                  </div>
+                  <strong style="color:var(--color-text-3);">添加常用</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- All Services -->
+            <div class="admin-section">
+              <h3 class="admin-section-title">全部服务</h3>
+              <div class="admin-tabs-bar">
+                <span v-for="(cat, idx) in categories" :key="cat">
+                  <span class="admin-tab-item" :class="{ active: activeCategory === cat }" @click="activeCategory = cat">{{ cat }}</span>
+                  <span v-if="idx < categories.length - 1" class="admin-tab-divider">/</span>
+                </span>
+              </div>
+
+              <div v-for="group in filteredGroups" :key="group.category" class="admin-service-group">
+                <div class="admin-group-header">
+                  <span class="admin-group-title">{{ group.category }}</span>
+                </div>
+                <div class="admin-service-grid">
+                  <div v-for="svc in group.items" :key="svc.label" class="admin-service-card" @click="handleServiceClick(svc)">
+                    <div class="admin-service-icon" :class="'tone-' + svc.tone">
+                      <i :class="svc.icon"></i>
+                    </div>
+                    <div class="admin-service-info">
+                      <strong>{{ svc.label }}</strong>
+                      <small>{{ svc.desc }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="filteredGroups.length === 0" class="admin-empty">未找到匹配的服务</div>
+            </div>
+          </div>
+        `,
+        data() {
+          return {
+            searchQuery: '',
+            activeCategory: '全部',
+            commonServices: [
+              { label: '今日待办', icon: 'fas fa-calendar-day', tone: 'blue' },
+              { label: '重点工作', icon: 'fas fa-bookmark', tone: 'purple' },
+              { label: '工作推进', icon: 'fas fa-check-circle', tone: 'green' }
+            ],
+            categories: ['全部', '工作台', '数据大屏', '轮转管理', '课程管理', '排课管理', '空间管理', '物资管理', '教学资源库', '师生管理', '成果管理', '评估管理'],
+            allServices: [
+              { label: '今日待办', category: '工作台', desc: '进入工作台，办理或查看"今日待办"相关业务。', icon: 'fas fa-calendar-day', tone: 'blue' },
+              { label: '重点工作', category: '工作台', desc: '进入工作台，办理或查看"重点工作"相关业务。', icon: 'fas fa-bookmark', tone: 'purple' },
+              { label: '工作推进', category: '工作台', desc: '进入工作台，办理或查看"工作推进"相关业务。', icon: 'fas fa-check-circle', tone: 'green' },
+              { label: '师资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"师资情况"相关业务。', icon: 'fas fa-users', tone: 'blue' },
+              { label: '学员情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"学员情况"相关业务。', icon: 'fas fa-user-graduate', tone: 'purple' },
+              { label: '课程情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"课程情况"相关业务。', icon: 'fas fa-book', tone: 'green' },
+              { label: '评估情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"评估情况"相关业务。', icon: 'fas fa-clipboard-check', tone: 'teal' },
+              { label: '物资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"物资情况"相关业务。', icon: 'fas fa-box', tone: 'orange' },
+              { label: '空间情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"空间情况"相关业务。', icon: 'fas fa-building', tone: 'red' },
+              { label: '轮转安排', category: '轮转管理', desc: '进入轮转管理，办理或查看"轮转安排"相关业务。', icon: 'fas fa-calendar-alt', tone: 'blue' },
+              { label: '教学活动', category: '轮转管理', desc: '进入轮转管理，办理或查看"教学活动"相关业务。', icon: 'fas fa-chalkboard-teacher', tone: 'purple' },
+              { label: '课程开发', category: '课程管理', desc: '进入课程管理，办理或查看"课程开发"相关业务。', icon: 'fas fa-edit', tone: 'blue' },
+              { label: '课程池', category: '课程管理', desc: '进入课程管理，办理或查看"课程池"相关业务。', icon: 'fas fa-database', tone: 'purple' },
+              { label: '开课计划', category: '课程管理', desc: '进入课程管理，办理或查看"开课计划"相关业务。', icon: 'fas fa-calendar', tone: 'green' },
+              { label: '课程实施', category: '课程管理', desc: '进入课程管理，办理或查看"课程实施"相关业务。', icon: 'fas fa-list-alt', tone: 'teal' },
+              { label: '排课工作台', category: '排课管理', desc: '进入排课管理，办理或查看"排课工作台"相关业务。', icon: 'fas fa-calendar-check', tone: 'blue' },
+              { label: '开课条件总览', category: '排课管理', desc: '进入排课管理，办理或查看"开课条件总览"相关业务。', icon: 'fas fa-table', tone: 'purple' },
+              { label: '已排课表', category: '排课管理', desc: '进入排课管理，办理或查看"已排课表"相关业务。', icon: 'fas fa-list', tone: 'green' },
+              { label: '报名情况', category: '排课管理', desc: '进入排课管理，办理或查看"报名情况"相关业务。', icon: 'fas fa-user-plus', tone: 'teal' },
+              { label: '空间预约审批', category: '空间管理', desc: '进入空间管理，办理或查看"空间预约审批"相关业务。', icon: 'fas fa-building', tone: 'blue' },
+              { label: '空间资产管理', category: '空间管理', desc: '进入空间管理，办理或查看"空间资产管理"相关业务。', icon: 'fas fa-box-open', tone: 'purple' },
+              { label: '班牌和大屏管理', category: '空间管理', desc: '进入空间管理，办理或查看"班牌和大屏管理"相关业务。', icon: 'fas fa-tv', tone: 'green' },
+              { label: '物资工作台', category: '物资管理', desc: '进入物资管理，办理或查看"物资工作台"相关业务。', icon: 'fas fa-box', tone: 'blue' },
+              { label: '物资档案', category: '物资管理', desc: '进入物资管理，办理或查看"物资档案"相关业务。', icon: 'fas fa-folder', tone: 'purple' },
+              { label: '维修管理', category: '物资管理', desc: '进入物资管理，办理或查看"维修管理"相关业务。', icon: 'fas fa-tools', tone: 'orange' },
+              { label: '盘点管理', category: '物资管理', desc: '进入物资管理，办理或查看"盘点管理"相关业务。', icon: 'fas fa-clipboard-list', tone: 'teal' },
+              { label: '个人云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"个人云盘"相关业务。', icon: 'fas fa-cloud', tone: 'blue' },
+              { label: '科室云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"科室云盘"相关业务。', icon: 'fas fa-folder-open', tone: 'purple' },
+              { label: '公共库', category: '教学资源库', desc: '进入教学资源库，办理或查看"公共库"相关业务。', icon: 'fas fa-globe', tone: 'green' },
+              { label: '师资管理', category: '师生管理', desc: '进入师生管理，办理或查看"师资管理"相关业务。', icon: 'fas fa-user-tie', tone: 'blue' },
+              { label: '学员管理', category: '师生管理', desc: '进入师生管理，办理或查看"学员管理"相关业务。', icon: 'fas fa-user-graduate', tone: 'purple' },
+              { label: '科研成果', category: '成果管理', desc: '进入成果管理，办理或查看"科研成果"相关业务。', icon: 'fas fa-award', tone: 'blue' },
+              { label: '教学奖励', category: '成果管理', desc: '进入成果管理，办理或查看"教学奖励"相关业务。', icon: 'fas fa-trophy', tone: 'orange' },
+              { label: '学员评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"学员评价体系配置"相关业务。', icon: 'fas fa-bullseye', tone: 'blue' },
+              { label: '教师评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"教师评价体系配置"相关业务。', icon: 'fas fa-bullseye', tone: 'purple' },
+              { label: '评估工具库', category: '评估管理', desc: '进入评估管理，办理或查看"评估工具库"相关业务。', icon: 'fas fa-clipboard', tone: 'green' },
+              { label: '评估任务中心', category: '评估管理', desc: '进入评估管理，办理或查看"评估任务中心"相关业务。', icon: 'fas fa-tasks', tone: 'teal' },
+              { label: '评估结果与分析', category: '评估管理', desc: '进入评估管理，办理或查看"评估结果与分析"相关业务。', icon: 'fas fa-chart-bar', tone: 'orange' }
+            ]
+          };
+        },
+        computed: {
+          filteredGroups() {
+            var keyword = this.searchQuery.trim().toLowerCase();
+            var filtered = this.allServices;
+            if (this.activeCategory !== '全部') {
+              filtered = filtered.filter(function (s) { return s.category === this.activeCategory; }.bind(this));
+            }
+            if (keyword) {
+              filtered = filtered.filter(function (s) {
+                return s.label.toLowerCase().indexOf(keyword) !== -1 || s.desc.toLowerCase().indexOf(keyword) !== -1;
+              });
+            }
+            var groups = {};
+            filtered.forEach(function (s) {
+              if (!groups[s.category]) groups[s.category] = [];
+              groups[s.category].push(s);
+            });
+            return Object.keys(groups).map(function (cat) {
+              return { category: cat, items: groups[cat] };
+            });
+          }
+        },
+        methods: {
+          handleServiceClick(svc) {
+            if (window.navigateTo) {
+              window.navigateTo(svc.label);
+            }
+          },
+          handleSearch() {
+            var q = this.searchQuery.trim();
+            if (!q) return;
+            var found = this.allServices.find(function (s) {
+              return s.label.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+            });
+            if (found && window.navigateTo) {
+              window.navigateTo(found.label);
+            } else if (window.ArcoVue && window.ArcoVue.Message) {
+              window.ArcoVue.Message.info('未找到匹配的服务');
+            }
+          },
+          showToast(msg) {
+            if (window.ArcoVue && window.ArcoVue.Message) {
+              window.ArcoVue.Message.info(msg);
+            }
+          }
+        }
+      });
+      app.use(window.ArcoVue);
+      vueApp = app;
+      vueApp.mount('#admin-dashboard-app');
     });
   }
 

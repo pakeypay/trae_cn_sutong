@@ -2,7 +2,7 @@
 
 .student-db-wrapper {
   background-color: var(--color-bg-2);
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .student-card-arco,

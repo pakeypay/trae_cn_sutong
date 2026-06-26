@@ -52,8 +52,8 @@
   }
 
   function renderShell() {
-    var main = document.querySelector('.main');
-    if (!main || !shouldHandle()) {
+    var content = document.querySelector('.content');
+    if (!content || !shouldHandle()) {
       if (vueApp) {
         try { vueApp.unmount(); } catch(e) {}
         vueApp = null;
@@ -69,7 +69,7 @@
       vueApp = null;
     }
 
-    main.innerHTML = '<div id="' + mountId + '" class="material-page-content">' + templateHtml + '</div>';
+    content.innerHTML = '<div id="' + mountId + '" class="material-page-content">' + templateHtml + '</div>';
 
 ﻿    const iconFallback = { template: '<span class="material-icon-fallback" aria-hidden="true"></span>' };
     const iconLibrary = window.LucideVueNext || new Proxy({}, {

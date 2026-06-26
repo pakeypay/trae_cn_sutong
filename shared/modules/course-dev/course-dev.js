@@ -38,7 +38,9 @@
     'file-question': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M10 10.3c.2-.4.5-.8.9-1a2.1 2.1 0 0 1 2.6.4c.3.4.5.8.5 1.3 0 1.3-2 2-2 2"/><path d="M12 17h.01"/></svg>',
     'library': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>',
     'package': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73v-9.73"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>',
-    'search': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'
+    'search': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+    'panel-right-open': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m10 15-3-3 3-3"/></svg>',
+    'panel-right-close': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m7 9 3 3-3 3"/></svg>'
   };
 
   function icon(name, size) {
@@ -73,9 +75,9 @@
     }
 
     injectCSS();
-    var main = document.querySelector('.main');
-    if (!main) return;
-    main.innerHTML = '<div id="course-dev-app"></div>';
+    var content = document.querySelector('.content');
+    if (!content) return;
+    content.innerHTML = '<div id="course-dev-app"></div>';
 
     waitForVue(function () {
       var app = Vue.createApp({
@@ -88,13 +90,20 @@
                     <button :class="{ active: mainTab === 'course' }" @click="mainTab = 'course'">课程 <span>{{ courses.length }}</span></button>
                     <button :class="{ active: mainTab === 'program' }" @click="mainTab = 'program'">专项课程 <span>{{ programs.length }}</span></button>
                   </div>
-                  <div class="cd-action-buttons">
-                    <a-button @click="openCreateProgram"><template #icon><span class="cd-plus">＋</span></template>新建专项课程</a-button>
-                    <a-button type="primary" @click="openStart"><template #icon><span class="cd-plus">＋</span></template>创建课程</a-button>
+                  <div class="cd-toolbar-controls">
+                    <a-input-search v-model="filters.keyword" allow-clear placeholder="搜索课程名称..." class="app-toolbar-search"></a-input-search>
                   </div>
                 </div>
 
                 <div class="cd-filter-row">
+                  <div v-if="mainTab === 'course'" class="cd-view-switch" aria-label="视图切换">
+                    <button :class="{ active: viewMode === 'card' }" @click="viewMode = 'card'" title="卡片视图">
+                      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg>
+                    </button>
+                    <button :class="{ active: viewMode === 'list' }" @click="viewMode = 'list'" title="列表视图">
+                      <svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"></path><path d="M4 6h.01M4 12h.01M4 18h.01"></path></svg>
+                    </button>
+                  </div>
                   <a-select v-model="filters.status" allow-clear placeholder="开发状态" style="width: 132px">
                     <a-option value="开发中">开发中</a-option><a-option value="待审核">待审核</a-option>
                     <a-option value="返修中">返修中</a-option><a-option value="审核通过">审核通过</a-option>
@@ -123,14 +132,9 @@
                     <a-option value="2026">2026</a-option><a-option value="2025">2025</a-option>
                   </a-select>
                   <a-button type="text" @click="resetFilters">重置</a-button>
-                  <a-input-search v-model="filters.keyword" allow-clear placeholder="搜索课程名称..." class="cd-search"></a-input-search>
-                  <div v-if="mainTab === 'course'" class="cd-view-switch" aria-label="视图切换">
-                    <button :class="{ active: viewMode === 'card' }" @click="viewMode = 'card'" title="卡片视图">
-                      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg>
-                    </button>
-                    <button :class="{ active: viewMode === 'list' }" @click="viewMode = 'list'" title="列表视图">
-                      <svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"></path><path d="M4 6h.01M4 12h.01M4 18h.01"></path></svg>
-                    </button>
+                  <div class="cd-filter-actions">
+                    <a-button @click="openCreateProgram"><template #icon><span class="cd-plus">＋</span></template>新建专项课程</a-button>
+                    <a-button type="primary" @click="openStart"><template #icon><span class="cd-plus">＋</span></template>创建课程</a-button>
                   </div>
                 </div>
 
@@ -407,7 +411,17 @@
             </template>
 
             <template v-else-if="page === 'editor'">
-              <div class="cd-editor-layout" :class="{ 'panel-collapsed': !sidePanelOpen, 'panel-expanded': sidePanelOpen }">
+              <div class="cd-editor-layout" :class="{ 'overview-collapsed': !sidePanelOpen }">
+                <div class="cd-editor-toolbar">
+                  <div class="cd-editor-toolbar-left">
+                    <button class="cd-back" @click="page = 'list'"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>返回</button>
+                    <strong>{{ editingCourse.name }}</strong>
+                  </div>
+                  <button class="cd-overview-toggle" @click="sidePanelOpen = !sidePanelOpen" :title="sidePanelOpen ? '收起概览区' : '展开概览区'" :aria-label="sidePanelOpen ? '收起概览区' : '展开概览区'">
+                    <span v-html="icon(sidePanelOpen ? 'panel-right-close' : 'panel-right-open')"></span>
+                  </button>
+                </div>
+                <div class="cd-editor-shell">
                 <!-- Left Anchor Nav -->
                 <nav class="cd-anchor-nav">
                   <div class="cd-anchor-title">页面导航</div>
@@ -592,7 +606,7 @@
                 </div>
 
                 <!-- Right Side Panel -->
-                <aside class="cd-side-panel">
+                <aside v-if="sidePanelOpen" class="cd-side-panel cd-overview-panel">
                   <div class="cd-panel-header">
                     <h3>课程资源</h3>
                     <button class="cd-panel-toggle" @click="sidePanelOpen = false" title="收起面板">
@@ -600,6 +614,78 @@
                     </button>
                   </div>
                   <div class="cd-panel-body">
+                    <div class="cd-overview-panel-title">
+                      <span v-html="icon('layout-template')"></span>
+                      <strong>概览区</strong>
+                    </div>
+                    <section class="cd-overview-block">
+                      <div class="cd-overview-label">课程类型</div>
+                      <a-select v-model="editingCourse.type" size="small" class="cd-course-type-select">
+                        <a-option v-for="type in courseTypes" :key="type" :value="type">{{ type }}</a-option>
+                      </a-select>
+                    </section>
+
+                    <section class="cd-overview-block">
+                      <div class="cd-overview-section-head">
+                        <h3>课程概览</h3>
+                      </div>
+                      <ul class="cd-overview-nav">
+                        <li>
+                          <a href="#cd-section-basic" :class="{ active: activeAnchor === 'basic' }" @click.prevent="scrollToSection('basic')">
+                            <span>基本信息</span><em class="is-done">已完成</em>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#cd-section-overview" :class="{ active: activeAnchor === 'overview' }" @click.prevent="scrollToSection('overview')">
+                            <span>课程概述</span><em class="is-confirm">待确认</em>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#cd-section-objectives" :class="{ active: activeAnchor === 'objectives' }" @click.prevent="scrollToSection('objectives')">
+                            <span>课程目标</span><em class="is-done">已完成</em>
+                          </a>
+                        </li>
+                        <li class="has-children">
+                          <a href="#cd-section-content" :class="{ active: activeAnchor === 'content' }" @click.prevent="scrollToSection('content')">
+                            <span>课程内容</span><em class="is-confirm">待确认</em>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#cd-section-stages" :class="{ active: activeAnchor === 'stages' }" @click.prevent="scrollToSection('stages')">
+                            <span>实施计划</span><em class="is-todo">未完成</em>
+                          </a>
+                        </li>
+                      </ul>
+                    </section>
+
+                    <div class="cd-overview-divider"></div>
+
+                    <section class="cd-overview-block">
+                      <div class="cd-overview-section-head">
+                        <h3>考核和评价 <small>{{ addedItems.length }}</small></h3>
+                        <button @click="openEditorDrawer('考核与评价')">+ 添加</button>
+                      </div>
+                      <div class="cd-overview-list">
+                        <button v-for="item in addedItems" :key="item.id" @click="handlePanelItemClick(item)">
+                          <span>{{ item.name }}</span><small>{{ item.desc }}</small>
+                        </button>
+                      </div>
+                    </section>
+
+                    <section class="cd-overview-block">
+                      <div class="cd-overview-section-head">
+                        <h3>课程资源 <small>{{ uploadedFiles.length + 3 }}</small></h3>
+                        <button @click="openEditorDrawer('配套资源与考核')">+ 添加资源</button>
+                      </div>
+                      <div class="cd-overview-list">
+                        <button @click="openEditorDrawer('课件')"><span>课件</span></button>
+                        <button @click="openEditorDrawer('试卷')"><span>试卷</span></button>
+                        <button @click="openEditorDrawer('外部链接')"><span>外部链接</span></button>
+                        <button v-for="file in uploadedFiles" :key="file.id" @click="handlePanelItemClick(file)">
+                          <span>{{ file.name }}</span><small>{{ file.size }}</small>
+                        </button>
+                      </div>
+                    </section>
                     <!-- 已添加 Section -->
                     <div class="cd-panel-section">
                       <div class="cd-panel-section-header">
@@ -656,6 +742,7 @@
                     </div>
                   </div>
                 </aside>
+                </div>
               </div>
 
               <!-- Panel Expand Button (when collapsed) -->
