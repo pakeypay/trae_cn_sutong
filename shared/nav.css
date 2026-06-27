@@ -471,35 +471,34 @@ button { font: inherit; }
 }
 
 .service-icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  flex: 0 0 40px;
-  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
   color: var(--color-primary);
-  background: var(--color-primary-bg);
+  background: transparent;
 }
 
-.service-icon svg { width: 20px; height: 20px; }
+.service-icon svg { width: 16px; height: 16px; }
 
-/* 图标配色（业务特定配色，派生自语义色） */
-.tone-1 { color: var(--color-purple); background: var(--color-purple-bg); }
-.tone-2 { color: var(--color-success); background: var(--color-success-bg); }
-.tone-3 { color: var(--color-cyan); background: var(--color-cyan-bg); }
-.tone-4 { color: var(--color-warning); background: var(--color-warning-bg); }
-.tone-5 { color: var(--color-danger); background: var(--color-danger-bg); }
+/* 图标配色（业务特定配色，仅保留图标颜色，无背景容器） */
+.tone-0 { color: var(--color-primary); }
+.tone-1 { color: var(--color-purple); }
+.tone-2 { color: var(--color-success); }
+.tone-3 { color: var(--color-cyan); }
+.tone-4 { color: var(--color-warning); }
+.tone-5 { color: var(--color-danger); }
 
 .add-common { border-style: dashed; color: var(--color-text-3); }
 .add-icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px dashed var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  font-size: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
   font-weight: 300;
+  line-height: 1;
 }
 
 /* 全部服务 tabs + 区块 */

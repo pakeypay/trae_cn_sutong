@@ -478,7 +478,10 @@
             openAddEq: openAddEq,
             saveEq: saveEq,
             editEq: editEq,
-            deleteEq: deleteEq
+            deleteEq: deleteEq,
+            getIcon: function(name) {
+              return window.RoleNav.icons[name] || '';
+            }
           };
         }
       });
@@ -492,16 +495,18 @@
   function getTemplate() {
     return [
       '<section class="sast-page">',
-        // Top-Level Benchmark Header Tabs
-        '<div class="sast-page-tabs">',
-          '<div class="sast-page-title">',
-            '<h1>空间资产管理</h1>',
-            '<p>参考排课工作台规范，一站式管理技能中心场地档案、开放预订规则及精密实训设备资产台账。</p>',
+        // Top-Level Unified Page Toolbar
+        '<div class="app-page-toolbar sast-top-toolbar">',
+          '<div class="app-page-toolbar-left">',
+            '<strong class="app-page-title">空间资产管理</strong>',
+            '<div class="sast-tab-actions app-page-tabs" role="tablist">',
+              '<button type="button" :class="{ active: currentTab === \'rooms\' }" @click="switchTab(\'rooms\')">场地档案管理</button>',
+              '<button type="button" :class="{ active: currentTab === \'rules\' }" @click="switchTab(\'rules\')">开放规则设置</button>',
+              '<button type="button" :class="{ active: currentTab === \'equipments\' }" @click="switchTab(\'equipments\')">设备物资台账</button>',
+            '</div>',
           '</div>',
-          '<div class="sast-tab-actions" role="tablist">',
-            '<button type="button" :class="{ active: currentTab === \'rooms\' }" @click="switchTab(\'rooms\')">场地档案管理</button>',
-            '<button type="button" :class="{ active: currentTab === \'rules\' }" @click="switchTab(\'rules\')">开放规则设置</button>',
-            '<button type="button" :class="{ active: currentTab === \'equipments\' }" @click="switchTab(\'equipments\')">设备物资台账</button>',
+          '<div class="app-page-toolbar-right">',
+            '<a-input-search v-model="keyword" size="large" allow-clear class="sast-search app-page-search" placeholder="输入编号 / 名称 / 设备关键字搜索..."></a-input-search>',
           '</div>',
         '</div>',
 
@@ -509,7 +514,7 @@
         '<div class="sast-stats-row">',
           '<div class="sast-stat-card blue">',
             '<div class="sast-stat-header">',
-              '<span class="sast-stat-icon-wrap"><i class="fas fa-building"></i></span>',
+              '<span class="sast-stat-icon-wrap"><span v-html="getIcon(\'building\')"></span></span>',
               '<div>',
                 '<em>场地总数 (间)</em>',
                 '<strong>{{ stats.total }}</strong>',
@@ -523,7 +528,7 @@
 
           '<div class="sast-stat-card green">',
             '<div class="sast-stat-header">',
-              '<span class="sast-stat-icon-wrap"><i class="fas fa-door-open"></i></span>',
+              '<span class="sast-stat-icon-wrap"><span v-html="getIcon(\'doorOpen\')"></span></span>',
               '<div>',
                 '<em>开放预订中 (间)</em>',
                 '<strong>{{ stats.open }}</strong>',
@@ -537,7 +542,7 @@
 
           '<div class="sast-stat-card orange">',
             '<div class="sast-stat-header">',
-              '<span class="sast-stat-icon-wrap"><i class="fas fa-tools"></i></span>',
+              '<span class="sast-stat-icon-wrap"><span v-html="getIcon(\'wrench\')"></span></span>',
               '<div>',
                 '<em>维护锁定中 (间)</em>',
                 '<strong>{{ stats.locked }}</strong>',
@@ -551,7 +556,7 @@
 
           '<div class="sast-stat-card indigo">',
             '<div class="sast-stat-header">',
-              '<span class="sast-stat-icon-wrap"><i class="fas fa-calendar-check"></i></span>',
+              '<span class="sast-stat-icon-wrap"><span v-html="getIcon(\'calendarCheck\')"></span></span>',
               '<div>',
                 '<em>本周已排课 (间)</em>',
                 '<strong>{{ stats.booked }}</strong>',
@@ -571,7 +576,6 @@
             // TAB 1: 场地档案管理
             '<div v-if="currentTab === \'rooms\'" class="sast-card animation-fadeIn">',
               '<div class="sast-toolbar">',
-                '<a-input-search v-model="keyword" size="large" allow-clear class="sast-search" placeholder="输入编号 / 名称 / 设备关键字搜索..."></a-input-search>',
                 '<a-select v-model="typeFilter" size="large" allow-clear class="sast-filter" placeholder="全部类型">',
                   '<a-option v-for="type in roomTypes" :key="type" :value="type">{{ type }}</a-option>',
                 '</a-select>',
@@ -623,7 +627,7 @@
             // TAB 2: 开放规则设置
             '<div v-if="currentTab === \'rules\'" class="sast-rules-panel animation-fadeIn">',
               '<div class="sast-rules-card">',
-                '<h3><i class="fas fa-user-graduate"></i> 学生自主预约规则</h3>',
+                '<h3><span v-html="getIcon(\'userGraduate\')"></span> 学生自主预约规则</h3>',
                 '<div class="sast-rules-body">',
                   '<div class="sast-control-row">',
                     '<div>',
@@ -653,7 +657,7 @@
               '</div>',
 
               '<div class="sast-rules-card">',
-                '<h3><i class="fas fa-chalkboard-teacher"></i> 教师预约与审批控制</h3>',
+                '<h3><span v-html="getIcon(\'chalkboardTeacher\')"></span> 教师预约与审批控制</h3>',
                 '<div class="sast-rules-body">',
                   '<div class="sast-control-row">',
                     '<div>',
@@ -695,7 +699,6 @@
             // TAB 3: 设备物资台账
             '<div v-if="currentTab === \'equipments\'" class="sast-card animation-fadeIn">',
               '<div class="sast-toolbar">',
-                '<a-input-search v-model="keyword" size="large" allow-clear class="sast-search" placeholder="输入设备名称 / 资产编号 / 存放房间..."></a-input-search>',
                 '<button type="button" class="sast-new-btn" @click="openAddEq">+ 新增设备资产</button>',
               '</div>',
 
@@ -713,7 +716,7 @@
                   '<div class="eq-code"><code>{{ eq.code }}</code></div>',
                   '<div class="eq-name"><strong>{{ eq.name }}</strong></div>',
                   '<div><span class="eq-type-badge">{{ eq.type }}</span></div>',
-                  '<div class="eq-room"><i class="fas fa-map-marker-alt"></i> {{ eq.room }}</div>',
+                  '<div class="eq-room"><span v-html="getIcon(\'mapMarkerALT\')"></span> {{ eq.room }}</div>',
                   '<div>',
                     '<span v-if="eq.status === \'维护中\'" class="sast-status locked"><i></i>维护中</span>',
                     '<span v-else class="sast-status open"><i></i>运行正常</span>',

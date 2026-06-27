@@ -23,17 +23,7 @@
 }
 
 .bdm-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-
-.bdm-kicker {
-  margin: 0 0 6px;
-  color: var(--bdm-text-3);
-  font-size: 13px;
+  display: none;
 }
 
 .bdm-title {
@@ -48,6 +38,28 @@
   margin: 8px 0 0;
   color: var(--bdm-text-2);
   font-size: 14px;
+}
+
+.bdm-top-toolbar {
+  margin: -24px -32px 18px;
+  padding: 0 32px;
+  gap: 20px;
+}
+
+.bdm-top-toolbar .app-page-toolbar-left {
+  gap: 24px;
+}
+
+.bdm-top-toolbar .bdm-search {
+  width: 260px;
+}
+
+.bdm-top-toolbar .bdm-status-filter {
+  width: 128px;
+}
+
+.bdm-tabs {
+  background: transparent;
 }
 
 .bdm-actions,
@@ -98,7 +110,7 @@
 .bdm-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 14px;
   padding: 14px 16px;
   border-bottom: 1px solid var(--bdm-border);

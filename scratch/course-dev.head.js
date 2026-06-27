@@ -745,74 +745,6 @@
                 </div>
               </div>
 
-              <button class="cd-lesson-assistant-trigger" @click="openAi('当前教案')" aria-label="打开课程开发助手">
-                <span class="cd-lesson-assistant-avatar">AI</span>
-                <span class="cd-lesson-assistant-text">
-                  <strong>{{ assistantPromptText }}</strong>
-                  <small>课程开发助手</small>
-                </span>
-                <span class="cd-lesson-assistant-send" v-html="icon('chevron-right')"></span>
-              </button>
-
-              <div v-if="aiVisible" class="cd-lesson-assistant-mask" @click.self="aiVisible = false">
-                <section class="cd-lesson-assistant-modal" role="dialog" aria-modal="true" aria-label="课程开发助手">
-                  <header class="cd-lesson-assistant-head">
-                    <div>
-                      <span v-html="icon('sparkles')"></span>
-                      <strong>课程开发助手</strong>
-                    </div>
-                    <button @click="aiVisible = false" aria-label="关闭课程开发助手">×</button>
-                  </header>
-                  <div class="cd-lesson-assistant-body">
-                    <div class="cd-lesson-assistant-intro">
-                      <span class="cd-lesson-assistant-avatar large">AI</span>
-                      <div>
-                        <p>我正在围绕《{{ editingCourse.name }}》这份教案提供建议。</p>
-                        <small>{{ editingCourse.type }} · {{ editingCourse.audience }} · 负责人：{{ editingCourse.owner }}</small>
-                      </div>
-                    </div>
-                    <div class="cd-lesson-assistant-summary">
-                      <article>
-                        <b>课程概述</b>
-                        <p>{{ courseOverview }}</p>
-                      </article>
-                      <article>
-                        <b>当前重点</b>
-                        <p>{{ assistantCourseFocus }}</p>
-                      </article>
-                    </div>
-                    <div class="cd-lesson-assistant-grid">
-                      <article>
-                        <h3>可继续完善的问题</h3>
-                        <button v-for="question in assistantCourseQuestions" :key="question" @click="useAssistantQuestion(question)">
-                          <span v-html="icon('sparkles')"></span>
-                          <span>{{ question }}</span>
-                          <em>→</em>
-                        </button>
-                      </article>
-                      <article>
-                        <h3>当前教案提醒</h3>
-                        <button v-for="risk in assistantCourseRisks" :key="risk" @click="useAssistantQuestion(risk)">
-                          <span v-html="icon('alert-circle')"></span>
-                          <span>{{ risk }}</span>
-                          <em>→</em>
-                        </button>
-                      </article>
-                    </div>
-                  </div>
-                  <footer class="cd-lesson-assistant-footer">
-                    <div>
-                      <button v-for="action in aiActions" :key="action" @click="applyAi(action)">{{ action }}</button>
-                    </div>
-                    <label>
-                      <input v-model="aiInput" :placeholder="assistantPromptText">
-                      <button @click="sendAssistantInput" aria-label="发送问题" v-html="icon('chevron-right')"></button>
-                    </label>
-                    <small>以上内容基于当前教案页面信息生成，仅供临时辅助参考</small>
-                  </footer>
-                </section>
-              </div>
-
               <!-- Panel Expand Button (when collapsed) -->
               <button v-if="!sidePanelOpen" class="cd-panel-expand-btn" @click="sidePanelOpen = true" title="展开面板">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
@@ -1915,34 +1847,6 @@
             this.contentStages.forEach(function (stage) { total += stage.rows.length; });
             return total;
           },
-          assistantPromptText: function () {
-            var name = this.editingCourse && this.editingCourse.name ? this.editingCourse.name : '当前教案';
-            return '帮我完善《' + name + '》教案';
-          },
-          assistantCourseFocus: function () {
-            var firstStage = this.contentStages && this.contentStages[0] ? this.contentStages[0].title : '课程内容';
-            var firstGoal = this.objectives && this.objectives[0] && this.objectives[0].goals[0] ? this.objectives[0].goals[0].text : '课程目标';
-            return firstStage + '已配置，建议继续核对“' + firstGoal + '”与考核方式、资源材料是否一一对应。';
-          },
-          assistantCourseQuestions: function () {
-            var name = this.editingCourse && this.editingCourse.name ? this.editingCourse.name : '当前课程';
-            var audience = this.editingCourse && this.editingCourse.audience ? this.editingCourse.audience : '当前学员';
-            return [
-              '这份《' + name + '》教案还缺哪些关键模块？',
-              '如何把教学目标改写得更适合' + audience + '？',
-              '课程内容和考核评价是否已经对齐？',
-              '帮我生成课前准备和课后反馈建议'
-            ];
-          },
-          assistantCourseRisks: function () {
-            var incomplete = this.reviewChecks.filter(function (item) { return !item.complete; }).map(function (item) { return item.label + '：' + item.note; });
-            if (incomplete.length) return incomplete;
-            return [
-              '建议复核师生比、场地和物资数量是否满足授课安排',
-              '建议检查每个技能目标是否有关联评分表',
-              '建议确认课前资料、示范视频和课后作业已上传'
-            ];
-          },
           currentMethod: function () { return this.methods.find(function (item) { return item.key === this.startMethod; }.bind(this)) || this.methods[0]; },
           contentCards: function () {
             if (this.editingCourse.type === '非技能课程') return [
@@ -2278,12 +2182,7 @@
             this.$message.success('人员与物资配置已保存');
           },
           scrollModule: function (key) { this.activeModule = key; document.getElementById('module-' + key)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
-          openAi: function (module) { this.aiModule = module; this.aiInput = this.assistantPromptText; this.aiVisible = true; },
-          useAssistantQuestion: function (question) { this.aiInput = question; this.$message.info('已带入问题：' + question); },
-          sendAssistantInput: function () {
-            var question = (this.aiInput || this.assistantPromptText).trim();
-            this.$message.success('课程开发助手已基于当前教案生成建议：' + question);
-          },
+          openAi: function (module) { this.aiModule = module; this.aiVisible = true; },
           applyAi: function (item) { this.$message.success('AI 已生成“' + item + '”建议'); },
           runCheck: function () { this.$message.success('完整性检查已更新'); },
           submitReview: function () { this.successVisible = true; },

@@ -51,7 +51,7 @@
                 </div>
               </div>
               <label class="results-toolbar-search">
-                <i class="fas fa-search"></i>
+                <span v-html="getIcon('search')"></span>
                 <input v-model="searchQuery" type="search" placeholder="搜索成果、学员、能力项...">
               </label>
             </div>
@@ -63,12 +63,12 @@
                     <div class="results-section-head">
                       <h2>成果申报</h2>
                       <a-button type="primary" size="small" @click="showToast('已进入新建申报流程')">
-                        <template #icon><i class="fas fa-plus"></i></template>新建申报
+                        <template #icon><span v-html="getIcon('plus')"></span></template>新建申报
                       </a-button>
                     </div>
                     <div class="results-grid">
                       <article v-for="item in filteredAchievements" :key="item.id" class="result-card-arco">
-                        <div class="result-card-icon" :class="item.tone"><i :class="item.icon"></i></div>
+                        <div class="result-card-icon" :class="item.tone"><span v-html="getIcon(item.icon)"></span></div>
                         <div class="result-card-body">
                           <strong>{{ item.title }}</strong>
                           <span>{{ item.type }} · {{ item.year }}</span>
@@ -143,7 +143,7 @@
                   <h3>快速定位</h3>
                   <button v-for="item in overviewLinks" :key="item.label" type="button" @click="switchPage(item.page)">
                     <span>{{ item.label }}</span>
-                    <i class="fas fa-chevron-right"></i>
+                    <span v-html="getIcon('chevronRight')"></span>
                   </button>
                 </section>
               </aside>
@@ -160,9 +160,9 @@
             tabs: tabs,
             searchQuery: '',
             achievements: [
-              { id: 1, title: '儿童导尿术标准化课程建设', type: '教学改革', year: '2026', status: '待完善', statusColor: 'orange', tone: 'blue', icon: 'fas fa-book-medical', desc: '课程大纲、评价工具与课后反馈已形成初稿。' },
-              { id: 2, title: '儿科急救情境模拟案例库', type: '资源建设', year: '2026', status: '审核通过', statusColor: 'green', tone: 'green', icon: 'fas fa-folder-open', desc: '已沉淀 8 套高频急救情境训练材料。' },
-              { id: 3, title: '住培带教优秀案例', type: '教学奖励', year: '2025', status: '已归档', statusColor: 'arcoblue', tone: 'purple', icon: 'fas fa-award', desc: '用于年度教学质量复盘与成果申报。' }
+              { id: 1, title: '儿童导尿术标准化课程建设', type: '教学改革', year: '2026', status: '待完善', statusColor: 'orange', tone: 'blue', icon: 'bookMedical', desc: '课程大纲、评价工具与课后反馈已形成初稿。' },
+              { id: 2, title: '儿科急救情境模拟案例库', type: '资源建设', year: '2026', status: '审核通过', statusColor: 'green', tone: 'green', icon: 'folderOpen', desc: '已沉淀 8 套高频急救情境训练材料。' },
+              { id: 3, title: '住培带教优秀案例', type: '教学奖励', year: '2025', status: '已归档', statusColor: 'arcoblue', tone: 'purple', icon: 'award', desc: '用于年度教学质量复盘与成果申报。' }
             ],
             students: [
               { name: '林小明', grade: '住培一年级', course: '儿童导尿术（男性）', risk: false, skills: [{ label: '操作', value: 92 }, { label: '沟通', value: 88 }] },

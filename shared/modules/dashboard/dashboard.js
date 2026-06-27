@@ -53,15 +53,16 @@
       var app = Vue.createApp({
         template: `
           <div class="teacher-dashboard-wrapper">
-            <div class="dashboard-top-toolbar">
-              <div class="dashboard-toolbar-title">
-                <strong>工作台</strong>
-                <span>今日教学</span>
+            <div class="app-page-toolbar dashboard-top-toolbar">
+              <div class="app-page-toolbar-left dashboard-toolbar-title">
+                <strong class="app-page-title">工作台</strong>
               </div>
-              <label class="dashboard-toolbar-search">
-                <i class="fas fa-search"></i>
-                <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、通知..." @keyup.enter="handleDashboardSearch">
-              </label>
+              <div class="app-page-toolbar-right">
+                <label class="dashboard-toolbar-search app-page-search">
+                  <i class="fas fa-search"></i>
+                  <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、通知..." @keyup.enter="handleDashboardSearch">
+                </label>
+              </div>
             </div>
 
             <!-- Welcome Banner Card -->
@@ -594,9 +595,7 @@
               <h3 class="admin-section-title">常用服务</h3>
               <div class="admin-common-grid">
                 <div v-for="svc in commonServices" :key="svc.label" class="admin-service-card" @click="handleServiceClick(svc)">
-                  <div class="admin-service-icon" :class="'tone-' + svc.tone">
-                    <i :class="svc.icon"></i>
-                  </div>
+                  <div class="admin-service-icon" :class="'tone-' + svc.tone" v-html="getLucideIcon(svc.icon)"></div>
                   <strong>{{ svc.label }}</strong>
                 </div>
                 <div class="admin-service-card add-common" @click="showToast('添加常用服务')">
@@ -624,9 +623,7 @@
                 </div>
                 <div class="admin-service-grid">
                   <div v-for="svc in group.items" :key="svc.label" class="admin-service-card" @click="handleServiceClick(svc)">
-                    <div class="admin-service-icon" :class="'tone-' + svc.tone">
-                      <i :class="svc.icon"></i>
-                    </div>
+                    <div class="admin-service-icon" :class="'tone-' + svc.tone" v-html="getLucideIcon(svc.icon)"></div>
                     <div class="admin-service-info">
                       <strong>{{ svc.label }}</strong>
                       <small>{{ svc.desc }}</small>
@@ -644,50 +641,50 @@
             searchQuery: '',
             activeCategory: '全部',
             commonServices: [
-              { label: '今日待办', icon: 'fas fa-calendar-day', tone: 'blue' },
-              { label: '重点工作', icon: 'fas fa-bookmark', tone: 'purple' },
-              { label: '工作推进', icon: 'fas fa-check-circle', tone: 'green' }
+              { label: '今日待办', icon: 'clipboardList', tone: 'blue' },
+              { label: '重点工作', icon: 'star', tone: 'purple' },
+              { label: '工作推进', icon: 'target', tone: 'green' }
             ],
             categories: ['全部', '工作台', '数据大屏', '轮转管理', '课程管理', '排课管理', '空间管理', '物资管理', '教学资源库', '师生管理', '成果管理', '评估管理'],
             allServices: [
-              { label: '今日待办', category: '工作台', desc: '进入工作台，办理或查看"今日待办"相关业务。', icon: 'fas fa-calendar-day', tone: 'blue' },
-              { label: '重点工作', category: '工作台', desc: '进入工作台，办理或查看"重点工作"相关业务。', icon: 'fas fa-bookmark', tone: 'purple' },
-              { label: '工作推进', category: '工作台', desc: '进入工作台，办理或查看"工作推进"相关业务。', icon: 'fas fa-check-circle', tone: 'green' },
-              { label: '师资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"师资情况"相关业务。', icon: 'fas fa-users', tone: 'blue' },
-              { label: '学员情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"学员情况"相关业务。', icon: 'fas fa-user-graduate', tone: 'purple' },
-              { label: '课程情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"课程情况"相关业务。', icon: 'fas fa-book', tone: 'green' },
-              { label: '评估情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"评估情况"相关业务。', icon: 'fas fa-clipboard-check', tone: 'teal' },
-              { label: '物资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"物资情况"相关业务。', icon: 'fas fa-box', tone: 'orange' },
-              { label: '空间情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"空间情况"相关业务。', icon: 'fas fa-building', tone: 'red' },
-              { label: '轮转安排', category: '轮转管理', desc: '进入轮转管理，办理或查看"轮转安排"相关业务。', icon: 'fas fa-calendar-alt', tone: 'blue' },
-              { label: '教学活动', category: '轮转管理', desc: '进入轮转管理，办理或查看"教学活动"相关业务。', icon: 'fas fa-chalkboard-teacher', tone: 'purple' },
-              { label: '课程开发', category: '课程管理', desc: '进入课程管理，办理或查看"课程开发"相关业务。', icon: 'fas fa-edit', tone: 'blue' },
-              { label: '课程池', category: '课程管理', desc: '进入课程管理，办理或查看"课程池"相关业务。', icon: 'fas fa-database', tone: 'purple' },
-              { label: '开课计划', category: '课程管理', desc: '进入课程管理，办理或查看"开课计划"相关业务。', icon: 'fas fa-calendar', tone: 'green' },
-              { label: '课程实施', category: '课程管理', desc: '进入课程管理，办理或查看"课程实施"相关业务。', icon: 'fas fa-list-alt', tone: 'teal' },
-              { label: '排课工作台', category: '排课管理', desc: '进入排课管理，办理或查看"排课工作台"相关业务。', icon: 'fas fa-calendar-check', tone: 'blue' },
-              { label: '开课条件总览', category: '排课管理', desc: '进入排课管理，办理或查看"开课条件总览"相关业务。', icon: 'fas fa-table', tone: 'purple' },
-              { label: '已排课表', category: '排课管理', desc: '进入排课管理，办理或查看"已排课表"相关业务。', icon: 'fas fa-list', tone: 'green' },
-              { label: '报名情况', category: '排课管理', desc: '进入排课管理，办理或查看"报名情况"相关业务。', icon: 'fas fa-user-plus', tone: 'teal' },
-              { label: '空间预约审批', category: '空间管理', desc: '进入空间管理，办理或查看"空间预约审批"相关业务。', icon: 'fas fa-building', tone: 'blue' },
-              { label: '空间资产管理', category: '空间管理', desc: '进入空间管理，办理或查看"空间资产管理"相关业务。', icon: 'fas fa-box-open', tone: 'purple' },
-              { label: '班牌和大屏管理', category: '空间管理', desc: '进入空间管理，办理或查看"班牌和大屏管理"相关业务。', icon: 'fas fa-tv', tone: 'green' },
-              { label: '物资工作台', category: '物资管理', desc: '进入物资管理，办理或查看"物资工作台"相关业务。', icon: 'fas fa-box', tone: 'blue' },
-              { label: '物资档案', category: '物资管理', desc: '进入物资管理，办理或查看"物资档案"相关业务。', icon: 'fas fa-folder', tone: 'purple' },
-              { label: '维修管理', category: '物资管理', desc: '进入物资管理，办理或查看"维修管理"相关业务。', icon: 'fas fa-tools', tone: 'orange' },
-              { label: '盘点管理', category: '物资管理', desc: '进入物资管理，办理或查看"盘点管理"相关业务。', icon: 'fas fa-clipboard-list', tone: 'teal' },
-              { label: '个人云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"个人云盘"相关业务。', icon: 'fas fa-cloud', tone: 'blue' },
-              { label: '科室云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"科室云盘"相关业务。', icon: 'fas fa-folder-open', tone: 'purple' },
-              { label: '公共库', category: '教学资源库', desc: '进入教学资源库，办理或查看"公共库"相关业务。', icon: 'fas fa-globe', tone: 'green' },
-              { label: '师资管理', category: '师生管理', desc: '进入师生管理，办理或查看"师资管理"相关业务。', icon: 'fas fa-user-tie', tone: 'blue' },
-              { label: '学员管理', category: '师生管理', desc: '进入师生管理，办理或查看"学员管理"相关业务。', icon: 'fas fa-user-graduate', tone: 'purple' },
-              { label: '科研成果', category: '成果管理', desc: '进入成果管理，办理或查看"科研成果"相关业务。', icon: 'fas fa-award', tone: 'blue' },
-              { label: '教学奖励', category: '成果管理', desc: '进入成果管理，办理或查看"教学奖励"相关业务。', icon: 'fas fa-trophy', tone: 'orange' },
-              { label: '学员评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"学员评价体系配置"相关业务。', icon: 'fas fa-bullseye', tone: 'blue' },
-              { label: '教师评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"教师评价体系配置"相关业务。', icon: 'fas fa-bullseye', tone: 'purple' },
-              { label: '评估工具库', category: '评估管理', desc: '进入评估管理，办理或查看"评估工具库"相关业务。', icon: 'fas fa-clipboard', tone: 'green' },
-              { label: '评估任务中心', category: '评估管理', desc: '进入评估管理，办理或查看"评估任务中心"相关业务。', icon: 'fas fa-tasks', tone: 'teal' },
-              { label: '评估结果与分析', category: '评估管理', desc: '进入评估管理，办理或查看"评估结果与分析"相关业务。', icon: 'fas fa-chart-bar', tone: 'orange' }
+              { label: '今日待办', category: '工作台', desc: '进入工作台，办理或查看"今日待办"相关业务。', icon: 'clipboardList', tone: 'blue' },
+              { label: '重点工作', category: '工作台', desc: '进入工作台，办理或查看"重点工作"相关业务。', icon: 'star', tone: 'purple' },
+              { label: '工作推进', category: '工作台', desc: '进入工作台，办理或查看"工作推进"相关业务。', icon: 'target', tone: 'green' },
+              { label: '师资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"师资情况"相关业务。', icon: 'users', tone: 'blue' },
+              { label: '学员情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"学员情况"相关业务。', icon: 'user', tone: 'purple' },
+              { label: '课程情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"课程情况"相关业务。', icon: 'book', tone: 'green' },
+              { label: '评估情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"评估情况"相关业务。', icon: 'check', tone: 'teal' },
+              { label: '物资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"物资情况"相关业务。', icon: 'package', tone: 'orange' },
+              { label: '空间情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"空间情况"相关业务。', icon: 'building', tone: 'red' },
+              { label: '轮转安排', category: '轮转管理', desc: '进入轮转管理，办理或查看"轮转安排"相关业务。', icon: 'calendar', tone: 'blue' },
+              { label: '教学活动', category: '轮转管理', desc: '进入轮转管理，办理或查看"教学活动"相关业务。', icon: 'presentation', tone: 'purple' },
+              { label: '课程开发', category: '课程管理', desc: '进入课程管理，办理或查看"课程开发"相关业务。', icon: 'edit', tone: 'blue' },
+              { label: '课程池', category: '课程管理', desc: '进入课程管理，办理或查看"课程池"相关业务。', icon: 'database', tone: 'purple' },
+              { label: '开课计划', category: '课程管理', desc: '进入课程管理，办理或查看"开课计划"相关业务。', icon: 'calendar', tone: 'green' },
+              { label: '课程实施', category: '课程管理', desc: '进入课程管理，办理或查看"课程实施"相关业务。', icon: 'list', tone: 'teal' },
+              { label: '排课工作台', category: '排课管理', desc: '进入排课管理，办理或查看"排课工作台"相关业务。', icon: 'calendar', tone: 'blue' },
+              { label: '开课条件总览', category: '排课管理', desc: '进入排课管理，办理或查看"开课条件总览"相关业务。', icon: 'table', tone: 'purple' },
+              { label: '已排课表', category: '排课管理', desc: '进入排课管理，办理或查看"已排课表"相关业务。', icon: 'list', tone: 'green' },
+              { label: '报名情况', category: '排课管理', desc: '进入排课管理，办理或查看"报名情况"相关业务。', icon: 'userPlus', tone: 'teal' },
+              { label: '空间预约审批', category: '空间管理', desc: '进入空间管理，办理或查看"空间预约审批"相关业务。', icon: 'building', tone: 'blue' },
+              { label: '空间资产管理', category: '空间管理', desc: '进入空间管理，办理或查看"空间资产管理"相关业务。', icon: 'box', tone: 'purple' },
+              { label: '班牌和大屏管理', category: '空间管理', desc: '进入空间管理，办理或查看"班牌和大屏管理"相关业务。', icon: 'presentation', tone: 'green' },
+              { label: '物资工作台', category: '物资管理', desc: '进入物资管理，办理或查看"物资工作台"相关业务。', icon: 'package', tone: 'blue' },
+              { label: '物资档案', category: '物资管理', desc: '进入物资管理，办理或查看"物资档案"相关业务。', icon: 'folder', tone: 'purple' },
+              { label: '维修管理', category: '物资管理', desc: '进入物资管理，办理或查看"维修管理"相关业务。', icon: 'refresh', tone: 'orange' },
+              { label: '盘点管理', category: '物资管理', desc: '进入物资管理，办理或查看"盘点管理"相关业务。', icon: 'clipboardList', tone: 'teal' },
+              { label: '个人云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"个人云盘"相关业务。', icon: 'folder', tone: 'blue' },
+              { label: '科室云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"科室云盘"相关业务。', icon: 'folder', tone: 'purple' },
+              { label: '公共库', category: '教学资源库', desc: '进入教学资源库，办理或查看"公共库"相关业务。', icon: 'folder', tone: 'green' },
+              { label: '师资管理', category: '师生管理', desc: '进入师生管理，办理或查看"师资管理"相关业务。', icon: 'users', tone: 'blue' },
+              { label: '学员管理', category: '师生管理', desc: '进入师生管理，办理或查看"学员管理"相关业务。', icon: 'user', tone: 'purple' },
+              { label: '科研成果', category: '成果管理', desc: '进入成果管理，办理或查看"科研成果"相关业务。', icon: 'award', tone: 'blue' },
+              { label: '教学奖励', category: '成果管理', desc: '进入成果管理，办理或查看"教学奖励"相关业务。', icon: 'trophy', tone: 'orange' },
+              { label: '学员评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"学员评价体系配置"相关业务。', icon: 'target', tone: 'blue' },
+              { label: '教师评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"教师评价体系配置"相关业务。', icon: 'target', tone: 'purple' },
+              { label: '评估工具库', category: '评估管理', desc: '进入评估管理，办理或查看"评估工具库"相关业务。', icon: 'clipboard', tone: 'green' },
+              { label: '评估任务中心', category: '评估管理', desc: '进入评估管理，办理或查看"评估任务中心"相关业务。', icon: 'list', tone: 'teal' },
+              { label: '评估结果与分析', category: '评估管理', desc: '进入评估管理，办理或查看"评估结果与分析"相关业务。', icon: 'chart', tone: 'orange' }
             ]
           };
         },
@@ -714,6 +711,13 @@
           }
         },
         methods: {
+          getLucideIcon(iconName) {
+            var icons = window.RoleNav && window.RoleNav.icons;
+            if (icons && icons[iconName]) {
+              return icons[iconName];
+            }
+            return '';
+          },
           handleServiceClick(svc) {
             if (window.navigateTo) {
               window.navigateTo(svc.label);

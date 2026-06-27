@@ -40,39 +40,27 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Page Tabs (Benchmarked from scheduler-page-tabs) */
-.sast-page-tabs {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
-  padding: 16px 20px;
-  border: 1px solid var(--sast-border);
-  border-radius: 8px;
-  background: var(--sast-card-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.015);
+/* Unified page toolbar overrides */
+.sast-top-toolbar {
+  margin: -24px -32px 20px;
+  padding: 0 32px;
+  gap: 20px;
 }
 
-.sast-page-title h1 {
-  margin: 0;
-  color: var(--sast-text-title);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 28px;
+.sast-top-toolbar .app-page-toolbar-left {
+  gap: 24px;
 }
 
-.sast-page-title p {
-  margin: 4px 0 0;
-  color: var(--sast-text-body);
-  font-size: 13px;
+.sast-top-toolbar .sast-search {
+  width: min(320px, 30vw);
 }
 
+/* Page tabs now live inside .app-page-toolbar-left */
 .sast-tab-actions {
   display: inline-flex;
-  padding: 3px;
-  border-radius: 8px;
-  background: #f2f3f5;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .sast-tab-actions button {

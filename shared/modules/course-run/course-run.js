@@ -358,7 +358,7 @@
     });
 
     if (!records.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#86909c;"><i class="fas fa-folder-open" style="font-size:24px;opacity:0.3;display:block;margin-bottom:8px;"></i>暂无匹配的课程班次</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#86909c;"><span style="font-size:24px;opacity:0.3;display:block;margin-bottom:8px;">' + window.RoleNav.icons.folderOpen + '</span>暂无匹配的课程班次</td></tr>';
       return;
     }
 
@@ -398,9 +398,9 @@
 
         readinessHtml = 
           '<div class="readiness-list">' +
-            '<span class="readiness-badge ' + tClass + '"><i class="fas fa-chalkboard-teacher"></i> ' + tText + '</span>' +
-            '<span class="readiness-badge ' + sClass + '"><i class="fas fa-door-closed"></i> ' + sText + '</span>' +
-            '<span class="readiness-badge ' + mClass + '"><i class="fas fa-box-open"></i> ' + mText + '</span>' +
+            '<span class="readiness-badge ' + tClass + '">' + window.RoleNav.icons.chalkboardTeacher + ' ' + tText + '</span>' +
+            '<span class="readiness-badge ' + sClass + '">' + window.RoleNav.icons.doorClosed + ' ' + sText + '</span>' +
+            '<span class="readiness-badge ' + mClass + '">' + window.RoleNav.icons.boxOpen + ' ' + mText + '</span>' +
           '</div>';
       }
 
@@ -424,11 +424,11 @@
         actionBtnHtml = '<button class="run-btn" onclick="event.stopPropagation();window.CourseRunModule.openDrawer(\'' + record.id + '\')">查看</button>';
       } else if (record.status === 'ready_to_start') {
         actionBtnHtml =
-          '<button class="run-btn primary" onclick="event.stopPropagation();window.CourseRunModule.manuallyStartCourse(\'' + record.id + '\')"><i class="fas fa-play"></i> 手动开课</button>' +
+          '<button class="run-btn primary" onclick="event.stopPropagation();window.CourseRunModule.manuallyStartCourse(\'' + record.id + '\')">' + window.RoleNav.icons.play + ' 手动开课</button>' +
           '<button class="run-btn" style="margin-left:4px;" onclick="event.stopPropagation();window.CourseRunModule.openDrawer(\'' + record.id + '\')">查看</button>';
       } else if (record.status === 'failed_to_start') {
         actionBtnHtml =
-          '<button class="run-btn primary" style="background:#ff7d00;border-color:#ff7d00;color:#fff;" onclick="event.stopPropagation();window.CourseRunModule.adjustCourse(\'' + record.id + '\')"><i class="fas fa-edit"></i> 改课</button>' +
+          '<button class="run-btn primary" style="background:#ff7d00;border-color:#ff7d00;color:#fff;" onclick="event.stopPropagation();window.CourseRunModule.adjustCourse(\'' + record.id + '\')">' + window.RoleNav.icons.edit + ' 改课</button>' +
           '<button class="run-btn" style="margin-left:4px;" onclick="event.stopPropagation();window.CourseRunModule.openDrawer(\'' + record.id + '\')">查看</button>';
       } else {
         // auto_start / running / completed / archived / cancelled — 已超出报名情况页职责范围
@@ -442,8 +442,8 @@
         '</td>' +
         '<td style="color:#4e5969;font-size:12.5px;">' + record.instructors.join('<br>') + '</td>' +
         '<td>' +
-          '<div style="color:#1d2129;font-size:12.5px;margin-bottom:2px;"><i class="far fa-clock" style="color:#86909c;margin-right:4px;"></i>' + record.timeStr + '</div>' +
-          '<div style="color:#4e5969;font-size:12px;"><i class="fas fa-map-marker-alt" style="color:#86909c;margin-right:4px;"></i>' + record.venue + '</div>' +
+          '<div style="color:#1d2129;font-size:12.5px;margin-bottom:2px;"><span style="color:#86909c;margin-right:4px;display:inline-flex;vertical-align:middle;">' + window.RoleNav.icons.clock + '</span>' + record.timeStr + '</div>' +
+          '<div style="color:#4e5969;font-size:12px;"><span style="color:#86909c;margin-right:4px;display:inline-flex;vertical-align:middle;">' + window.RoleNav.icons.mapMarkerAlt + '</span>' + record.venue + '</div>' +
         '</td>' +
         '<td>' + enrollHtml + '</td>' +
         '<td>' + statusBadgeHtml + '</td>' +
@@ -531,7 +531,7 @@
           statusLabel = '<span class="roster-badge present">已报名</span>';
         } else if (record.status === 'running' || record.status === 'auto_start') {
           if (s.checkStatus === 'present') {
-            statusLabel = '<span class="roster-badge present"><i class="fas fa-check"></i> ' + s.checkIn + ' 已签</span>';
+            statusLabel = '<span class="roster-badge present">' + window.RoleNav.icons.check + ' ' + s.checkIn + ' 已签</span>';
           } else {
             statusLabel = '<span class="roster-badge absent">缺席</span>';
           }
@@ -586,18 +586,18 @@
     var actionsHtml = '';
     if (record.status === 'register') {
       actionsHtml = 
-        '<button class="run-btn danger" style="margin-right:auto;" onclick="window.CourseRunModule.confirmCancel(\'' + record.id + '\')"><i class="fas fa-times-circle"></i> 取消开课</button>' +
+        '<button class="run-btn danger" style="margin-right:auto;" onclick="window.CourseRunModule.confirmCancel(\'' + record.id + '\')">' + window.RoleNav.icons.timesCircle + ' 取消开课</button>' +
         '<button class="run-btn" onclick="window.CourseRunModule.delayEnrollDeadline(\'' + record.id + '\')">延长报名</button>' +
         '<button class="run-btn" onclick="window.CourseRunModule.closeDrawer()">关闭</button>';
     } else if (record.status === 'ready_to_start') {
       actionsHtml = 
-        '<button class="run-btn primary" onclick="window.CourseRunModule.manuallyStartCourse(\'' + record.id + '\')"><i class="fas fa-play"></i> 手动开课</button>' +
+        '<button class="run-btn primary" onclick="window.CourseRunModule.manuallyStartCourse(\'' + record.id + '\')">' + window.RoleNav.icons.play + ' 手动开课</button>' +
         '<button class="run-btn" onclick="window.CourseRunModule.delayEnrollDeadline(\'' + record.id + '\')">延长报名</button>' +
         '<button class="run-btn" onclick="window.CourseRunModule.closeDrawer()">关闭</button>';
     } else if (record.status === 'failed_to_start') {
       actionsHtml = 
-        '<button class="run-btn primary" style="background:#ff7d00;border-color:#ff7d00;color:#fff;" onclick="window.CourseRunModule.adjustCourse(\'' + record.id + '\')"><i class="fas fa-edit"></i> 改课</button>' +
-        '<button class="run-btn danger" onclick="window.CourseRunModule.confirmCancel(\'' + record.id + '\')"><i class="fas fa-times-circle"></i> 取消开课</button>' +
+        '<button class="run-btn primary" style="background:#ff7d00;border-color:#ff7d00;color:#fff;" onclick="window.CourseRunModule.adjustCourse(\'' + record.id + '\')">' + window.RoleNav.icons.edit + ' 改课</button>' +
+        '<button class="run-btn danger" onclick="window.CourseRunModule.confirmCancel(\'' + record.id + '\')">' + window.RoleNav.icons.timesCircle + ' 取消开课</button>' +
         '<button class="run-btn" onclick="window.CourseRunModule.closeDrawer()">关闭</button>';
     } else if (record.status === 'auto_start' || record.status === 'running') {
       var completeBtnLabel = record.status === 'auto_start' ? '确认完成课前准备' : '完成授课(转考评)';

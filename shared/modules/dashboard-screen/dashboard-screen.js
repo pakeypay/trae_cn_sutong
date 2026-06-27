@@ -52,9 +52,9 @@
                 <p class="subtitle">整合全院师资情况、学员在训、课程建设、教学排课、物资流转及空间占用状态的结构化决策面板。</p>
               </div>
               <div class="header-right">
-                <span class="update-time"><i class="fas fa-sync-alt"></i> 数据更新时间：{{ currentTime }}</span>
+                <span class="update-time"><span class="lucide-icon" v-html="getIcon('sync')"></span> 数据更新时间：{{ currentTime }}</span>
                 <a-button type="primary" size="small" @click="reloadData">
-                  <template #icon><i class="fas fa-sync"></i></template>刷新数据
+                  <template #icon><span class="lucide-icon" v-html="getIcon('sync')"></span></template>刷新数据
                 </a-button>
               </div>
             </header>
@@ -63,7 +63,7 @@
             <section class="kpi-grid">
               <div class="kpi-card" v-for="kpi in kpis" :key="kpi.label">
                 <div class="kpi-icon-wrap" :style="{ color: kpi.color, background: kpi.bg }">
-                  <i :class="kpi.icon"></i>
+                  <span class="lucide-icon" v-html="getIcon(kpi.icon)"></span>
                 </div>
                 <div class="kpi-content">
                   <span class="kpi-label">{{ kpi.label }}</span>
@@ -128,7 +128,7 @@
               <section class="module-card" aria-label="师资情况模块">
                 <div class="module-card-header">
                   <div class="header-title">
-                    <i class="fas fa-user-md icon-blue"></i>
+                    <span class="lucide-icon icon-blue" v-html="getIcon('userMd')"></span>
                     <h3>师资情况</h3>
                   </div>
                   <a-tag size="small" color="blue">全院统计</a-tag>
@@ -172,7 +172,7 @@
               <section class="module-card" aria-label="学员情况模块">
                 <div class="module-card-header">
                   <div class="header-title">
-                    <i class="fas fa-user-graduate icon-indigo"></i>
+                    <span class="lucide-icon icon-indigo" v-html="getIcon('userGraduate')"></span>
                     <h3>学员情况</h3>
                   </div>
                   <a-tag size="small" color="indigo">教学对象</a-tag>
@@ -226,7 +226,7 @@
               <section class="module-card" aria-label="课程情况模块">
                 <div class="module-card-header">
                   <div class="header-title">
-                    <i class="fas fa-book-medical icon-green"></i>
+                    <span class="lucide-icon icon-green" v-html="getIcon('bookMedical')"></span>
                     <h3>课程情况</h3>
                   </div>
                   <a-tag size="small" color="green">资源库</a-tag>
@@ -276,7 +276,7 @@
               <section class="module-card" aria-label="排课情况模块">
                 <div class="module-card-header">
                   <div class="header-title">
-                    <i class="fas fa-calendar-alt icon-orange"></i>
+                    <span class="lucide-icon icon-orange" v-html="getIcon('calendar')"></span>
                     <h3>排课情况 (数据复用自排课管理)</h3>
                   </div>
                   <a-tag size="small" color="orange">排课工作台</a-tag>
@@ -340,7 +340,7 @@
               <section class="module-card" aria-label="物资情况模块">
                 <div class="module-card-header">
                   <div class="header-title">
-                    <i class="fas fa-boxes icon-pink"></i>
+                    <span class="lucide-icon icon-pink" v-html="getIcon('boxes')"></span>
                     <h3>物资情况</h3>
                   </div>
                   <a-tag size="small" color="pink">物资资产</a-tag>
@@ -388,7 +388,7 @@
               <section class="module-card" aria-label="空间情况模块">
                 <div class="module-card-header">
                   <div class="header-title">
-                    <i class="fas fa-door-open icon-cyan"></i>
+                    <span class="lucide-icon icon-cyan" v-html="getIcon('doorOpen')"></span>
                     <h3>空间情况</h3>
                   </div>
                   <a-tag size="small" color="cyan">空间资产</a-tag>
@@ -450,12 +450,12 @@
             currentTime: '',
             timer: null,
             kpis: [
-              { label: '带教老师总数', value: '384 人', subtext: '教学活跃度 94.2%', color: '#165dff', bg: 'rgba(22,93,255,0.08)', icon: 'fas fa-user-md' },
-              { label: '在训学员总数', value: '1,280 人', subtext: '今日考勤 98.6%', color: '#722ed1', bg: 'rgba(114,46,209,0.08)', icon: 'fas fa-user-graduate' },
-              { label: '发布课程总数', value: '156 门', subtext: '新增 12 门大纲', color: '#00b42a', bg: 'rgba(0,180,42,0.08)', icon: 'fas fa-book-medical' },
-              { label: '教学评估均分', value: '98.2 分', subtext: '满意率 99.1%', color: '#ff7d00', bg: 'rgba(255,125,0,0.08)', icon: 'fas fa-star' },
-              { label: '物资运转充足率', value: '95.8 %', subtext: '4件设备待维修', color: '#eb2f96', bg: 'rgba(235,47,150,0.08)', icon: 'fas fa-boxes' },
-              { label: '空间今日占用率', value: '82.0 %', subtext: '今日排课 34 场', color: '#13c2c2', bg: 'rgba(19,194,194,0.08)', icon: 'fas fa-door-open' }
+              { label: '带教老师总数', value: '384 人', subtext: '教学活跃度 94.2%', color: '#165dff', bg: 'rgba(22,93,255,0.08)', icon: 'userMd' },
+              { label: '在训学员总数', value: '1,280 人', subtext: '今日考勤 98.6%', color: '#722ed1', bg: 'rgba(114,46,209,0.08)', icon: 'userGraduate' },
+              { label: '发布课程总数', value: '156 门', subtext: '新增 12 门大纲', color: '#00b42a', bg: 'rgba(0,180,42,0.08)', icon: 'bookMedical' },
+              { label: '教学评估均分', value: '98.2 分', subtext: '满意率 99.1%', color: '#ff7d00', bg: 'rgba(255,125,0,0.08)', icon: 'star' },
+              { label: '物资运转充足率', value: '95.8 %', subtext: '4件设备待维修', color: '#eb2f96', bg: 'rgba(235,47,150,0.08)', icon: 'boxes' },
+              { label: '空间今日占用率', value: '82.0 %', subtext: '今日排课 34 场', color: '#13c2c2', bg: 'rgba(19,194,194,0.08)', icon: 'doorOpen' }
             ],
             // 师资构成
             teacherTitles: [
@@ -617,6 +617,9 @@
           clearInterval(this.timer);
         },
         methods: {
+          getIcon(name) {
+            return (window.RoleNav && window.RoleNav.icons && window.RoleNav.icons[name]) || '';
+          },
           updateTime() {
             const now = new Date();
             const dateStr = now.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');

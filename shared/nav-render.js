@@ -92,7 +92,7 @@
     return '<section class="preview-card">' +
       '<div class="preview-head"><div><p class="eyebrow">角色导航原型</p><h1>' + escapeHtml(active) + '</h1><p>当前角色：' + escapeHtml(role.roleName) + '。本页面只用于确认左侧导航结构与选中态，不承载完整业务功能。</p></div><span class="role-pill">' + escapeHtml(role.userRole) + '</span></div>' +
       '<div style="background:linear-gradient(135deg, rgba(22,93,255,0.06) 0%, rgba(114,46,209,0.06) 100%); border:1px solid rgba(22,93,255,0.15); border-radius:12px; padding:16px; margin: 0 24px 20px 24px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 4px 14px rgba(0,0,0,0.02);">' +
-        '<div><strong style="font-size:14px; color:#1d2129; display:block; margin-bottom:4px;"><i class="fas fa-mobile-alt" style="margin-right:6px; color:#165dff;"></i> 全新打磨的 100% 移动端 WebView 适配</strong>' +
+        '<div><strong style="font-size:14px; color:#1d2129; display:block; margin-bottom:4px;"><span style="margin-right:6px; color:#165dff; display:inline-flex; vertical-align:middle;">' + icons.smartphone + '</span> 全新打磨的 100% 移动端 WebView 适配</strong>' +
         '<span style="font-size:12px; color:#4e5969;">已根据移动端使用习惯重构了所有菜单模块，支持磨砂玻璃、数字手写签名、热力避碰与防伪令牌。</span></div>' +
         '<a href="mobile_index.html" target="_blank" style="display:inline-flex; align-items:center; gap:8px; padding:10px 20px; background:linear-gradient(135deg, #165dff 0%, #0052ff 100%); color:#fff; border-radius:8px; text-decoration:none; font-weight:700; font-size:13.5px; box-shadow:0 4px 12px rgba(22,93,255,0.25); transition:transform 0.15s ease;">进入手机版 ➔</a>' +
       '</div>' +

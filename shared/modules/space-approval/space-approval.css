@@ -46,10 +46,24 @@
 .sa-tabs {
   display: flex;
   align-items: stretch;
-  min-height: 64px;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--sa-border);
-  background: var(--color-bg-1);
+  min-height: 0;
+  padding: 0;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.sa-top-toolbar {
+  margin: -24px -32px 16px;
+  padding: 0 32px;
+  gap: 20px;
+}
+
+.sa-top-toolbar .app-page-toolbar-left {
+  gap: 24px;
+}
+
+.sa-top-toolbar .sa-search {
+  width: min(320px, 30vw);
 }
 
 .sa-tab {
@@ -120,17 +134,13 @@
   color: var(--sa-danger);
 }
 
-.sa-toolbar {
+.sa-filter-row {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
   border-bottom: 1px solid var(--sa-border);
   background: var(--color-bg-1);
-}
-
-.sa-search {
-  width: 320px;
 }
 
 .sa-filter {

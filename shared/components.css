@@ -673,3 +673,102 @@
   border-radius: var(--radius-pill);
   flex-shrink: 0;
 }
+
+
+/* ================================================================
+   十五、统一页面工具栏（App Page Toolbar）
+   一级页面与二级页面通用：sticky 定位，滚动时常驻顶部
+   ================================================================ */
+
+/* 一级页面工具栏 */
+.app-page-toolbar,
+.app-detail-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 64px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-border-light);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+}
+
+.app-page-toolbar-left,
+.app-detail-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.app-page-toolbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-left: auto;
+  min-width: 0;
+}
+
+.app-page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-1);
+  white-space: nowrap;
+}
+
+.app-page-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--color-bg-3);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+}
+
+.app-page-search {
+  min-width: 200px;
+}
+
+.app-back-button {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-1);
+  color: var(--color-text-2);
+  font-size: var(--font-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.app-back-button:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+}
+
+.app-panel-toggle {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-1);
+  color: var(--color-text-2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.app-panel-toggle:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+}

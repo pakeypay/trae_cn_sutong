@@ -48,7 +48,7 @@
                 </a-radio-group>
               </div>
               <label class="assessment-toolbar-search">
-                <i class="fas fa-search"></i>
+                <span v-html="getIcon('search')"></span>
                 <input v-model="filterHwName" type="search" :placeholder="activePage === '作业考试' ? '搜索作业、试卷...' : '搜索学员姓名...'">
               </label>
             </div>
@@ -64,7 +64,7 @@
                       <div class="assessment-kpi-value">{{ m.value }}</div>
                     </div>
                     <div class="assessment-kpi-icon primary">
-                      <i :class="m.icon + ' fa-lg'"></i>
+                      <span v-html="getIcon(m.icon)"></span>
                     </div>
                   </div>
                 </a-col>
@@ -82,7 +82,7 @@
                     </a-select>
                   </a-space>
                   <a-button type="primary" size="small" @click="showToast('批量提醒已发送！')">
-                    <template #icon><i class="fas fa-bell"></i></template>一键催缴未交作业
+                    <template #icon><span v-html="getIcon('bell')"></span></template>一键催缴未交作业
                   </a-button>
                 </div>
 
@@ -135,7 +135,7 @@
                       <div class="assessment-kpi-value">{{ m.value }}</div>
                     </div>
                     <div class="assessment-kpi-icon success">
-                      <i :class="m.icon + ' fa-lg'"></i>
+                      <span v-html="getIcon(m.icon)"></span>
                     </div>
                   </div>
                 </a-col>
@@ -150,7 +150,7 @@
                         <a-table-column title="学员姓名" data-index="name">
                           <template #cell="{ record }">
                             <strong class="assessment-name-strong">{{ record.name }}</strong>
-                            <a-tag v-if="record.riskFlag" color="red" size="mini" class="assessment-risk-tag"><i class="fas fa-exclamation-triangle"></i> 预警</a-tag>
+                            <a-tag v-if="record.riskFlag" color="red" size="mini" class="assessment-risk-tag"><span v-html="getIcon('alertTriangle')"></span> 预警</a-tag>
                           </template>
                         </a-table-column>
                         <a-table-column title="理论考核 (分)" data-index="theory"></a-table-column>
@@ -169,7 +169,7 @@
                         <a-table-column title="操作" align="right">
                           <template #cell="{ record }">
                             <a-button type="outline" size="small" @click="openPortraitDrawer(record)">
-                              <template #icon><i class="fas fa-user-chart"></i></template>学员画像
+                              <template #icon><span v-html="getIcon('userChart')"></span></template>学员画像
                             </a-button>
                           </template>
                         </a-table-column>
@@ -229,7 +229,7 @@
                     
                     <!-- mock attachment -->
                     <div class="assessment-attachment" @click="showToast('播放操作示教视频...')">
-                      <div class="assessment-attachment-icon"><i class="far fa-file-video"></i></div>
+                      <div class="assessment-attachment-icon"><span v-html="getIcon('fileVideo')"></span></div>
                       <div class="assessment-attachment-info">
                         <div class="assessment-attachment-name">儿童插管技能实操录制.mp4</div>
                         <div class="assessment-attachment-meta">18.5 MB · 点击在线播放</div>
@@ -286,7 +286,7 @@
                 <!-- Radar Competency Chart -->
                 <div class="assessment-radar-container">
                   <div class="assessment-radar-title">
-                    <i class="fas fa-chart-pie me-1"></i> 临床胜任力雷达大图 (OSCE 5维能力评估)
+                    <span v-html="getIcon('pieChart')"></span> 临床胜任力雷达大图 (OSCE 5维能力评估)
                   </div>
                   
                   <!-- Responsive SVG Radar Chart -->
@@ -321,17 +321,17 @@
 
                 <!-- Portrait details assessment -->
                 <div style="background:#fff; border:1px solid #e5e6eb; border-radius:8px; padding:16px; margin-bottom:16px;">
-                  <div style="font-weight:700; font-size:13px; color:#1d2129; margin-bottom:10px;"><i class="fas fa-graduation-cap me-1" style="color:#00b42a;"></i> 数字化诊断建议（形成性反馈）：</div>
+                  <div style="font-weight:700; font-size:13px; color:#1d2129; margin-bottom:10px;"><span v-html="getIcon('graduationCap')" style="color:#00b42a;"></span> 数字化诊断建议（形成性反馈）：</div>
                   <ul style="padding-left:18px; margin:0; font-size:12.5px; color:#4e5969; line-height:1.6;">
                     <li><strong>优势项：</strong> 医患沟通分值（{{ activeStudent.points[3] }}/100）及团队协作能力非常出色，临床PBL讨论发言踊跃，具有优秀的职业素养。</li>
                     <li><strong>提升项：</strong> 操作技能熟练度（{{ activeStudent.points[1] }}/100）属于正常波动区间，但在儿童导尿、骨髓穿刺等复杂技术性实操中操作时间略微偏长。</li>
-                    <li style="color:#ff7d00; font-weight:600;"><i class="fas fa-lightbulb"></i> <strong>智能教学辅导建议：</strong> 建议课后引导其利用“场地与物资申请”自主租借模拟器人，在8楼技能中心自主刷卡练习，以提高无菌熟练度。</li>
+                    <li style="color:#ff7d00; font-weight:600;"><span v-html="getIcon('lightbulb')"></span> <strong>智能教学辅导建议：</strong> 建议课后引导其利用"场地与物资申请"自主租借模拟器人，在8楼技能中心自主刷卡练习，以提高无菌熟练度。</li>
                   </ul>
                 </div>
 
                 <!-- Academic Warn alert v-if -->
                 <div v-if="activeStudent.riskFlag" style="background:#fff3f3; color:#f53f3f; border:1px solid #ffd8d8; border-radius:8px; padding:16px; display:flex; gap:10px; align-items:flex-start;">
-                  <i class="fas fa-exclamation-triangle" style="margin-top:2px;"></i>
+                  <span v-html="getIcon('alertTriangle')" style="margin-top:2px;"></span>
                   <div>
                     <strong style="font-size:13px; display:block; margin-bottom:4px;">综合表现黄色预警标志</strong>
                     <span style="font-size:12px; line-height:1.4; display:block;">该学生在操作技能考核中连续两次课时及格线徘徊。建议主讲讲师对其增加课后一对一模型带教，并在下次《儿童插管》考核中进行重点关注。</span>
@@ -352,16 +352,16 @@
               portrait: false
             },
             hwMetrics: [
-              { label: '待批改作业', value: '3 份', icon: 'fas fa-edit' },
-              { label: '本周已阅结案', value: '42 份', icon: 'fas fa-check-circle' },
-              { label: '学员及时提交率', value: '94.5 %', icon: 'fas fa-hourglass-half' },
-              { label: '所带规培班平均分', value: '86.5 分', icon: 'fas fa-graduation-cap' }
+              { label: '待批改作业', value: '3 份', icon: 'edit' },
+              { label: '本周已阅结案', value: '42 份', icon: 'checkCircle' },
+              { label: '学员及时提交率', value: '94.5 %', icon: 'hourglassHalf' },
+              { label: '所带规培班平均分', value: '86.5 分', icon: 'graduationCap' }
             ],
             evalMetrics: [
-              { label: '班级考核合格率', value: '100 %', icon: 'fas fa-user-check' },
-              { label: '学生互评平均分', value: '9.2 分/10', icon: 'fas fa-heart' },
-              { label: '预警学员预警数', value: '1 人', icon: 'fas fa-exclamation-triangle' },
-              { label: '评教反馈参与度', value: '96.2 %', icon: 'fas fa-poll' }
+              { label: '班级考核合格率', value: '100 %', icon: 'userCheck' },
+              { label: '学生互评平均分', value: '9.2 分/10', icon: 'heart' },
+              { label: '预警学员预警数', value: '1 人', icon: 'alertTriangle' },
+              { label: '评教反馈参与度', value: '96.2 %', icon: 'poll' }
             ],
             assignments: [
               { id: 1, name: '新生儿插管操作课后作业', course: '新生儿插管术操作示教', submitCount: 22, totalCount: 24, submitRate: 91.6, pendingGrading: 3, status: '批改中' },
@@ -446,6 +446,9 @@
           }
         },
         methods: {
+          getIcon(iconName) {
+            return (window.RoleNav && window.RoleNav.icons && window.RoleNav.icons[iconName]) || '';
+          },
           showToast(msg) {
             if (window.ArcoVue && window.ArcoVue.Message) {
               window.ArcoVue.Message.info(msg);

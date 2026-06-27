@@ -16,7 +16,10 @@
     award: '<svg class="lucide" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>',
     trophy: '<svg class="lucide" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H4v2h16v-2h-5c-.55 0-1-.45-1-1v-2.34"></path><path d="M12 2a5 5 0 0 0-5 5v3c0 2.2 1.8 4 4 4h2c2.2 0 4-1.8 4-4V7a5 5 0 0 0-5-5z"></path></svg>',
     users: '<svg class="lucide" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-2 2v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
-    plus: '<svg class="lucide" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>'
+    plus: '<svg class="lucide" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>',
+    search: '<svg class="lucide" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+    grid: '<svg class="lucide" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
+    settings: '<svg class="lucide" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>'
   };
 
   function waitForVue(callback) {
@@ -50,21 +53,21 @@
         '<!-- 1. Feishu Top Header Bar -->',
         '<div class="fs-top-bar">',
           '<div class="fs-search-box">',
-            '<span class="fs-search-icon"><i class="fas fa-search"></i></span>',
+            '<span class="fs-search-icon" v-html="lucideIcons.search"></span>',
             '<input type="text" class="fs-search-input" placeholder="搜索应用、服务及自助申办事项..." v-model="searchKeyword" @keyup.enter="handleSearch" />',
             '<span class="fs-search-shortcut">⌘+K</span>',
           '</div>',
           '<div class="fs-top-actions">',
             '<div class="fs-action-item" @click="triggerService(\'获取应用大厅\')">',
-              '<i class="fas fa-th-large" style="color:#3370ff;"></i>',
+              '<span v-html="lucideIcons.grid" style="color:#3370ff;display:inline-flex;"></span>',
               '<span>获取应用</span>',
             '</div>',
             '<div class="fs-action-item" @click="triggerService(\'创建服务流程\')">',
-              '<i class="fas fa-plus" style="color:#00b42a;"></i>',
+              '<span v-html="lucideIcons.plus" style="color:#00b42a;display:inline-flex;"></span>',
               '<span>创建应用</span>',
             '</div>',
             '<div class="fs-action-item" @click="triggerService(\'工作台个性化配置\')">',
-              '<i class="fas fa-cog" style="color:#646a73;"></i>',
+              '<span v-html="lucideIcons.settings" style="color:#646a73;display:inline-flex;"></span>',
               '<span>设置</span>',
             '</div>',
           '</div>',

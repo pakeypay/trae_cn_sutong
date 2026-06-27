@@ -49,7 +49,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
               <div>
                 <h1 style="font-size: 20px; font-weight: 700; color: #1d2129; margin: 0; display: flex; align-items: center; gap: 8px;">
-                  <i class="fas fa-calendar-alt text-primary"></i> {{ activePage }}
+                  <span v-html="getIcon('calendar')" class="text-primary" style="display:inline-flex;"></span> {{ activePage }}
                 </h1>
                 <p style="font-size: 13px; color: #86909c; margin: 4px 0 0;">
                   {{ activePage === '我的课表' ? '查看您担任负责人及讲师的教学课程日程安排。' : '全院临床技能培训年度可视化课表，监控各月份排课热度与质量控制统计指标。' }}
@@ -58,7 +58,7 @@
 
               <!-- Interactive Role Switcher for Timetable (ONLY in Teacher mode for testing) -->
               <div v-if="activePage === '我的课表'" style="display: flex; align-items: center; gap: 12px; background:#fff; padding:6px 12px; border:1px solid #e5e6eb; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.015);">
-                <span style="font-size:12px; color:#4e5969; font-weight:600;"><i class="fas fa-user-shield me-1"></i> 测试角色身份：</span>
+                <span style="font-size:12px; color:#4e5969; font-weight:600;"><span v-html="getIcon('userShield')" style="display:inline-flex;margin-right:4px;"></span> 测试角色身份：</span>
                 <a-radio-group v-model="teacherRoleType" type="button" size="small">
                   <a-radio value="instructor">授课讲师 (支持调课)</a-radio>
                   <a-radio value="assistant">助教老师 (禁止调课)</a-radio>
@@ -75,7 +75,7 @@
                     <div style="font-size:24px; font-weight:700; color:#1d2129; margin-top:4px;">{{ m.value }}</div>
                   </div>
                   <div style="width:40px; height:40px; border-radius:50%; background:#f0f5ff; color:#175898; display:grid; place-items:center;">
-                    <i :class="m.icon + ' fa-lg'"></i>
+                    <span v-html="getIcon(m.icon)" style="display:inline-flex;width:18px;height:18px;"></span>
                   </div>
                 </div>
               </a-col>
@@ -105,9 +105,9 @@
 
               <!-- Month Navigator (Only when month view is active) -->
               <div v-if="currentView === 'month'" style="display:flex; align-items:center; gap:8px;">
-                <a-button size="small" type="text" @click="prevMonth"><i class="fas fa-chevron-left"></i></a-button>
+                <a-button size="small" type="text" @click="prevMonth"><span v-html="getIcon('chevronLeft')" style="display:inline-flex;"></span></a-button>
                 <span style="font-weight:bold; font-size:14px; color:#1d2129;">{{ currentMonthText }}</span>
-                <a-button size="small" type="text" @click="nextMonth"><i class="fas fa-chevron-right"></i></a-button>
+                <a-button size="small" type="text" @click="nextMonth"><span v-html="getIcon('chevronRight')" style="display:inline-flex;"></span></a-button>
               </div>
 
               <!-- Right side Three-Way View Switches -->
@@ -124,19 +124,19 @@
                 <div v-for="t in filteredTimetables" :key="t.id" class="agenda-list-item">
                   <div style="display:flex; align-items:center; gap:20px; flex:1; min-width:0;">
                     <div class="time-badge" style="flex-shrink:0;">
-                      <i class="far fa-clock"></i> {{ t.date }} {{ t.time }}
+                      <span v-html="getIcon('clock')" style="display:inline-flex;"></span> {{ t.date }} {{ t.time }}
                     </div>
                     <div style="flex:1; min-width:0;">
                       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
                         <strong style="font-size:15px; color:#1d2129;">{{ t.name }}</strong>
                         <a-tag size="small" color="arcoblue">{{ t.type }}</a-tag>
                         <a-tag size="small" color="green">{{ t.venue }}</a-tag>
-                        <a-tag v-if="t.hasPendingAdjustment" color="gold"><i class="fas fa-hourglass-half me-1"></i> 调课申请审批中</a-tag>
+                        <a-tag v-if="t.hasPendingAdjustment" color="gold"><span v-html="getIcon('hourglassHalf')" style="display:inline-flex;margin-right:4px;"></span> 调课申请审批中</a-tag>
                       </div>
                       <div style="font-size:12px; color:#86909c;">
-                        <span><i class="fas fa-users-class"></i> 授课班级：{{ t.classes }}</span>
-                        <span style="margin-left:16px;"><i class="fas fa-user-tie"></i> 讲师：{{ t.lecturer }}</span>
-                        <span style="margin-left:16px;"><i class="fas fa-stethoscope"></i> 科室：{{ t.dept }}</span>
+                        <span><span v-html="getIcon('usersClass')" style="display:inline-flex;margin-right:4px;"></span> 授课班级：{{ t.classes }}</span>
+                        <span style="margin-left:16px;"><span v-html="getIcon('userTie')" style="display:inline-flex;margin-right:4px;"></span> 讲师：{{ t.lecturer }}</span>
+                        <span style="margin-left:16px;"><span v-html="getIcon('stethoscope')" style="display:inline-flex;margin-right:4px;"></span> 科室：{{ t.dept }}</span>
                       </div>
                     </div>
                   </div>
@@ -144,18 +144,18 @@
                   <!-- Actions -->
                   <div style="flex-shrink:0; margin-left:16px;">
                     <a-button v-if="teacherRoleType === 'instructor' || activePage === '年度课表'" type="outline" size="small" class="btn-change-timetable" @click="initiateAdjustment(t)">
-                      <template #icon><i class="fas fa-exchange-alt"></i></template>
+                      <template #icon><span v-html="getIcon('exchange')" style="display:inline-flex;"></span></template>
                       申请调课
                     </a-button>
                     
                     <a-popover v-else trigger="hover" position="top">
                       <a-button type="outline" size="small" disabled class="assistant-disabled-tip" style="color:#c9cdd4; border-color:#e5e6eb;">
-                        <template #icon><i class="fas fa-exchange-alt"></i></template>
+                        <template #icon><span v-html="getIcon('exchange')" style="display:inline-flex;"></span></template>
                         申请调课
                       </a-button>
                       <template #content>
                         <div style="color:#f53f3f; font-size:12px; font-weight:bold; display:flex; align-items:center; gap:6px;">
-                          <i class="fas fa-exclamation-triangle"></i>
+                          <span v-html="getIcon('alertTriangle')" style="display:inline-flex;"></span>
                           <span>助教角色暂不支持发起调课</span>
                         </div>
                       </template>
@@ -181,7 +181,7 @@
                     @click="handleClassBlockClick(c)">
                     <div style="font-weight:bold; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ c.name }}</div>
                     <div style="font-size:9.5px; opacity:0.8; margin-top:2px;">{{ c.time }} · {{ c.lecturer }}</div>
-                    <div v-if="c.hasPendingAdjustment" style="font-size:9px; color:#ff7d00; font-weight:bold; margin-top:2px;"><i class="fas fa-hourglass-half"></i> 调课中</div>
+                    <div v-if="c.hasPendingAdjustment" style="font-size:9px; color:#ff7d00; font-weight:bold; margin-top:2px;"><span v-html="getIcon('hourglassHalf')" style="display:inline-flex;"></span> 调课中</div>
                   </div>
                 </div>
               </div>
@@ -214,7 +214,7 @@
             <a-drawer :visible="adjustmentDrawerVisible" @cancel="adjustmentDrawerVisible = false" width="560px" title="申请调课 / 教学安排调整" @ok="submitAdjustment">
               <a-form :model="adjForm" layout="vertical" v-if="activeTimetableTarget">
                 <div style="background:#f0f5ff; color:#175898; border-radius:6px; padding:12px; margin-bottom:20px; font-size:12.5px;">
-                  <div style="font-weight:bold; margin-bottom:4px;"><i class="fas fa-info-circle"></i> 当前上课安排信息：</div>
+                  <div style="font-weight:bold; margin-bottom:4px;"><span v-html="getIcon('infoCircle')" style="display:inline-flex;margin-right:4px;"></span> 当前上课安排信息：</div>
                   <div><strong>课程名称：</strong> {{ activeTimetableTarget.name }}</div>
                   <div><strong>原定时间：</strong> {{ activeTimetableTarget.date }} {{ activeTimetableTarget.time }}</div>
                   <div><strong>教学场地：</strong> {{ activeTimetableTarget.venue }}</div>
@@ -241,7 +241,7 @@
                 </a-form-item>
 
                 <div style="background:#fffbe6; color:#fa8c16; border:1px solid #ffe58f; font-size:12px; border-radius:6px; padding:12px; display:flex; align-items:flex-start; gap:8px;">
-                  <i class="fas fa-exclamation-circle" style="margin-top:2px;"></i>
+                  <span v-html="getIcon('alertCircle')" style="margin-top:2px; display:inline-flex;"></span>
                   <span>调课申请提交后，调课通知将即时流转至排课管理员进行冲突检索与二次调配，审批结果将通过企业微信及时推送。</span>
                 </div>
               </a-form>
@@ -261,8 +261,8 @@
                         <a-tag size="small" color="green">{{ c.venue }}</a-tag>
                       </div>
                       <div style="font-size:12px; color:#86909c;">
-                        <span><i class="far fa-clock"></i> {{ c.time }}</span>
-                        <span style="margin-left:14px;"><i class="fas fa-user-tie"></i> 讲师：{{ c.lecturer }}</span>
+                        <span><span v-html="getIcon('clock')" style="display:inline-flex;"></span> {{ c.time }}</span>
+                        <span style="margin-left:14px;"><span v-html="getIcon('userTie')" style="display:inline-flex;"></span> 讲师：{{ c.lecturer }}</span>
                       </div>
                     </div>
                     
@@ -298,10 +298,10 @@
 
           // KPI metrics
           var annualMetrics = [
-            { label: '本年度累计排课频次', value: '1,428 次课', icon: 'fas fa-calendar-check' },
-            { label: '已发布课次率', value: '92.4%', icon: 'fas fa-tasks' },
-            { label: '变更申请率', value: '3.6%', icon: 'fas fa-exchange-alt' },
-            { label: '教室平均空闲率', value: '21.5%', icon: 'fas fa-chart-line' }
+            { label: '本年度累计排课频次', value: '1,428 次课', icon: 'calendarCheck' },
+            { label: '已发布课次率', value: '92.4%', icon: 'tasks' },
+            { label: '变更申请率', value: '3.6%', icon: 'exchange' },
+            { label: '教室平均空闲率', value: '21.5%', icon: 'trendingUp' }
           ];
 
           // Timetables master mock list
@@ -466,7 +466,12 @@
 
           generateAnnualData();
 
+          function getIcon(name) {
+            return (window.RoleNav && window.RoleNav.icons && window.RoleNav.icons[name]) || '';
+          }
+
           return {
+            getIcon: getIcon,
             activePage: activePage,
             searchKeyword: searchKeyword,
             teacherRoleType: teacherRoleType,

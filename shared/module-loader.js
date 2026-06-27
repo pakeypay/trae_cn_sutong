@@ -11,8 +11,8 @@
     '报名情况': { css: ['modules/course-run/course-run.css'], js: ['modules/course-run/course-run.js'] },
 
     // scheduler-workbench
-    '排课工作台': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/pending-course-list.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
-    '排课管理': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/pending-course-list.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
+    '排课工作台': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/visual-scheduler.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
+    '排课管理': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/visual-scheduler.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
     '可视化排课': { css: ['modules/scheduler-workbench/scheduler-workbench.css', 'modules/scheduler-workbench/visual-scheduler.css'], js: ['modules/scheduler-workbench/scheduler-workbench.js'] },
     '开课条件总览': { css: ['modules/launch-readiness/launch-readiness.css'], js: ['modules/launch-readiness/launch-readiness.js'] },
 

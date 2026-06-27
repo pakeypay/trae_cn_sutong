@@ -38,11 +38,11 @@
           '</div>',
           '<div class="tdb-header-actions">',
             '<div class="tdb-search">',
-              '<i class="fas fa-search"></i>',
+              '<span v-html="getIcon(\'search\')" style="display:inline-flex;align-items:center;"></span>',
               '<input type="text" placeholder="搜索姓名、专业、工号..." v-model="searchKeyword" />',
             '</div>',
             '<a-button type="primary" size="medium" @click="openAddModal">',
-              '<i class="fas fa-user-plus" style="margin-right:6px"></i> 新增师资登记',
+              '<span v-html="getIcon(\'userPlus\')" style="margin-right:6px;display:inline-flex;align-items:center;"></span> 新增师资登记',
             '</a-button>',
           '</div>',
         '</div>',
@@ -373,6 +373,10 @@
             addVisible.value = false;
           }
 
+          function getIcon(name) {
+            return window.RoleNav.icons[name] || '';
+          }
+
           return {
             searchKeyword: searchKeyword,
             activeDept: activeDept,
@@ -390,7 +394,8 @@
             openProfile: openProfile,
             openAddModal: openAddModal,
             closeAddModal: closeAddModal,
-            submitAddTeacher: submitAddTeacher
+            submitAddTeacher: submitAddTeacher,
+            getIcon: getIcon
           };
         }
       });
