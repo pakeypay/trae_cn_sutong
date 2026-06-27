@@ -286,6 +286,10 @@
   color: var(--sa-text-body);
   font-size: 13px;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .sa-conflict-chip {

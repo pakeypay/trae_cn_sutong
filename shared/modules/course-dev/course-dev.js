@@ -50,7 +50,8 @@
   }
 
   function shouldHandle() {
-    return document.body.dataset.role === 'teacher' && document.body.dataset.active === '课程开发';
+    return ['teacher', 'admin'].includes(document.body.dataset.role)
+      && document.body.dataset.active === '课程开发';
   }
 
   function injectCSS() {

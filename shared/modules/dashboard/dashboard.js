@@ -626,7 +626,6 @@
                     <div class="admin-service-icon" :class="'tone-' + svc.tone" v-html="getLucideIcon(svc.icon)"></div>
                     <div class="admin-service-info">
                       <strong>{{ svc.label }}</strong>
-                      <small>{{ svc.desc }}</small>
                     </div>
                   </div>
                 </div>
@@ -697,7 +696,8 @@
             }
             if (keyword) {
               filtered = filtered.filter(function (s) {
-                return s.label.toLowerCase().indexOf(keyword) !== -1 || s.desc.toLowerCase().indexOf(keyword) !== -1;
+                return s.label.toLowerCase().includes(keyword)
+                  || s.category.toLowerCase().includes(keyword);
               });
             }
             var groups = {};

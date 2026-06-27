@@ -40,7 +40,7 @@
   border: 0;
   background: transparent;
   border-radius: var(--radius-xs);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-2);
   cursor: pointer;
@@ -3255,7 +3255,7 @@
   display: block;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
   color: var(--color-text-2);
   text-decoration: none;
   transition: all var(--transition-fast);
@@ -3833,7 +3833,7 @@
   padding: 7px 10px;
   border-radius: var(--radius-sm);
   color: var(--color-text-2);
-  font-size: var(--font-sm);
+  font-size: var(--font-md);
   text-decoration: none;
   transition: all var(--transition-fast);
 }

@@ -26,6 +26,21 @@
     document.head.appendChild(link);
   }
 
+  var avatarBasePath = (function () {
+    var script = document.querySelector('script[src$="space-approval.js"]');
+    if (script) return script.src.replace(/shared\/modules\/space-approval\/space-approval\.js$/, 'shared/assets/avatars/');
+    return '../shared/assets/avatars/';
+  })();
+
+  var avatarsPool = [
+    avatarBasePath + 'female-01.svg',
+    avatarBasePath + 'male-02.svg',
+    avatarBasePath + 'female-03.svg',
+    avatarBasePath + 'male-01.svg',
+    avatarBasePath + 'female-02.svg',
+    avatarBasePath + 'male-03.svg'
+  ];
+
   var approvalRows = [
     {
       id: 'a001',
@@ -33,8 +48,10 @@
       dept: '儿内科',
       avatar: '陈',
       avatarColor: '#165dff',
+      avatarUrl: avatarsPool[0],
       topic: 'PICU护理技能集训',
       reason: 'ICU护士晋升考核前模拟训练，需要全天使用模拟病房，共6组轮转',
+      reasonSummary: 'ICU护士晋升考核模拟训练',
       date: '6月15日（周日）',
       timeRange: '08:00 — 18:00（全天）',
       venueType: '模拟病房',
@@ -51,8 +68,10 @@
       dept: '外科学教研室',
       avatar: '王',
       avatarColor: '#16a34a',
+      avatarUrl: avatarsPool[1],
       topic: '腹腔镜技能强化课',
       reason: '住院医师规范操作技能强化，需腔镜实训室全套设备',
+      reasonSummary: '住院医师腹腔镜技能强化',
       date: '6月16日（周一）',
       timeRange: '14:00 — 17:00',
       venueType: '腔镜实训室',
@@ -68,8 +87,10 @@
       dept: '护理学院',
       avatar: '刘',
       avatarColor: '#e67e00',
+      avatarUrl: avatarsPool[2],
       topic: '模拟急救综合演练',
       reason: '护理本科生急救技能综合演练，6个小组分批轮转使用',
+      reasonSummary: '护理本科生急救技能演练',
       date: '6月20日（周五）',
       timeRange: '08:00 — 12:00',
       venueType: '模拟病房',
@@ -85,8 +106,10 @@
       dept: '麻醉科',
       avatar: '张',
       avatarColor: '#7c3aed',
+      avatarUrl: avatarsPool[3],
       topic: '气道管理实操培训',
       reason: '新入职住院医气道操作规范化培训，需模拟气道设备',
+      reasonSummary: '住院医气道操作规范化培训',
       date: '6月12日（周二）',
       timeRange: '09:00 — 11:30',
       venueType: '模拟病房',
@@ -105,8 +128,10 @@
       dept: '教务处',
       avatar: '孙',
       avatarColor: '#c2175b',
+      avatarUrl: avatarsPool[4],
       topic: '临床技能考核动员大会',
       reason: '全院住院医师技能考核赛前动员，需可容纳 200 人的场地',
+      reasonSummary: '住院医师技能考核动员大会',
       date: '6月10日（周六）',
       timeRange: '14:00 — 16:00',
       venueType: '阶梯教室',
@@ -125,8 +150,10 @@
       dept: '儿外科',
       avatar: '赵',
       avatarColor: '#0891b2',
+      avatarUrl: avatarsPool[5],
       topic: '腹腔镜国际大师班',
       reason: '国际腹腔镜外科大师班演示课，需模拟手术室与转播设备',
+      reasonSummary: '腹腔镜国际大师班演示课',
       date: '6月8日（周日）',
       timeRange: '09:00 — 17:00',
       venueType: '模拟手术室',
@@ -145,8 +172,10 @@
       dept: '儿科研究所',
       avatar: '李',
       avatarColor: '#64748b',
+      avatarUrl: avatarsPool[1],
       topic: 'OSCE考前联合演练',
       reason: '第二轮次OSCE联合演练，需同时使用多个考站',
+      reasonSummary: 'OSCE考前联合演练',
       date: '6月5日（周四）',
       timeRange: '全天',
       venueType: 'OSCE考站',
@@ -470,12 +499,12 @@
 
             '<div v-for="row in filteredRows" :key="row.id" :class="[\'sa-row\', { conflict: row.conflict }]">',
               '<div class="sa-applicant">',
-                '<span class="sa-avatar" :style="{ background: row.avatarColor }">{{ row.avatar }}</span>',
+                '<span class="sa-avatar" :style="{ background: row.avatarColor }"><img v-if="row.avatarUrl" :src="row.avatarUrl" :alt="row.applicant + \'头像\'"><span v-else>{{ row.avatar }}</span></span>',
                 '<div><strong>{{ row.applicant }}</strong><small>{{ row.dept }}</small></div>',
               '</div>',
               '<div class="sa-topic">',
                 '<strong>{{ row.topic }}</strong>',
-                '<p>{{ row.reason }}</p>',
+                '<p>{{ row.reasonSummary || row.reason }}</p>',
                 '<span v-if="row.sourceLabel" class="sa-source-chip">{{ row.sourceLabel }} · {{ row.openingPlanId }}</span>',
                 '<span v-if="row.resourceStatusLabel" class="sa-resource-chip">{{ row.resourceStatusLabel }}</span>',
                 '<span v-if="row.conflict" class="sa-conflict-chip">有场地冲突</span>',

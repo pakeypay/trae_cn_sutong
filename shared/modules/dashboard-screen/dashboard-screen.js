@@ -391,7 +391,10 @@
                     <span class="lucide-icon icon-cyan" v-html="getIcon('doorOpen')"></span>
                     <h3>空间情况</h3>
                   </div>
-                  <a-tag size="small" color="cyan">空间资产</a-tag>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <a-button type="text" size="small" @click="goToSpaceAssets">查看空间资产</a-button>
+                    <a-tag size="small" color="cyan">空间资产</a-tag>
+                  </div>
                 </div>
                 <div class="module-card-body">
                   <div class="stats-row">
@@ -629,6 +632,11 @@
           reloadData() {
             this.updateTime();
             window.ArcoVue?.Message?.success?.('数据刷新成功，已同步最新排课管理、物资流转与空间预约数据');
+          },
+          goToSpaceAssets() {
+            if (window.navigateTo) {
+              window.navigateTo('空间资产管理');
+            }
           }
         }
       });

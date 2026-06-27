@@ -5,7 +5,7 @@
 .student-dashboard-wrapper,
 .admin-dashboard-wrapper {
   padding: 24px;
-  background: #f4f5f8;
+  background: var(--color-bg-2);
   min-height: 100%;
 }
 
@@ -507,7 +507,7 @@
 }
 
 .admin-service-card strong {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--color-text-1);
 }
@@ -539,7 +539,7 @@
 
 .admin-tab-item {
   padding: 6px 14px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-text-2);
   cursor: pointer;
   border-radius: var(--radius-sm);
@@ -573,7 +573,7 @@
 }
 
 .admin-group-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text-2);
 }
