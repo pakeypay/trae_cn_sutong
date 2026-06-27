@@ -1624,50 +1624,32 @@
             startMethod: 'upload', uploaded: false, parsed: false, aiCreateVisible: false, templateVisible: false, selectedTemplate: '技能课程模板',
             demoLibraryVisible: false, demoSearch: '', demoSelectedAudience: 0, demoSelectedTab: 0, demoSelectedLesson: '',
             demoPreviewVisible: false, demoVideoVisible: false, currentPreviewLesson: null, currentPreviewVideo: null,
-            demoLibrary: [
-              {
-                audience: '学员培训',
-                tabs: [
-                  {
-                    label: '临床技术性技能课程',
-                    lessons: [
-                      { courseName: '儿童导尿术（男性）', teacher: '李文静', dept: 'NICU', addedAt: '2026-01-15', video: { name: '儿童导尿术（男性）操作示范录像', duration: '45' } },
-                      { courseName: '腰椎穿刺术', teacher: '王晓明', dept: 'PICU', addedAt: '2026-02-20', video: null }
-                    ],
-                    videos: [
-                      { name: '儿童导尿术（男性）操作示范录像', duration: '45', addedAt: '2026-01-15' },
-                      { name: '腰椎穿刺术操作示范录像', duration: '38', addedAt: '2026-02-20' }
-                    ]
-                  },
-                  {
-                    label: '临床非技术性技能课程',
-                    lessons: [
-                      { courseName: '坏消息告知', teacher: '张盛鑫', dept: 'PICU', addedAt: '2026-01-15', video: { name: '坏消息告知角色扮演示范录像', duration: '55' } }
-                    ],
-                    videos: [
-                      { name: '坏消息告知角色扮演示范录像', duration: '55', addedAt: '2026-01-15' }
-                    ]
-                  },
-                  {
-                    label: '情境模拟课程',
-                    lessons: [
-                      { courseName: '梗阻性休克的识别与处理', teacher: '王晓明', dept: 'PICU', addedAt: '2026-01-15', video: { name: '梗阻性休克情境模拟示范录像', duration: '65' } }
-                    ],
-                    videos: [
-                      { name: '梗阻性休克情境模拟示范录像', duration: '65', addedAt: '2026-01-15' }
-                    ]
-                  }
-                ]
-              },
-              {
-                audience: '师资培训',
-                tabs: [
-                  { label: '临床技术性技能课程', lessons: [], videos: [] },
-                  { label: '临床非技术性技能课程', lessons: [], videos: [] },
-                  { label: '情境模拟课程', lessons: [], videos: [] }
-                ]
+            // 示范库数据统一从 window.CourseDemoData 读取（深拷贝避免污染公共数据）
+            // 数据源位于 shared/modules/course-demo-data.js
+            demoLibrary: (function () {
+              if (window.CourseDemoData && typeof window.CourseDemoData.getNestedLibrary === 'function') {
+                return window.CourseDemoData.deepClone(window.CourseDemoData.getNestedLibrary());
               }
-            ],
+              // 数据源未加载时的回退（保持页面不报错）
+              return [
+                {
+                  audience: '学员培训',
+                  tabs: [
+                    { label: '临床技术性技能课程', lessons: [], videos: [] },
+                    { label: '临床非技术性技能课程', lessons: [], videos: [] },
+                    { label: '情境模拟课程', lessons: [], videos: [] }
+                  ]
+                },
+                {
+                  audience: '师资培训',
+                  tabs: [
+                    { label: '临床技术性技能课程', lessons: [], videos: [] },
+                    { label: '临床非技术性技能课程', lessons: [], videos: [] },
+                    { label: '情境模拟课程', lessons: [], videos: [] }
+                  ]
+                }
+              ];
+            })(),
             methods: [
               { key: 'upload', title: '已有教案，帮我标准化', desc: '上传 Word、PDF 或 PPT，AI 自动识别并整理为标准教案。', action: '上传并解析', tone: 'blue', helper: '上传已有教案，AI 将识别课程结构与待确认信息。', icon: '<svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5"></path><path d="M4 15v4h16v-4"></path></svg>' },
               { key: 'idea', title: '只有想法，AI 帮我生成', desc: '输入课程主题、目标与参考资料，生成可编辑的教案初稿。', action: '描述课程想法', tone: 'purple', helper: '描述课程主题与教学目标，AI 将生成第一版教案。', icon: '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4"></path><path d="M8 14a7 7 0 1 1 8 0c-1 1-1 2-1 2h-6s0-1-1-2Z"></path></svg>' },

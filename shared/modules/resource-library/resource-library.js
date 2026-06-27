@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   const script = document.querySelector('script[src*="resource-library.js"]');
   const basePath = script ? script.src.substring(0, script.src.lastIndexOf('/') + 1) : '../../shared/modules/resource-library/';
 
@@ -485,23 +485,15 @@
             { id: 1, name: '急救复苏操作说明.pdf', type: 'pdf', category: 'hospital', size: '1.2MB', date: '2026-04-20 14:15', desc: '院级公共急救流程图', tags: ['规范', '操作说明'], format: 'PDF', perm: '公开', uploader: '系统' },
             { id: 2, name: '儿科临床规范宣讲.mp4', type: 'video', category: 'hospital', size: '145MB', date: '2026-05-01 10:30', desc: '刘主任宣讲视频', tags: ['规范', '宣讲'], format: 'MP4', perm: '公开', uploader: '系统', published: true },
 
-            // === 课程开发示范库子项 (教师端 - 课程开发示范库) ===
-            // 技能课程 (f-dev-undergrad)
-            { id: 101, name: '儿童导尿术（男性）_示范教案.pdf', type: 'pdf', category: 'hospital-dev', parentFolder: 'f-dev-undergrad', size: '1.5MB', date: '2026-01-15 09:00', desc: '规范化技术实操示范教案', tags: ['示范教案', '本科生', '技术技能'], format: 'PDF', perm: '公开', uploader: '系统' },
-            { id: 102, name: '儿童导尿术（男性）_空白模板.docx', type: 'doc', category: 'hospital-dev', parentFolder: 'f-dev-undergrad', size: '450KB', date: '2026-01-15 09:00', desc: '课程开发空白模板', tags: ['空白模板', '技术技能'], format: 'DOCX', perm: '公开', uploader: '系统' },
-            { id: 103, name: '儿童导尿术（男性）_示范视频.mp4', type: 'video', category: 'hospital-dev', parentFolder: 'f-dev-undergrad', size: '120MB', date: '2026-01-15 09:00', desc: '标准儿童导尿术实操视频', tags: ['示范视频', '实操录像'], format: 'MP4', perm: '公开', uploader: '系统', published: true },
-            { id: 104, name: '心肺复苏CPR实操要领.mp4', type: 'video', category: 'hospital-dev', parentFolder: 'f-dev-undergrad', size: '85MB', date: '2026-02-10 14:30', desc: '心肺复苏胸外按压与人工呼吸标准规范', tags: ['心肺复苏', '实操视频'], format: 'MP4', perm: '公开', uploader: '系统', published: true },
-            { id: 105, name: '无菌伤口换药规范.pdf', type: 'pdf', category: 'hospital-dev', parentFolder: 'f-dev-undergrad', size: '2.3MB', date: '2026-03-01 10:15', desc: '标准化伤口处理与换药步骤', tags: ['无菌操作', '规范指南'], format: 'PDF', perm: '公开', uploader: '系统' },
-
-            // 非技能课程 (f-dev-resident)
-            { id: 111, name: '沟通技巧：坏消息告知教案.pdf', type: 'pdf', category: 'hospital-dev', parentFolder: 'f-dev-resident', size: '1.1MB', date: '2026-01-15 09:00', desc: '医患沟通与坏消息告知教案', tags: ['示范教案', '沟通技巧'], format: 'PDF', perm: '公开', uploader: '系统' },
-            { id: 112, name: '坏消息告知_实操演练.mp4', type: 'video', category: 'hospital-dev', parentFolder: 'f-dev-resident', size: '98MB', date: '2026-01-15 09:00', desc: '标准化病人SP情境演练录像', tags: ['示范视频', 'SP演练'], format: 'MP4', perm: '公开', uploader: '系统', published: true },
-            { id: 113, name: '儿科接诊沟通艺术.pptx', type: 'ppt', category: 'hospital-dev', parentFolder: 'f-dev-resident', size: '14.2MB', date: '2026-04-12 16:00', desc: '如何与患儿及家属建立信任信任关系', tags: ['沟通技巧', '医患关系'], format: 'PPTX', perm: '公开', uploader: '系统' },
-
-            // 情境模拟 (f-dev-fellow)
-            { id: 121, name: '梗阻性休克识别与处理_示范教案.pdf', type: 'pdf', category: 'hospital-dev', parentFolder: 'f-dev-fellow', size: '2.1MB', date: '2026-01-15 09:00', desc: '休克情境模拟教学设计', tags: ['示范教案', '情境模拟'], format: 'PDF', perm: '公开', uploader: '系统' },
-            { id: 122, name: '梗阻性休克的识别与处理_课件.pptx', type: 'ppt', category: 'hospital-dev', parentFolder: 'f-dev-fellow', size: '18.5MB', date: '2026-01-15 09:00', desc: '情境导入与知识串讲PPT', tags: ['课件', '休克识别'], format: 'PPTX', perm: '公开', uploader: '系统' },
-            { id: 123, name: '过敏性休克抢救情境模拟.mp4', type: 'video', category: 'hospital-dev', parentFolder: 'f-dev-fellow', size: '142MB', date: '2026-05-18 11:20', desc: '多学科联合过敏性休克应急抢救演练视频', tags: ['情境模拟', '急救演练'], format: 'MP4', perm: '公开', uploader: '系统', published: true },
+            // === 课程开发示范库子项 (统一数据源：shared/modules/course-demo-data.js) ===
+            // 通过 window.CourseDemoData.getFlatResources() 派生扁平文件列表（深拷贝避免污染）
+          ].concat((function () {
+            if (window.CourseDemoData && typeof window.CourseDemoData.getFlatResources === 'function') {
+              return window.CourseDemoData.deepClone(window.CourseDemoData.getFlatResources());
+            }
+            // 数据源未加载时返回空数组（保持页面不报错）
+            return [];
+          })()).concat([
 
             // === 教学设备教程库子项 (f-equip-room/f-equip-sim/f-equip-osce) ===
             // 录播教室
@@ -527,7 +519,7 @@
             { id: 5, name: '我的教学录像_2026春.mp4', type: 'video', category: 'personal', parentFolder: 'f-p-vid', size: '890MB', date: '2026-04-01 09:15', desc: '2026年春季教学录像', tags: ['教学录像', '春季'], format: 'MP4', perm: '仅自己', uploader: '本人', published: true },
             { id: 6, name: '教学课件_循环系统疾病.pptx', type: 'ppt', category: 'personal', size: '18.3MB', date: '2026-03-12 10:00', tags: ['课件', '循环系统'], format: 'PPTX', perm: '科室可见', uploader: '本人' },
             { id: 7, name: '护理操作考核评分表.docx', type: 'doc', category: 'personal', size: '1.2MB', date: '2026-02-28 14:00', tags: ['考核', '评分表'], format: 'DOCX', perm: '仅自己', uploader: '本人' }
-          ],
+          ]),
 
           devTypeFilter: 'all',
           equipTypeFilter: 'all',

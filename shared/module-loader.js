@@ -29,7 +29,8 @@
     '归还签收': { css: ['modules/material-management/material-management.css'], js: ['modules/material-management/material-management.js'] },
 
     // course-dev (extracted from admin course-center.html inline content)
-    '课程开发': { css: ['modules/course-dev/course-dev.css'], js: ['modules/course-dev/course-dev.js'] },
+    // 先加载示范库公共数据，再加载课程开发模块
+    '课程开发': { css: ['modules/course-dev/course-dev.css'], js: ['modules/course-demo-data.js', 'modules/course-dev/course-dev.js'] },
 
     // space-reservation (teacher: venue + material requests)
     '场地和物资申请': { css: ['modules/space-reservation/space-reservation.css'], js: ['modules/space-data.js', 'modules/space-reservation/space-reservation.js'] },
@@ -48,7 +49,8 @@
     '班牌和大屏管理': { css: ['modules/brand-display-management/brand-display-management.css'], js: ['modules/brand-display-management/brand-display-management.js'] },
 
     // resource-library (unified cloud drive explorer)
-    '教学资源库': { css: ['modules/resource-library/resource-library.css'], js: ['modules/resource-library/resource-library.js'] },
+    // 先加载示范库公共数据，再加载教学资源库
+    '教学资源库': { css: ['modules/resource-library/resource-library.css'], js: ['modules/course-demo-data.js', 'modules/resource-library/resource-library.js'] },
 
     // course-selection (student: choose courses and view timetable/cart)
     '可选课程': { css: ['modules/course-selection/course-selection.css'], js: ['modules/course-selection/course-selection.js'] },
