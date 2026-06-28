@@ -40,7 +40,8 @@
     'package': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73v-9.73"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>',
     'search': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
     'panel-right-open': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m10 15-3-3 3-3"/></svg>',
-    'panel-right-close': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m7 9 3 3-3 3"/></svg>'
+    'panel-right-close': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m7 9 3 3-3 3"/></svg>',
+    'send': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>'
   };
 
   function icon(name, size) {
@@ -250,6 +251,119 @@
               </section>
             </template>
 
+            <template v-else-if="page === 'config'">
+              <header class="app-task-header cd-create-task-header">
+                <div class="app-task-header-main">
+                  <button class="cd-back" @click="page = 'list'"><span v-html="icon('arrow-left')"></span>返回</button>
+                  <div class="app-task-heading">
+                    <h1>创建课程</h1>
+                    <p>选择课程范围、类型与教学框架，也可在下方描述需求让 AI 自动配置</p>
+                  </div>
+                </div>
+                <div class="app-task-header-actions">
+                  <a-button type="primary" @click="enterStart">下一步</a-button>
+                  <span class="app-save-state">步骤 1 / 4</span>
+                </div>
+              </header>
+              <main class="cd-create-panel cd-config-panel">
+                <nav class="cd-create-steps" aria-label="课程创建步骤">
+                  <span class="active"><b>1</b>课程配置</span>
+                  <span><b>2</b>选择方式</span>
+                  <span><b>3</b>编辑完善</span>
+                  <span><b>4</b>预览发布</span>
+                </nav>
+
+                <div class="cd-config-scope">
+                  <button v-for="s in configScopes" :key="s" :class="{ active: configScope === s }" @click="setConfigScope(s)">{{ s }}</button>
+                </div>
+
+                <section class="cd-config-section">
+                  <div class="cd-config-section-head">
+                    <div>
+                      <h2>选择课程类型</h2>
+                      <p>{{ configTypeHelp }}</p>
+                    </div>
+                    <span class="cd-config-note">{{ configTypeNote }}</span>
+                  </div>
+                  <div class="cd-config-type-grid">
+                    <button v-for="t in configTypeMeta" :key="t.name"
+                      :class="{ active: configSelectedTypes.indexOf(t.name) !== -1, primary: configPrimaryType === t.name && !configIsSingle }"
+                      @click="toggleConfigType(t.name)">
+                      <span class="cd-config-type-icon" :class="'tone-' + t.tone">{{ t.icon }}</span>
+                      <div class="cd-config-type-body">
+                        <strong>{{ t.name }}</strong>
+                        <span>{{ t.desc }}</span>
+                      </div>
+                      <span class="cd-config-check" v-if="configSelectedTypes.indexOf(t.name) !== -1" v-html="icon('check')"></span>
+                      <span class="cd-config-primary-tag" v-if="configPrimaryType === t.name && !configIsSingle">主类型</span>
+                    </button>
+                  </div>
+
+                  <div v-if="!configIsSingle" class="cd-config-brief">
+                    <div class="cd-config-brief-row">
+                      <label><span>课程名称</span><a-input v-model="configCourseName" placeholder="例如：儿科急救技能训练营"></a-input></label>
+                      <label><span>授课对象</span>
+                        <a-select v-model="configAudience" @change="onConfigAudienceChange" style="width: 200px">
+                          <a-option v-for="a in configAudienceOptions" :key="a" :value="a">{{ a }}</a-option>
+                        </a-select>
+                      </label>
+                    </div>
+                    <div class="cd-config-brief-row">
+                      <label><span>建议难度</span>
+                        <a-select v-model="configDifficulty" style="width: 200px">
+                          <a-option value="入门">入门</a-option>
+                          <a-option value="进阶">进阶</a-option>
+                          <a-option value="高阶">高阶</a-option>
+                        </a-select>
+                      </label>
+                      <label class="wide"><span>培养目标</span><a-input v-model="configGoal"></a-input></label>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="cd-config-section">
+                  <div class="cd-config-section-head">
+                    <div>
+                      <h2>选择教学框架</h2>
+                      <p>{{ configFrameworkHelp }}</p>
+                    </div>
+                    <span class="cd-config-note">{{ configFrameworkNote }}</span>
+                  </div>
+                  <div class="cd-config-framework-grid">
+                    <button v-for="f in configFrameworkList" :key="f.code"
+                      :class="{ active: configSelectedFrameworks.indexOf(f.code) !== -1 }"
+                      @click="toggleConfigFramework(f.code)">
+                      <span v-if="f.badge" class="cd-config-badge">{{ f.badge }}</span>
+                      <div class="cd-config-framework-code">{{ f.code }}</div>
+                      <div class="cd-config-framework-sub">{{ f.sub }}</div>
+                      <div class="cd-config-framework-desc">{{ f.desc }}</div>
+                      <div class="cd-config-framework-meta">
+                        <span>{{ f.code }}</span>
+                        <span class="cd-config-check" v-if="configSelectedFrameworks.indexOf(f.code) !== -1" v-html="icon('check')"></span>
+                      </div>
+                    </button>
+                  </div>
+                </section>
+              </main>
+
+              <div class="cd-config-composer">
+                <div class="cd-config-composer-inner">
+                  <span class="cd-config-composer-icon" v-html="icon('sparkles')"></span>
+                  <a-textarea v-model="configPrompt" placeholder="描述课程需求，如：我想做一个关于小儿气管插管的专项课程，使用 CBL 框架..." :auto-size="{ minRows: 1, maxRows: 3 }" class="cd-config-composer-input"></a-textarea>
+                  <label class="cd-config-composer-upload" v-if="!configUploadedFile">
+                    <span v-html="icon('upload')"></span>
+                    <input type="file" accept=".doc,.docx,.pdf,.ppt,.pptx" @change="handleConfigFileSelect" hidden />
+                  </label>
+                  <span class="cd-config-composer-file" v-if="configUploadedFile">
+                    <span v-html="icon('file-text')"></span>{{ configUploadedFile }}
+                    <button class="cd-config-composer-file-remove" @click="configUploadedFile = ''"><span v-html="icon('trash-2')"></span></button>
+                  </span>
+                  <button class="cd-config-send-btn" @click="sendConfigPrompt" v-html="icon('send')"></button>
+                </div>
+                <p class="cd-config-composer-hint">描述需求或上传教案，系统将自动整理课程配置</p>
+              </div>
+            </template>
+
             <template v-else-if="page === 'start'">
               <header class="app-task-header cd-create-task-header">
                 <div class="app-task-header-main">
@@ -260,13 +374,13 @@
                   </div>
                 </div>
                 <div class="app-task-header-actions">
-                  <span class="app-save-state">步骤 1 / 4</span>
+                  <span class="app-save-state">步骤 2 / 4</span>
                 </div>
               </header>
               <main class="cd-create-panel">
                 <nav class="cd-create-steps" aria-label="课程创建步骤">
-                  <span class="active"><b>1</b>选择方式</span>
-                  <span><b>2</b>导入或配置</span>
+                  <span><b>1</b>课程配置</span>
+                  <span class="active"><b>2</b>选择方式</span>
                   <span><b>3</b>编辑完善</span>
                   <span><b>4</b>预览发布</span>
                 </nav>
@@ -1631,6 +1745,38 @@
             templates: ['临床技术性技能课程模板', '临床非技术性技能课程模板', '情境模拟课程模板', '通识课程模板', '小讲课模板', '病例讨论模板'],
             courseTypes: ['临床技术性技能课程', '临床非技术性技能课程', '情境模拟课程', '通识课程'],
             startForm: { name: '儿童导尿术（男性）', type: '临床技术性技能课程', audience: '住培一年级', owner: '刘国强', idea: '' },
+            // ── config page state ──
+            configScope: '单次课程',
+            configScopes: ['单次课程', '专项课程', '纵向课程'],
+            configSelectedTypes: ['临床技术性技能课程'],
+            configPrimaryType: '临床技术性技能课程',
+            configTypeMeta: [
+              { name: '临床技术性技能课程', icon: '技', tone: 'blue', desc: '操作技能为核心，演示与分步练习' },
+              { name: '临床非技术性技能课程', icon: '沟', tone: 'purple', desc: '沟通协作等软技能，SP 与角色扮演' },
+              { name: '情境模拟课程', icon: '景', tone: 'green', desc: '模拟情境驱动，团队协作与复盘' },
+              { name: '通识课程', icon: '通', tone: 'orange', desc: '知识传授为主，讲授与讨论' }
+            ],
+            configSelectedFrameworks: ['BOPPPS'],
+            configFrameworkList: [
+              { code: 'BOPPPS', sub: '六环节参与式教学设计', desc: '适合结构清晰的单次课程', badge: '推荐' },
+              { code: 'TBL', sub: '团队式学习', desc: '准备度测试与团队应用', badge: '' },
+              { code: 'CBL', sub: '案例式学习', desc: '围绕临床案例分析与决策', badge: '' },
+              { code: 'PBL', sub: '问题式学习', desc: '问题驱动与自主探究', badge: '' }
+            ],
+            configCourseName: '',
+            configAudience: '住培一年级学员',
+            configAudienceOptions: ['住培一年级学员', '住培二至三年级学员', '专培医师', '新任带教教师', '模拟教学导师'],
+            configDifficulty: '入门',
+            configGoal: '建立规范流程和基础临床技能',
+            configProfiles: {
+              '住培一年级学员': { difficulty: '入门', goal: '建立规范流程和基础临床技能', framework: 'BOPPPS' },
+              '住培二至三年级学员': { difficulty: '进阶', goal: '强化复杂情境下的临床判断与操作', framework: 'CBL' },
+              '专培医师': { difficulty: '高阶', goal: '专科复杂病例处置与团队协作', framework: 'PBL' },
+              '新任带教教师': { difficulty: '入门', goal: '掌握医学模拟教学基本方法与反馈技巧', framework: 'BOPPPS' },
+              '模拟教学导师': { difficulty: '高阶', goal: '深化模拟教案设计与复盘引导能力', framework: 'CBL' }
+            },
+            configPrompt: '',
+            configUploadedFile: '',
             recognized: ['已识别技能站', '已识别实施要求', '已识别资源材料', '已识别评估表'],
             editingCourse: { name: '儿童导尿术（男性）', type: '临床技术性技能课程', audience: '住培一年级', owner: '刘国强', team: 8, teacherTeam: ['刘国强', '王雨桐', '蔡小芳'], cover: coverUrl, status: '开发中', complete: 5, missing: '资源与评估', programs: ['儿科住培一年级基础技能训练'] },
             teacherOptions: [
@@ -1916,6 +2062,34 @@
             ];
           },
           currentMethod: function () { return this.methods.find(function (item) { return item.key === this.startMethod; }.bind(this)) || this.methods[0]; },
+          configIsSingle: function () { return this.configScope === '单次课程'; },
+          configTypeHelp: function () {
+            var map = {
+              '临床技术性技能课程': '以操作技能为核心，包含演示、分步练习与即时反馈',
+              '临床非技术性技能课程': '以沟通、协作等软技能为核心，包含 SP 与角色扮演',
+              '情境模拟课程': '以模拟情境为核心，包含团队协作与复盘',
+              '通识课程': '以知识传授为核心，包含讲授与讨论'
+            };
+            return map[this.configPrimaryType] || '选择适合课程目标的教学类型';
+          },
+          configTypeNote: function () {
+            if (this.configIsSingle) return '单次课程选择一个类型';
+            return '已选 ' + this.configSelectedTypes.length + ' 个类型';
+          },
+          configFrameworkHelp: function () {
+            var map = {
+              'BOPPPS': '六环节参与式设计：导入、目标、前测、参与、后测、总结',
+              'TBL': '团队式学习：个人准备、团队测试、应用练习',
+              'CBL': '案例式学习：临床案例驱动分析与决策',
+              'PBL': '问题式学习：问题驱动自主探究与协作'
+            };
+            var first = this.configSelectedFrameworks[0];
+            return first ? map[first] : '选择适合课程目标的教学框架';
+          },
+          configFrameworkNote: function () {
+            if (this.configIsSingle) return '单次课程选择一个框架';
+            return '已选 ' + this.configSelectedFrameworks.length + ' 个框架';
+          },
           contentCards: function () {
             if (this.editingCourse.type === '非技能课程') return [
               { title: '模块 1：建立关系与沟通框架', desc: '视频导入、讨论与 SPIKES 框架讲解', tags: ['视频示范', '讨论'], duration: '20 min' },
@@ -1941,7 +2115,104 @@
           primaryAction: function (course) { return ({ '开发中': '继续编辑', '待审核': '查看详情', '返修中': '处理返修', '审核通过': '查看详情', '申请修订中': '查看详情' })[course.status] || '查看详情'; },
           resetFilters: function () { this.filters = { status: '', type: '', audience: '', year: '', keyword: '' }; },
           applyStat: function (stat) { if (stat.key === 'program') this.mainTab = 'program'; else { this.mainTab = 'course'; this.filters.status = stat.key; } },
-          openStart: function () { this.page = 'start'; },
+          openStart: function () { this.page = 'config'; window.scrollTo(0, 0); },
+          enterStart: function () { this.page = 'start'; window.scrollTo(0, 0); },
+          setConfigScope: function (scope) {
+            this.configScope = scope;
+            if (scope === '单次课程') {
+              this.configSelectedTypes = [this.configPrimaryType];
+              this.configSelectedFrameworks = [this.configSelectedFrameworks[0] || 'BOPPPS'];
+            }
+          },
+          toggleConfigType: function (type) {
+            var idx = this.configSelectedTypes.indexOf(type);
+            if (this.configIsSingle) {
+              this.configSelectedTypes = [type];
+              this.configPrimaryType = type;
+            } else if (this.configScope === '专项课程') {
+              if (idx === -1) {
+                this.configSelectedTypes.push(type);
+              } else if (type !== this.configPrimaryType) {
+                this.configSelectedTypes.splice(idx, 1);
+              }
+              if (this.configSelectedTypes.indexOf(this.configPrimaryType) === -1) {
+                this.configPrimaryType = type;
+              }
+            } else {
+              if (idx !== -1 && this.configSelectedTypes.length > 1) {
+                this.configSelectedTypes.splice(idx, 1);
+              } else if (idx === -1) {
+                this.configSelectedTypes.push(type);
+              }
+              if (this.configSelectedTypes.indexOf(this.configPrimaryType) === -1) {
+                this.configPrimaryType = this.configSelectedTypes[0];
+              }
+            }
+          },
+          toggleConfigFramework: function (framework) {
+            var idx = this.configSelectedFrameworks.indexOf(framework);
+            if (this.configIsSingle) {
+              this.configSelectedFrameworks = [framework];
+            } else if (idx !== -1 && this.configSelectedFrameworks.length > 1) {
+              this.configSelectedFrameworks.splice(idx, 1);
+            } else if (idx === -1) {
+              this.configSelectedFrameworks.push(framework);
+            }
+          },
+          onConfigAudienceChange: function () {
+            var p = this.configProfiles[this.configAudience];
+            if (p) {
+              this.configDifficulty = p.difficulty;
+              this.configGoal = p.goal;
+              if (this.configIsSingle) {
+                this.configSelectedFrameworks = [p.framework];
+              } else if (this.configSelectedFrameworks.indexOf(p.framework) === -1) {
+                this.configSelectedFrameworks.push(p.framework);
+              }
+              this.$message.success('已根据授课对象更新难度、目标与框架建议');
+            }
+          },
+          handleConfigFileSelect: function (e) {
+            var file = e.target.files[0];
+            if (file) {
+              this.configUploadedFile = file.name;
+              this.$message.success('文件已加入：' + file.name);
+            }
+          },
+          sendConfigPrompt: function () {
+            var text = (this.configPrompt || '').trim();
+            if (!text) { this.$message.warning('请先描述课程需求'); return; }
+            if (/纵向/.test(text)) {
+              this.setConfigScope('纵向课程');
+            } else if (/专项/.test(text)) {
+              this.setConfigScope('专项课程');
+            }
+            var self = this;
+            ['BOPPPS', 'TBL', 'CBL', 'PBL'].forEach(function (name) {
+              if (text.toUpperCase().indexOf(name) !== -1) {
+                if (self.configIsSingle) {
+                  self.configSelectedFrameworks = [name];
+                } else if (self.configSelectedFrameworks.indexOf(name) === -1) {
+                  self.configSelectedFrameworks.push(name);
+                }
+              }
+            });
+            if (/非技术|沟通|协作/.test(text)) {
+              this.toggleConfigType('临床非技术性技能课程');
+            } else if (/情境|模拟/.test(text)) {
+              this.toggleConfigType('情境模拟课程');
+            } else if (/通识/.test(text)) {
+              this.toggleConfigType('通识课程');
+            } else if (/操作|技能/.test(text)) {
+              this.toggleConfigType('临床技术性技能课程');
+            }
+            var titleMatch = text.match(/[《"]+(.*?)[》"]+/);
+            if (titleMatch) {
+              this.configCourseName = titleMatch[1];
+            }
+            this.configPrompt = '';
+            this.$message.success('已整理需求，请确认课程类型与教学框架');
+          },
           openDemoLibrary: function () { this.demoLibraryVisible = true; },
           previewDemoLesson: function (lesson) { this.currentPreviewLesson = lesson; this.demoPreviewVisible = true; },
           previewDemoVideo: function (video) { this.currentPreviewVideo = video; this.demoVideoVisible = true; },

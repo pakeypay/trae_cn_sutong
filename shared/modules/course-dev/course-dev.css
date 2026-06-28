@@ -4728,3 +4728,454 @@
   font-size: var(--font-meta, 13px);
   line-height: var(--line-meta, 20px);
 }
+
+/* ════════════════════════════════════════════
+   Config page (Step 1 — course configuration)
+   ════════════════════════════════════════════ */
+
+.app-content-v2 .cd-config-panel {
+  padding-bottom: 120px;
+}
+
+/* ── Scope tabs ── */
+.app-content-v2 .cd-config-scope {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding: var(--space-1);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-2);
+  width: fit-content;
+}
+
+.app-content-v2 .cd-config-scope button {
+  padding: var(--space-2) var(--space-5);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-2);
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.app-content-v2 .cd-config-scope button:hover {
+  color: var(--color-text-1);
+}
+
+.app-content-v2 .cd-config-scope button.active {
+  background: var(--color-bg-1);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Section ── */
+.app-content-v2 .cd-config-section {
+  margin-bottom: var(--space-8);
+}
+
+.app-content-v2 .cd-config-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.app-content-v2 .cd-config-section-head h2 {
+  margin: 0 0 var(--space-1);
+  font-size: var(--font-section-title);
+  line-height: var(--line-section-title);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-1);
+}
+
+.app-content-v2 .cd-config-section-head p {
+  margin: 0;
+  color: var(--color-text-3);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.app-content-v2 .cd-config-note {
+  flex: 0 0 auto;
+  color: var(--color-text-3);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+/* ── Type grid ── */
+.app-content-v2 .cd-config-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.app-content-v2 .cd-config-type-grid button {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-1);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.app-content-v2 .cd-config-type-grid button:hover {
+  border-color: var(--color-primary-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-content-v2 .cd-config-type-grid button.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.app-content-v2 .cd-config-type-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.app-content-v2 .cd-config-type-icon.tone-blue { background: var(--color-primary-bg); color: var(--color-primary); }
+.app-content-v2 .cd-config-type-icon.tone-green { background: var(--color-success-bg); color: var(--color-success); }
+.app-content-v2 .cd-config-type-icon.tone-orange { background: var(--color-warning-bg); color: var(--color-warning); }
+.app-content-v2 .cd-config-type-icon.tone-purple { background: var(--color-purple-bg); color: var(--color-purple); }
+
+.app-content-v2 .cd-config-type-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-content-v2 .cd-config-type-body strong {
+  display: block;
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-1);
+}
+
+.app-content-v2 .cd-config-type-body span {
+  display: block;
+  color: var(--color-text-3);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+  margin-top: 2px;
+}
+
+.app-content-v2 .cd-config-check {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.app-content-v2 .cd-config-check svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  stroke-width: 3;
+  fill: none;
+}
+
+.app-content-v2 .cd-config-primary-tag {
+  flex: 0 0 auto;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+  white-space: nowrap;
+}
+
+/* ── Brief panel (专项/纵向) ── */
+.app-content-v2 .cd-config-brief {
+  margin-top: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-2);
+}
+
+.app-content-v2 .cd-config-brief-row {
+  display: flex;
+  gap: var(--space-5);
+  margin-bottom: var(--space-3);
+}
+
+.app-content-v2 .cd-config-brief-row:last-child {
+  margin-bottom: 0;
+}
+
+.app-content-v2 .cd-config-brief label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.app-content-v2 .cd-config-brief label.wide {
+  flex: 2;
+}
+
+.app-content-v2 .cd-config-brief label > span {
+  color: var(--color-text-2);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+/* ── Framework grid ── */
+.app-content-v2 .cd-config-framework-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.app-content-v2 .cd-config-framework-grid button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-1);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.app-content-v2 .cd-config-framework-grid button:hover {
+  border-color: var(--color-primary-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.app-content-v2 .cd-config-framework-grid button.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.app-content-v2 .cd-config-badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+.app-content-v2 .cd-config-framework-code {
+  font-size: var(--font-section-title);
+  line-height: var(--line-section-title);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-1);
+}
+
+.app-content-v2 .cd-config-framework-sub {
+  color: var(--color-text-2);
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+}
+
+.app-content-v2 .cd-config-framework-desc {
+  color: var(--color-text-3);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.app-content-v2 .cd-config-framework-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+
+.app-content-v2 .cd-config-framework-meta > span:first-child {
+  color: var(--color-text-3);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+/* ── Bottom composer ── */
+.app-content-v2 .cd-config-composer {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  padding: var(--space-3) var(--content-page-padding-x, 32px);
+  background: var(--color-bg-1);
+  border-top: 1px solid var(--color-border-light);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.app-content-v2 .cd-config-composer-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.app-content-v2 .cd-config-composer-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+}
+
+.app-content-v2 .cd-config-composer-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.app-content-v2 .cd-config-composer-input {
+  flex: 1;
+}
+
+.app-content-v2 .cd-config-composer-input textarea {
+  resize: none !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.app-content-v2 .cd-config-composer-upload {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-1);
+  color: var(--color-text-2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.app-content-v2 .cd-config-composer-upload:hover {
+  border-color: var(--color-primary-border);
+  color: var(--color-primary);
+}
+
+.app-content-v2 .cd-config-composer-upload svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.app-content-v2 .cd-config-composer-file {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-bg);
+  color: var(--color-primary);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+.app-content-v2 .cd-config-composer-file svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.app-content-v2 .cd-config-composer-file-remove {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-3);
+  cursor: pointer;
+}
+
+.app-content-v2 .cd-config-composer-file-remove:hover {
+  color: var(--color-danger);
+}
+
+.app-content-v2 .cd-config-composer-file-remove svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.app-content-v2 .cd-config-send-btn {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.app-content-v2 .cd-config-send-btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.app-content-v2 .cd-config-send-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.app-content-v2 .cd-config-composer-hint {
+  margin: var(--space-1) 0 0;
+  text-align: center;
+  color: var(--color-text-3);
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+/* ── Config page responsive ── */
+@media (max-width: 768px) {
+  .app-content-v2 .cd-config-type-grid,
+  .app-content-v2 .cd-config-framework-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-content-v2 .cd-config-brief-row {
+    flex-direction: column;
+  }
+
+  .app-content-v2 .cd-config-composer-inner {
+    flex-wrap: wrap;
+  }
+}
