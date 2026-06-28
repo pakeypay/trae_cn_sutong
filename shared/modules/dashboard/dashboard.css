@@ -555,28 +555,28 @@
 
 /* ── Solid tone variants (实色背景 + 白色 icon) ── */
 .admin-service-icon.tone-solid-blue {
-  background: #3856c8;
-  color: #fff;
+  background: var(--color-service-blue);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-purple {
-  background: #6340a8;
-  color: #fff;
+  background: var(--color-service-purple);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-green {
-  background: #3d8a5e;
-  color: #fff;
+  background: var(--color-service-green);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-teal {
-  background: #358f83;
-  color: #fff;
+  background: var(--color-service-teal);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-orange {
-  background: #cc6e3d;
-  color: #fff;
+  background: var(--color-service-orange);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-todo {
@@ -590,18 +590,18 @@
 }
 
 .admin-service-icon.tone-solid-yellow {
-  background: #ad8a1c;
-  color: #fff;
+  background: var(--color-service-yellow);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-pink {
-  background: #b53d75;
-  color: #fff;
+  background: var(--color-service-pink);
+  color: var(--color-text-white);
 }
 
 .admin-service-icon.tone-solid-cyan {
-  background: #3683a0;
-  color: #fff;
+  background: var(--color-service-cyan);
+  color: var(--color-text-white);
 }
 
 .admin-service-card strong {
@@ -901,5 +901,323 @@ html {
   .admin-dashboard-wrapper.app-content-v2 .dashboard-top-toolbar {
     margin-inline: -24px;
     padding-inline: 24px;
+  }
+}
+
+/* ================================================================
+   Shared Dashboard Visual System
+   教师、学员、管理员工作台统一使用本段规则。
+   ================================================================ */
+.dashboard-wrapper.app-content-v2 {
+  min-height: 100%;
+  padding: 0 var(--content-page-padding-x) var(--space-12);
+  background: var(--color-bg-2);
+  color: var(--color-content-text-primary);
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+}
+
+.dashboard-wrapper.app-content-v2 .dashboard-top-toolbar {
+  min-height: 64px;
+  margin: 0 calc(-1 * var(--content-page-padding-x)) var(--space-6);
+  padding: 18px var(--content-page-padding-x);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-1);
+}
+
+.dashboard-wrapper.app-content-v2 .dashboard-toolbar-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.dashboard-wrapper.app-content-v2 .dashboard-toolbar-title strong {
+  color: var(--color-content-text-primary);
+  font-size: var(--font-page-title);
+  line-height: var(--line-page-title);
+  font-weight: var(--font-weight-bold);
+}
+
+.dashboard-wrapper.app-content-v2 .dashboard-toolbar-title span {
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.dashboard-wrapper.app-content-v2 .dashboard-toolbar-search {
+  width: min(360px, 34vw);
+  height: 36px;
+  border-color: var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-1);
+}
+
+.dashboard-wrapper.app-content-v2 .dashboard-toolbar-search:focus-within {
+  border-color: var(--color-primary-border);
+  box-shadow: var(--shadow-focus);
+}
+
+.dashboard-inline-icon,
+.dashboard-button-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  vertical-align: -3px;
+}
+
+.dashboard-inline-icon {
+  margin-right: var(--space-1);
+}
+
+.dashboard-inline-icon svg,
+.dashboard-button-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dashboard-wrapper .welcome-banner-card,
+.dashboard-wrapper .metrics-block,
+.dashboard-wrapper .db-card,
+.dashboard-wrapper .admin-service-card {
+  border: 1px solid var(--dashboard-card-border);
+  border-radius: var(--dashboard-card-radius);
+  background: var(--color-bg-1);
+  box-shadow: var(--dashboard-card-shadow);
+}
+
+.dashboard-wrapper .welcome-banner-card {
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  background:
+    radial-gradient(circle at 80% 20%, var(--color-primary-bg) 0%, transparent 60%),
+    var(--color-bg-1);
+}
+
+.dashboard-wrapper .welcome-banner-card .banner-title {
+  font-size: var(--font-task-title);
+  line-height: var(--line-task-title);
+  color: var(--color-content-text-primary);
+}
+
+.dashboard-wrapper .welcome-banner-card .banner-desc {
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  color: var(--color-content-text-secondary);
+}
+
+.dashboard-wrapper .metrics-block {
+  min-height: 96px;
+  padding: var(--space-5);
+  border-left: 1px solid var(--dashboard-card-border);
+}
+
+.dashboard-wrapper .metrics-block:hover,
+.dashboard-wrapper .admin-service-card:hover {
+  border-color: var(--color-primary-border);
+  box-shadow: var(--dashboard-card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.dashboard-wrapper .metrics-block .metric-label {
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.dashboard-wrapper .metrics-block .metric-value,
+.dashboard-wrapper.student-dashboard-wrapper .metrics-block .metric-value {
+  margin-top: var(--space-2);
+  color: var(--color-content-text-primary);
+  font-size: var(--font-task-title);
+  line-height: var(--line-task-title);
+}
+
+.dashboard-wrapper .metric-icon,
+.dashboard-wrapper .admin-service-icon {
+  width: var(--dashboard-icon-size);
+  height: var(--dashboard-icon-size);
+  border-radius: var(--dashboard-card-radius);
+  color: var(--color-text-white);
+}
+
+.dashboard-wrapper .metric-icon svg,
+.dashboard-wrapper .admin-service-icon svg {
+  width: var(--dashboard-icon-glyph-size);
+  height: var(--dashboard-icon-glyph-size);
+}
+
+.dashboard-wrapper .metric-icon.tone-blue,
+.dashboard-wrapper .dashboard-shortcut-icon.tone-blue {
+  background: var(--color-service-blue);
+}
+
+.dashboard-wrapper .metric-icon.tone-purple,
+.dashboard-wrapper .dashboard-shortcut-icon.tone-purple {
+  background: var(--color-service-purple);
+}
+
+.dashboard-wrapper .metric-icon.tone-green,
+.dashboard-wrapper .dashboard-shortcut-icon.tone-green {
+  background: var(--color-service-green);
+}
+
+.dashboard-wrapper .metric-icon.tone-teal,
+.dashboard-wrapper .dashboard-shortcut-icon.tone-teal {
+  background: var(--color-service-teal);
+}
+
+.dashboard-wrapper .metric-icon.tone-orange,
+.dashboard-wrapper .dashboard-shortcut-icon.tone-orange {
+  background: var(--color-service-orange);
+}
+
+.dashboard-wrapper .db-card {
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.dashboard-wrapper .db-card > .arco-card-header {
+  min-height: 56px;
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.dashboard-wrapper .db-card > .arco-card-header .arco-card-header-title {
+  color: var(--color-content-text-primary);
+  font-size: var(--font-section-title);
+  line-height: var(--line-section-title);
+  font-weight: var(--font-weight-bold);
+}
+
+.dashboard-wrapper .db-card > .arco-card-body {
+  padding: var(--space-5);
+}
+
+.dashboard-wrapper .schedule-item-row,
+.dashboard-wrapper .todo-task-row,
+.dashboard-wrapper .course-progress-item,
+.dashboard-wrapper .shortcut-box,
+.dashboard-wrapper .radar-container {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--dashboard-card-radius);
+  background: var(--color-bg-3);
+}
+
+.dashboard-wrapper .schedule-item-row:hover,
+.dashboard-wrapper .todo-task-row:hover,
+.dashboard-wrapper .course-progress-item:hover,
+.dashboard-wrapper .shortcut-box:hover {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-wrapper .todo-task-row {
+  border-left: 1px solid var(--color-border-light);
+}
+
+.dashboard-wrapper .todo-task-row .task-title,
+.dashboard-wrapper .course-progress-item .course-name {
+  color: var(--color-content-text-primary);
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+}
+
+.dashboard-wrapper .todo-task-row .task-meta,
+.dashboard-wrapper .todo-task-row .task-deadline,
+.dashboard-wrapper .course-progress-item .course-status,
+.dashboard-wrapper .course-progress-item .course-tip,
+.dashboard-wrapper .notification-item .note-desc,
+.dashboard-wrapper .notification-item .note-time {
+  font-size: var(--font-caption);
+  line-height: var(--line-caption);
+}
+
+.dashboard-wrapper .todo-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-service-blue);
+  color: var(--color-text-white);
+}
+
+.dashboard-wrapper .todo-icon-box svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dashboard-wrapper .dashboard-shortcut-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto var(--space-2);
+  border-radius: var(--radius-md);
+  color: var(--color-text-white);
+  display: grid;
+  place-items: center;
+}
+
+.dashboard-wrapper .dashboard-shortcut-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dashboard-wrapper .shortcut-box {
+  min-height: 92px;
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-wrapper .shortcut-box .shortcut-label {
+  color: var(--color-content-text-primary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.dashboard-wrapper .admin-section-title {
+  color: var(--color-content-text-primary);
+  font-size: var(--font-section-title);
+  line-height: var(--line-section-title);
+}
+
+.dashboard-wrapper .admin-service-card {
+  padding: 14px 18px;
+}
+
+.dashboard-wrapper .admin-service-info strong {
+  color: var(--color-content-text-primary);
+  font-size: var(--font-section-title);
+  line-height: var(--line-section-title);
+}
+
+.dashboard-wrapper .admin-service-info small {
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+@media (max-width: 1365px) {
+  .dashboard-wrapper.app-content-v2 {
+    --content-page-padding-x: 24px;
+  }
+}
+
+@media (max-width: 960px) {
+  .dashboard-wrapper.app-content-v2 .dashboard-top-toolbar {
+    min-height: auto;
+    padding-block: var(--space-4);
+  }
+
+  .dashboard-wrapper.app-content-v2 .dashboard-toolbar-search {
+    width: 100%;
+  }
+
+  .dashboard-wrapper .welcome-banner-card {
+    align-items: flex-start;
   }
 }

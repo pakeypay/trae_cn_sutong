@@ -118,8 +118,24 @@
   --color-gray-border:       #dee0e3;
 
   /* 管理员工作台业务分类色（仅表达业务归属，不表达状态） */
+  --color-service-blue:      #3856c8;
+  --color-service-purple:    #6340a8;
+  --color-service-green:     #3d8a5e;
+  --color-service-teal:      #358f83;
+  --color-service-orange:    #cc6e3d;
+  --color-service-yellow:    #ad8a1c;
+  --color-service-pink:      #b53d75;
+  --color-service-cyan:      #3683a0;
   --color-service-todo:      #526f9e;
   --color-service-material:  #9a7424;
+
+  /* 三端工作台共享视觉规格 */
+  --dashboard-card-radius:       var(--radius-lg);
+  --dashboard-card-border:       var(--color-border);
+  --dashboard-card-shadow:       0 2px 6px rgba(29, 33, 41, 0.05), 0 1px 2px rgba(29, 33, 41, 0.04);
+  --dashboard-card-shadow-hover: 0 8px 24px rgba(29, 33, 41, 0.08), 0 2px 6px rgba(29, 33, 41, 0.04);
+  --dashboard-icon-size:         48px;
+  --dashboard-icon-glyph-size:   26px;
 
   /* ================================================================
      五、侧边导航（客户确认颜色，不改动）
