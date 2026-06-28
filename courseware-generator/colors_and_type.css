@@ -1,0 +1,101 @@
+/**
+ * 课件生成工具 - Brand CSS
+ * 延续复旦儿科医院教学管理系统设计语言
+ * 简洁工具风：中性灰底 + 品牌蓝强调
+ */
+
+:root {
+  /* 主色 — 延续项目品牌蓝 */
+  --color-primary:           #175898;
+  --color-primary-hover:     #2d76b0;
+  --color-primary-active:    #0f4a7a;
+  --color-primary-disabled:  #a5c2dd;
+  --color-primary-bg:        #edf4fb;
+  --color-primary-bg-hover:  #dbe8f2;
+  --color-primary-border:    #bcd0e2;
+
+  /* 文字颜色 */
+  --color-text-1: #1f2329;
+  --color-text-2: #646a73;
+  --color-text-3: #8f959e;
+  --color-text-4: #bbbfc4;
+  --color-text-white: #ffffff;
+
+  /* 背景颜色 */
+  --color-bg-1: #ffffff;
+  --color-bg-2: #f5f6f7;
+  --color-bg-3: #fafbfc;
+  --color-bg-4: #eef0f2;
+
+  /* 语义颜色 */
+  --color-success:           #00a870;
+  --color-success-bg:        #e8fff5;
+  --color-warning:           #ff7d00;
+  --color-warning-bg:        #fff7ed;
+  --color-danger:            #f53f3f;
+  --color-danger-bg:         #fff1f0;
+
+  /* 边框 */
+  --color-border:         #dee0e3;
+  --color-border-light:   #eef0f2;
+  --color-border-strong:  #bbbfc4;
+
+  /* 圆角 */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 999px;
+
+  /* 字号 */
+  --font-xs:   11px;
+  --font-sm:   12px;
+  --font-md:   13px;
+  --font-base: 14px;
+  --font-lg:   15px;
+  --font-xl:   18px;
+  --font-2xl:  24px;
+
+  /* 语义排版 */
+  --font-page-title: 20px;
+  --line-page-title: 28px;
+  --font-section-title: 16px;
+  --line-section-title: 24px;
+  --font-body: 14px;
+  --line-body: 22px;
+  --font-meta: 13px;
+  --line-meta: 20px;
+  --font-caption: 12px;
+  --line-caption: 18px;
+
+  --color-content-text-primary: #1d2129;
+  --color-content-text-secondary: #4e5969;
+  --color-content-text-tertiary: #6b7785;
+  --color-content-text-placeholder: #86909c;
+
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-semibold: 600;
+
+  /* 字体族 */
+  --font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* 阴影 — 极度克制 */
+  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(23, 88, 152, 0.15);
+
+  /* 间距 */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+
+  /* 过渡 */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.22s ease;
+}

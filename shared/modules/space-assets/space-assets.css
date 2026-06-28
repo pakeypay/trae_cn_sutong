@@ -840,3 +840,125 @@
     grid-template-columns: 180px 80px 80px minmax(140px, 1fr) 100px 90px 130px;
   }
 }
+
+/* Content Architecture V2: space asset management */
+.sast-page.app-content-v2 {
+  margin: 0;
+  padding: 0 32px 48px;
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-body, 14px);
+  line-height: var(--line-body, 22px);
+}
+
+.sast-page.app-content-v2 .sast-top-toolbar {
+  margin: 0 -32px 24px;
+  min-height: 72px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--color-border, #e5e6eb);
+  background: #fff;
+}
+
+.sast-page.app-content-v2 .app-page-title {
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-page-title, 20px);
+  line-height: var(--line-page-title, 28px);
+}
+
+.sast-page.app-content-v2 .sast-tab-actions {
+  align-self: stretch;
+}
+
+.sast-page.app-content-v2 .sast-tab-actions button {
+  min-height: 40px;
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-body, 14px);
+}
+
+.sast-page.app-content-v2 .sast-search {
+  width: min(360px, 30vw);
+}
+
+.sast-page.app-content-v2 .sast-stats-row {
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sast-page.app-content-v2 .sast-stat-card,
+.sast-page.app-content-v2 .sast-card,
+.sast-page.app-content-v2 .sast-donut-card,
+.sast-page.app-content-v2 .sast-rules-card {
+  border: 1px solid var(--color-border, #e5e6eb);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.sast-page.app-content-v2 .sast-stat-card {
+  min-height: 132px;
+  padding: 18px;
+}
+
+.sast-page.app-content-v2 .sast-stat-card em,
+.sast-page.app-content-v2 .sast-progress-label,
+.sast-page.app-content-v2 .sast-head,
+.sast-page.app-content-v2 .sast-row {
+  font-size: var(--font-meta, 13px);
+  line-height: var(--line-meta, 20px);
+}
+
+.sast-page.app-content-v2 .sast-content-layout {
+  gap: 20px;
+}
+
+.sast-page.app-content-v2 .sast-toolbar {
+  min-height: 60px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border, #e5e6eb);
+  background: #fff;
+}
+
+.sast-page.app-content-v2 .sast-new-btn {
+  min-height: 36px;
+  padding-inline: 16px;
+  border-radius: 6px;
+  font-size: var(--font-body, 14px);
+}
+
+.sast-page.app-content-v2 .sast-head {
+  min-height: 44px;
+  color: var(--color-text-secondary, #4e5969);
+}
+
+.sast-page.app-content-v2 .sast-row {
+  min-height: 64px;
+  color: var(--color-text-primary, #1d2129);
+}
+
+.sast-page.app-content-v2 .sast-name small,
+.sast-page.app-content-v2 .sast-progress-label,
+.sast-page.app-content-v2 .sast-donut-center span,
+.sast-page.app-content-v2 .sast-legend-item,
+.sast-page.app-content-v2 .sast-control-row span,
+.sast-page.app-content-v2 .sast-form-grid span,
+.sast-page.app-content-v2 .sast-lock-reason span,
+.sast-page.app-content-v2 .sast-lock-card span {
+  font-size: var(--font-meta, 13px);
+  line-height: var(--line-meta, 20px);
+}
+
+.sast-page.app-content-v2 .sast-equip-tag,
+.sast-page.app-content-v2 .sast-floor,
+.sast-page.app-content-v2 .sast-status {
+  font-size: var(--font-caption, 12px);
+  line-height: var(--line-caption, 18px);
+}
+
+@media (max-width: 1365px) {
+  .sast-page.app-content-v2 {
+    padding-inline: 24px;
+  }
+
+  .sast-page.app-content-v2 .sast-top-toolbar {
+    margin-inline: -24px;
+    padding-inline: 24px;
+  }
+}

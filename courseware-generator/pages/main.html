@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课件生成</title>
+    <style id="theme-vars">
+/**
+ * 课件生成工具 - Brand CSS
+ * 延续复旦儿科医院教学管理系统设计语言
+ * 简洁工具风：中性灰底 + 品牌蓝强调
+ */
+
+:root {
+  /* 主色 — 延续项目品牌蓝 */
+  --color-primary:           #175898;
+  --color-primary-hover:     #2d76b0;
+  --color-primary-active:    #0f4a7a;
+  --color-primary-disabled:  #a5c2dd;
+  --color-primary-bg:        #edf4fb;
+  --color-primary-bg-hover:  #dbe8f2;
+  --color-primary-border:    #bcd0e2;
+
+  /* 文字颜色 */
+  --color-text-1: #1f2329;
+  --color-text-2: #646a73;
+  --color-text-3: #8f959e;
+  --color-text-4: #bbbfc4;
+  --color-text-white: #ffffff;
+
+  /* 背景颜色 */
+  --color-bg-1: #ffffff;
+  --color-bg-2: #f5f6f7;
+  --color-bg-3: #fafbfc;
+  --color-bg-4: #eef0f2;
+
+  /* 语义颜色 */
+  --color-success:           #00a870;
+  --color-success-bg:        #e8fff5;
+  --color-warning:           #ff7d00;
+  --color-warning-bg:        #fff7ed;
+  --color-danger:            #f53f3f;
+  --color-danger-bg:         #fff1f0;
+
+  /* 边框 */
+  --color-border:         #dee0e3;
+  --color-border-light:   #eef0f2;
+  --color-border-strong:  #bbbfc4;
+
+  /* 圆角 */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-pill: 999px;
+
+  /* 字号 */
+  --font-xs:   11px;
+  --font-sm:   12px;
+  --font-md:   13px;
+  --font-base: 14px;
+  --font-lg:   15px;
+  --font-xl:   18px;
+  --font-2xl:  24px;
+
+  /* 语义排版 */
+  --font-page-title: 20px;
+  --line-page-title: 28px;
+  --font-section-title: 16px;
+  --line-section-title: 24px;
+  --font-body: 14px;
+  --line-body: 22px;
+  --font-meta: 13px;
+  --line-meta: 20px;
+  --font-caption: 12px;
+  --line-caption: 18px;
+
+  --color-content-text-primary: #1d2129;
+  --color-content-text-secondary: #4e5969;
+  --color-content-text-tertiary: #6b7785;
+  --color-content-text-placeholder: #86909c;
+
+  --font-weight-regular: 400;
+  --font-weight-medium:  500;
+  --font-weight-semibold: 600;
+
+  /* 字体族 */
+  --font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* 阴影 — 极度克制 */
+  --shadow-sm:  0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(23, 88, 152, 0.15);
+
+  /* 间距 */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+
+  /* 过渡 */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.22s ease;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-primary: var(--color-primary);
+    --color-border: var(--color-border);
+  }
+  @layer base {
+    body { background: var(--color-bg-1); color: var(--color-text-1); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="h-screen overflow-hidden font-sans antialiased" style="font-family: var(--font-family);">
+
+    <!-- ====== FULL-VIEWPORT TOOL SHELL ====== -->
+    <div class="flex flex-col h-full">
+
+      <!-- ====== TOP ZONE: Configuration Panel (~58%) ====== -->
+      <div class="flex flex-col border-b" style="flex: 0 0 58%; border-color: var(--color-border); background: var(--color-bg-1);">
+
+        <!-- Thin top bar: title + context -->
+        <div class="flex items-center gap-3 px-6 py-3 border-b" style="border-color: var(--color-border-light);">
+          <h1 class="truncate" style="font-size: var(--font-page-title); font-weight: var(--font-weight-semibold); line-height: var(--line-page-title); color: var(--color-text-1);">课件生成</h1>
+          <span class="shrink-0 px-2 py-0.5 rounded-md text-nowrap" style="font-size: var(--font-caption); color: var(--color-text-3); background: var(--color-bg-3);">复旦附属儿科医院 教学管理系统</span>
+        </div>
+
+        <!-- Scrollable config content -->
+        <div class="flex-1 overflow-y-auto px-6 py-5 no-scrollbar">
+
+          <!-- Step 1: Course Type Selection -->
+          <div class="mb-6">
+            <h2 class="mb-3" style="font-size: var(--font-section-title); font-weight: var(--font-weight-medium); line-height: var(--line-section-title); color: var(--color-text-1);">课程类型</h2>
+
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Clinical Practice Category -->
+              <div class="rounded-lg p-4" style="border: 1px solid var(--color-border); background: var(--color-bg-1);">
+                <div class="flex items-center gap-2 mb-3">
+                  <i data-lucide="stethoscope" style="width: 18px; height: 18px; color: var(--color-text-2);"></i>
+                  <span style="font-size: var(--font-base); font-weight: var(--font-weight-medium); color: var(--color-text-1);">临床实践课</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-primary); background: var(--color-primary-bg); border: 1px solid var(--color-primary-border);" type="button">教学查房</button>
+                  <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">小讲课</button>
+                  <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">病例讨论</button>
+                </div>
+              </div>
+
+              <!-- Simulation Category -->
+              <div class="rounded-lg p-4" style="border: 1px solid var(--color-border); background: var(--color-bg-1);">
+                <div class="flex items-center gap-2 mb-3">
+                  <i data-lucide="monitor-play" style="width: 18px; height: 18px; color: var(--color-text-2);"></i>
+                  <span style="font-size: var(--font-base); font-weight: var(--font-weight-medium); color: var(--color-text-1);">模拟课程</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">技能课程</button>
+                  <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">非技能</button>
+                  <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">情景模拟</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Course Framework Selection -->
+          <div>
+            <h2 class="mb-3" style="font-size: var(--font-section-title); font-weight: var(--font-weight-medium); line-height: var(--line-section-title); color: var(--color-text-1);">课程框架</h2>
+            <div class="flex gap-2">
+              <button class="px-5 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-primary); background: var(--color-primary-bg); border: 1px solid var(--color-primary-border); font-weight: var(--font-weight-medium);" type="button" data-dom-id="select-framework">OPPS</button>
+              <button class="px-5 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">PIC</button>
+              <button class="px-5 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-base); color: var(--color-text-2); background: var(--color-bg-3); border: 1px solid var(--color-border);" type="button">OCS</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ====== BOTTOM ZONE: AI Dialog Area (~42%) ====== -->
+      <div class="flex flex-col flex-1" style="background: var(--color-bg-2);">
+
+        <!-- Suggested prompt chips -->
+        <div class="flex-1 flex items-start justify-center pt-5 px-6">
+          <div class="flex flex-wrap gap-2 justify-center max-w-2xl">
+            <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-meta); color: var(--color-text-2); background: var(--color-bg-1); border: 1px solid var(--color-border);" type="button">生成教学查房课件</button>
+            <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-meta); color: var(--color-text-2); background: var(--color-bg-1); border: 1px solid var(--color-border);" type="button">基于PIC框架设计小讲课</button>
+            <button class="px-3 py-1.5 rounded-md text-nowrap transition-colors cursor-pointer" style="font-size: var(--font-meta); color: var(--color-text-2); background: var(--color-bg-1); border: 1px solid var(--color-border);" type="button">生成病例讨论教学方案</button>
+          </div>
+        </div>
+
+        <!-- Input area at bottom -->
+        <div class="px-6 pb-5">
+          <div class="max-w-3xl mx-auto">
+            <div class="flex items-end gap-2 rounded-lg p-2" style="background: var(--color-bg-1); border: 1px solid var(--color-border);">
+              <textarea class="flex-1 resize-none outline-none px-3 py-2" rows="1" placeholder="描述你想生成的课件内容，或直接开始..." style="font-size: var(--font-base); font-family: var(--font-family); color: var(--color-text-1); background: transparent; line-height: var(--line-body); min-height: 22px; max-height: 120px;" aria-label="课件描述输入"></textarea>
+              <button class="shrink-0 flex items-center justify-center rounded-md transition-colors cursor-pointer" style="width: 36px; height: 36px; background: var(--color-primary); color: var(--color-text-white);" type="button" aria-label="发送" data-dom-id="start-chat">
+                <i data-lucide="arrow-up" style="width: 18px; height: 18px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

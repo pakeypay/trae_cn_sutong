@@ -1,6 +1,49 @@
 (function () {
   var vueApp = null;
 
+  var dashboardIconParkIcons = {
+    search: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.5 3a7.5 7.5 0 1 0 4.73 13.32L20.91 22 22 20.91l-5.68-5.68A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg>',
+    clipboardList: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2.5A2.5 2.5 0 0 0 14 1h-4a2.5 2.5 0 0 0-2.5 2H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9-1h4a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2zm-1 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm7 4H8v-2h8zm0-5H8v-2h8z"/></svg>',
+    clipboardCheck: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2.5A2.5 2.5 0 0 0 14 1h-4a2.5 2.5 0 0 0-2.5 2H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9-1h4a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2zm1 15-4-4 1.4-1.4 2.6 2.6 5.6-5.6L18 10z"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V9h14zM7 11h5v5H7z"/></svg>',
+    calendarCheck: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V9h14zm-8-1 7-7-1.4-1.4-5.6 5.6-2.6-2.6L7 14z"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 11h-6V7h2v4h4z"/></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 4.5c-1.1-.33-2.3-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5C10.55 4.4 8.45 4 6.5 4S2.45 4.9 1 6v14.65a.5.5 0 0 0 .75.45C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05a.5.5 0 0 0 .75-.5V6a4.83 4.83 0 0 0-2-1.5z"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4v16l14-8z"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.95 6.91 7.55.65-5.73 4.95 1.73 7.4L12 18.13 5.5 21.9l1.73-7.4L1.5 9.56l7.55-.65z"/></svg>',
+    tasks: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm2 2v4h4V5zm8 0h8v2h-8zm0 6h8v2h-8zM3 13h8v8H3zm2 2v4h4v-4zm8 2h8v2h-8z"/></svg>',
+    graduation: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 3 11 5-11 5L1 8zm-7 8.3V16c0 2.2 3.1 4 7 4s7-1.8 7-4v-4.7l-7 3.2zM21 10h2v7h-2z"/></svg>',
+    edit: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg>',
+    exchange: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="m16 3 5 5-5 5V9H3V7h13zM8 11v4h13v2H8v4l-5-5z"/></svg>',
+    mapPin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>',
+    users: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-2.67 0-8 1.34-8 4v2h11v-2.07A6.92 6.92 0 0 1 14 14zm10-6a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 19 8zm1.5 5c-1.83 0-5.5.92-5.5 2.75V19h11v-3.25c0-1.83-3.67-2.75-5.5-2.75z"/></svg>',
+    user: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>',
+    building: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 11V5l-3-3-3 3v2H3v14h18V11zM7 19H5v-2h2zm0-4H5v-2h2zm6 4h-2v-2h2zm0-4h-2v-2h2zm6 4h-2v-2h2z"/></svg>',
+    door: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 2h14a2 2 0 0 1 2 2v18h-3V5H7v17H4zm9 9h2v2h-2z"/></svg>',
+    package: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 9 4.5v11L12 22l-9-4.5v-11zm0 2.2L6.2 7 12 9.8 17.8 7zM5 8.6v7.7l6 3v-7.7zm14 0-6 3v7.7l6-3z"/></svg>',
+    folder: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8z"/></svg>',
+    database: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm6 14.5c0 .5-2.13 1.5-6 1.5s-6-1-6-1.5v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23zm0-5c0 .5-2.13 1.5-6 1.5s-6-1-6-1.5V9.73c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23z"/></svg>',
+    table: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3v18h18V3zm6 16H5v-6h4zm0-8H5V5h4zm6 8h-4v-6h4zm0-8h-4V5h4zm6 8h-4v-6h4zm0-8h-4V5h4z"/></svg>',
+    presentation: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h18v2H3zm1 4h16v9a2 2 0 0 1-2 2h-5v2h2v2H9v-2h2v-2H6a2 2 0 0 1-2-2z"/></svg>',
+    monitor: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 4H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h7v2H7v2h10v-2h-3v-2h7a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-1 11H4V6h16z"/></svg>',
+    wrench: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></svg>',
+    box: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v3a2 2 0 0 0 1 1.72V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.72A2 2 0 0 0 22 7V4a2 2 0 0 0-2-2zm-5 12H9v-2h6zm5-7H4V4h16z"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-1.4 14.6L6 12l1.4-1.4 3.2 3.2 6-6L18 9.2z"/></svg>',
+    file: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9zm1 1.5L19.5 8H15zM7 13h10v2H7zm0 4h8v2H7z"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5zm5.6-4.2h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>',
+    pieChart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99z"/></svg>',
+    award: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5a2 2 0 0 0-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 14.9V19H7v2h10v-2h-4v-4.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7a2 2 0 0 0-2-2z"/></svg>',
+    bolt: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+    lightbulb: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 21h6v-2H9zm3-19a7 7 0 0 0-4 12.74V17h8v-2.26A7 7 0 0 0 12 2z"/></svg>',
+    list: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"/></svg>',
+    clipboard: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 2h-4.18A2.9 2.9 0 0 0 12 0a2.9 2.9 0 0 0-2.82 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-2 14H7v-2h10zm0-4H7v-2h10z"/></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>'
+  };
+
+  function getDashboardIcon(iconName) {
+    return dashboardIconParkIcons[iconName] || '';
+  }
+
   function waitForVue(callback) {
     if (window.Vue && window.Vue.createApp) {
       callback();
@@ -254,11 +297,11 @@
         template: `
           <div class="student-dashboard-wrapper">
             <div class="dashboard-top-toolbar">
-              <div class="dashboard-toolbar-title">
+              <div class="dashboard-toolbar-title app-page-header-main">
                 <strong>工作台</strong>
                 <span>学习概览</span>
               </div>
-              <label class="dashboard-toolbar-search">
+              <label class="dashboard-toolbar-search app-page-header-actions">
                 <i class="fas fa-search"></i>
                 <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、日程..." @keyup.enter="handleDashboardSearch">
               </label>
@@ -575,11 +618,48 @@
   }
 
   function renderAdminDashboard() {
+    // IconPark-style "面性" (filled) icons — solid filled, rounded corners, modern.
+    // Falls back to window.RoleNav.icons (line style) if a key is missing here.
+    var iconParkIcons = {
+      home: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>',
+      grid: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
+      clipboardList: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2.5A2.5 2.5 0 0 0 14 1h-4a2.5 2.5 0 0 0-2.5 2H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9-1h4a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2zm-1 12a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6.5 4a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm0-4a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm-3 4a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm-3.5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>',
+      clipboardCheck: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2.5A2.5 2.5 0 0 0 14 1h-4a2.5 2.5 0 0 0-2.5 2H5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9-1h4a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2zm5.5 14L11 11.5l1.4-1.4 3.1 3.1 5.1-5.1L22 9.5z"/></svg>',
+      star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 2.95 6.91 7.55.65-5.73 4.95 1.73 7.4L12 18.13 5.5 21.9l1.73-7.4L1.5 9.56l7.55-.65z"/></svg>',
+      target: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 16a6 6 0 1 1 6-6 6 6 0 0 1-6 6zm0-10a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 6a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>',
+      play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4v16l14-8z"/></svg>',
+      wrench: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+      monitor: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 4H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h7v2H7v2h10v-2h-3v-2h7a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-1 11H4V6h16z"/></svg>',
+      users: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-2.67 0-8 1.34-8 4v2h11v-2.07A6.92 6.92 0 0 1 14 14H9zm10-6a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 19 8zm1.5 5c-1.83 0-5.5.92-5.5 2.75V19h11v-3.25c0-1.83-3.67-2.75-5.5-2.75z"/></svg>',
+      user: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>',
+      book: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 4.5c-1.1-.33-2.3-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65a.5.5 0 0 0 .5.5c.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05a.5.5 0 0 0 .5-.5V6a4.83 4.83 0 0 0-1.75-1.5zM19.5 18c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5z"/></svg>',
+      check: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-1.4 14.6L6 12l1.4-1.4 3.2 3.2 6-6L18 9.2z"/></svg>',
+      package: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3a2 2 0 0 0-2 2v11h2a3 3 0 0 0 6 0h6a3 3 0 0 0 6 0h2v-5zM6 18.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm13.5-9L17 12.5h-2.5v-3z"/></svg>',
+      building: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 11V5l-3-3-3 3v2H3v14h18V11zm-8 8H5v-2h2zm0-4H5v-2h2zm0-4H5V9h2zm6 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V9h2zm0-4h-2V5h2zm6 12h-2v-2h2zm0-4h-2v-2h2z"/></svg>',
+      calendar: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V9h14zM7 11h5v5H7z"/></svg>',
+      calendarCheck: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V9h14zM7.7 14.7l1.4-1.4 2 2 5.6-5.6 1.4 1.4-7 7z"/></svg>',
+      presentation: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h18v2H3zm1 4h16v9a2 2 0 0 1-2 2h-5v2h2v2H9v-2h2v-2H6a2 2 0 0 1-2-2z"/></svg>',
+      edit: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg>',
+      database: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm6 14.5c0 .5-2.13 1.5-6 1.5s-6-1-6-1.5v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23zm0-5c0 .5-2.13 1.5-6 1.5s-6-1-6-1.5V9.73C7.61 10.51 9.72 10.96 12 10.96s4.39-.45 6-1.23zm-6-3.5c-3.87 0-6-1-6-1.5s2.13-1.5 6-1.5 6 1 6 1.5-2.13 1.5-6 1.5z"/></svg>',
+      list: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"/></svg>',
+      table: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3v18h18V3zm6 16H5v-6h4zm0-8H5V5h4zm6 8h-4v-6h4zm0-8h-4V5h4zm6 8h-4v-6h4zm0-8h-4V5h4z"/></svg>',
+      userPlus: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 8h-2V6a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6h6v2H9zm9 12h-2v2h-2v-2h-2v-2h2v-2h2v2h2z"/></svg>',
+      folder: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8z"/></svg>',
+      refresh: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A8 8 0 0 0 4 12h-2l3.5 4 3.5-4H7a6 6 0 1 1 1.76 4.24l-1.42 1.42A8 8 0 1 0 17.65 6.35z"/></svg>',
+      box: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v3a2 2 0 0 0 1 1.72V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.72A2 2 0 0 0 22 7V4a2 2 0 0 0-2-2zm-5 12H9v-2h6zm5-7H4V4h16z"/></svg>',
+      clipboard: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 2h-4.18A2.9 2.9 0 0 0 12 0a2.9 2.9 0 0 0-2.82 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-7 0a1 1 0 1 1-1 1 1 1 0 0 1 1-1zm5 14H7v-2h10zm0-4H7v-2h10zm0-4H7V6h10z"/></svg>',
+      chart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5zm5.6-4.2h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>',
+      pieChart: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10zm2.03 0v8.99H22c-.47-4.74-4.24-8.52-8.97-8.99zm0 11.01V22c4.74-.47 8.5-4.25 8.97-8.99z"/></svg>',
+      award: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5a2 2 0 0 0-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 14.9V19H7v2h10v-2h-4v-4.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7a2 2 0 0 0-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2z"/></svg>',
+      trophy: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2H6v7a6 6 0 0 0 5 5.92V17H8v2H6v2h12v-2h-2v-2h-3v-2.08A6 6 0 0 0 18 9V8h2a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-5 18h-2v-2h2zm5-14h-2V4h2z"/></svg>',
+      plus: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>'
+    };
+
     waitForVue(function () {
       var app = Vue.createApp({
         template: `
-          <div class="admin-dashboard-wrapper">
-            <div class="dashboard-top-toolbar">
+          <div class="admin-dashboard-wrapper app-content-v2">
+            <div class="dashboard-top-toolbar app-page-header">
               <div class="dashboard-toolbar-title">
                 <strong>工作台</strong>
                 <span>全部服务</span>
@@ -596,13 +676,17 @@
               <div class="admin-common-grid">
                 <div v-for="svc in commonServices" :key="svc.label" class="admin-service-card" @click="handleServiceClick(svc)">
                   <div class="admin-service-icon" :class="'tone-' + svc.tone" v-html="getLucideIcon(svc.icon)"></div>
-                  <strong>{{ svc.label }}</strong>
+                  <div class="admin-service-info">
+                    <strong>{{ svc.label }}</strong>
+                    <small v-if="svc.desc">{{ svc.desc }}</small>
+                  </div>
                 </div>
                 <div class="admin-service-card add-common" @click="showToast('添加常用服务')">
-                  <div class="admin-service-icon tone-grey">
-                    <span style="font-size:20px;">+</span>
+                  <div class="admin-service-icon tone-grey" v-html="getLucideIcon('plus')"></div>
+                  <div class="admin-service-info">
+                    <strong style="color:var(--color-text-3);">添加常用</strong>
+                    <small style="color:var(--color-text-4);">将高频功能固定到顶部</small>
                   </div>
-                  <strong style="color:var(--color-text-3);">添加常用</strong>
                 </div>
               </div>
             </div>
@@ -611,13 +695,10 @@
             <div class="admin-section">
               <h3 class="admin-section-title">全部服务</h3>
               <div class="admin-tabs-bar">
-                <span v-for="(cat, idx) in categories" :key="cat">
-                  <span class="admin-tab-item" :class="{ active: activeCategory === cat }" @click="activeCategory = cat">{{ cat }}</span>
-                  <span v-if="idx < categories.length - 1" class="admin-tab-divider">/</span>
-                </span>
+                <a v-for="cat in categories" :key="cat" class="admin-tab-item" :class="{ active: activeCategory === cat }" :href="'#anchor-' + categoryAnchor(cat)" @click.prevent="scrollToCategory(cat)">{{ cat }}</a>
               </div>
 
-              <div v-for="group in filteredGroups" :key="group.category" class="admin-service-group">
+              <div v-for="group in groupedServices" :key="group.category" class="admin-service-group" :id="'anchor-' + categoryAnchor(group.category)">
                 <div class="admin-group-header">
                   <span class="admin-group-title">{{ group.category }}</span>
                 </div>
@@ -626,74 +707,76 @@
                     <div class="admin-service-icon" :class="'tone-' + svc.tone" v-html="getLucideIcon(svc.icon)"></div>
                     <div class="admin-service-info">
                       <strong>{{ svc.label }}</strong>
+                      <small v-if="svc.desc">{{ svc.desc }}</small>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div v-if="filteredGroups.length === 0" class="admin-empty">未找到匹配的服务</div>
+              <div v-if="groupedServices.length === 0" class="admin-empty">未找到匹配的服务</div>
             </div>
           </div>
         `,
         data() {
           return {
             searchQuery: '',
-            activeCategory: '全部',
+            activeCategory: '',
             commonServices: [
-              { label: '今日待办', icon: 'clipboardList', tone: 'blue' },
-              { label: '重点工作', icon: 'star', tone: 'purple' },
-              { label: '工作推进', icon: 'target', tone: 'green' }
+              { label: '今日待办', desc: '今日紧急事项集中处理', icon: 'clipboardList', tone: 'solid-todo' },
+              { label: '轮转安排', desc: '学员科室轮转编排', icon: 'calendar', tone: 'solid-blue' },
+              { label: '课程开发', desc: '大纲教案创建迭代', icon: 'edit', tone: 'solid-purple' },
+              { label: '课程实施', desc: '实施进度与课堂反馈', icon: 'play', tone: 'solid-purple' },
+              { label: '排课工作台', desc: '可视化排课与冲突检测', icon: 'table', tone: 'solid-orange' },
+              { label: '报名情况', desc: '报名与候补实时统计', icon: 'users', tone: 'solid-orange' },
+              { label: '空间预约审批', desc: '教室考站预约审批', icon: 'building', tone: 'solid-teal' },
+              { label: '物资档案', desc: '物资规格与效期维护', icon: 'folder', tone: 'solid-material' },
+              { label: '个人资源库', desc: '个人课件教案云存储', icon: 'book', tone: 'solid-pink' },
+              { label: '评估结果与分析', desc: '评估报告与改进建议', icon: 'pieChart', tone: 'solid-cyan' }
             ],
-            categories: ['全部', '工作台', '数据大屏', '轮转管理', '课程管理', '排课管理', '空间管理', '物资管理', '教学资源库', '师生管理', '成果管理', '评估管理'],
+            categories: ['轮转管理', '课程管理', '排课管理', '空间管理', '物资管理', '教学资源库', '师生管理', '评估管理'],
             allServices: [
-              { label: '今日待办', category: '工作台', desc: '进入工作台，办理或查看"今日待办"相关业务。', icon: 'clipboardList', tone: 'blue' },
-              { label: '重点工作', category: '工作台', desc: '进入工作台，办理或查看"重点工作"相关业务。', icon: 'star', tone: 'purple' },
-              { label: '工作推进', category: '工作台', desc: '进入工作台，办理或查看"工作推进"相关业务。', icon: 'target', tone: 'green' },
-              { label: '师资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"师资情况"相关业务。', icon: 'users', tone: 'blue' },
-              { label: '学员情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"学员情况"相关业务。', icon: 'user', tone: 'purple' },
-              { label: '课程情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"课程情况"相关业务。', icon: 'book', tone: 'green' },
-              { label: '评估情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"评估情况"相关业务。', icon: 'check', tone: 'teal' },
-              { label: '物资情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"物资情况"相关业务。', icon: 'package', tone: 'orange' },
-              { label: '空间情况', category: '数据大屏', desc: '进入数据大屏，办理或查看"空间情况"相关业务。', icon: 'building', tone: 'red' },
-              { label: '轮转安排', category: '轮转管理', desc: '进入轮转管理，办理或查看"轮转安排"相关业务。', icon: 'calendar', tone: 'blue' },
-              { label: '教学活动', category: '轮转管理', desc: '进入轮转管理，办理或查看"教学活动"相关业务。', icon: 'presentation', tone: 'purple' },
-              { label: '课程开发', category: '课程管理', desc: '进入课程管理，办理或查看"课程开发"相关业务。', icon: 'edit', tone: 'blue' },
-              { label: '课程池', category: '课程管理', desc: '进入课程管理，办理或查看"课程池"相关业务。', icon: 'database', tone: 'purple' },
-              { label: '开课计划', category: '课程管理', desc: '进入课程管理，办理或查看"开课计划"相关业务。', icon: 'calendar', tone: 'green' },
-              { label: '课程实施', category: '课程管理', desc: '进入课程管理，办理或查看"课程实施"相关业务。', icon: 'list', tone: 'teal' },
-              { label: '排课工作台', category: '排课管理', desc: '进入排课管理，办理或查看"排课工作台"相关业务。', icon: 'calendar', tone: 'blue' },
-              { label: '开课条件总览', category: '排课管理', desc: '进入排课管理，办理或查看"开课条件总览"相关业务。', icon: 'table', tone: 'purple' },
-              { label: '已排课表', category: '排课管理', desc: '进入排课管理，办理或查看"已排课表"相关业务。', icon: 'list', tone: 'green' },
-              { label: '报名情况', category: '排课管理', desc: '进入排课管理，办理或查看"报名情况"相关业务。', icon: 'userPlus', tone: 'teal' },
-              { label: '空间预约审批', category: '空间管理', desc: '进入空间管理，办理或查看"空间预约审批"相关业务。', icon: 'building', tone: 'blue' },
-              { label: '空间资产管理', category: '空间管理', desc: '进入空间管理，办理或查看"空间资产管理"相关业务。', icon: 'box', tone: 'purple' },
-              { label: '班牌和大屏管理', category: '空间管理', desc: '进入空间管理，办理或查看"班牌和大屏管理"相关业务。', icon: 'presentation', tone: 'green' },
-              { label: '物资工作台', category: '物资管理', desc: '进入物资管理，办理或查看"物资工作台"相关业务。', icon: 'package', tone: 'blue' },
-              { label: '物资档案', category: '物资管理', desc: '进入物资管理，办理或查看"物资档案"相关业务。', icon: 'folder', tone: 'purple' },
-              { label: '维修管理', category: '物资管理', desc: '进入物资管理，办理或查看"维修管理"相关业务。', icon: 'refresh', tone: 'orange' },
-              { label: '盘点管理', category: '物资管理', desc: '进入物资管理，办理或查看"盘点管理"相关业务。', icon: 'clipboardList', tone: 'teal' },
-              { label: '个人云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"个人云盘"相关业务。', icon: 'folder', tone: 'blue' },
-              { label: '科室云盘', category: '教学资源库', desc: '进入教学资源库，办理或查看"科室云盘"相关业务。', icon: 'folder', tone: 'purple' },
-              { label: '公共库', category: '教学资源库', desc: '进入教学资源库，办理或查看"公共库"相关业务。', icon: 'folder', tone: 'green' },
-              { label: '师资管理', category: '师生管理', desc: '进入师生管理，办理或查看"师资管理"相关业务。', icon: 'users', tone: 'blue' },
-              { label: '学员管理', category: '师生管理', desc: '进入师生管理，办理或查看"学员管理"相关业务。', icon: 'user', tone: 'purple' },
-              { label: '科研成果', category: '成果管理', desc: '进入成果管理，办理或查看"科研成果"相关业务。', icon: 'award', tone: 'blue' },
-              { label: '教学奖励', category: '成果管理', desc: '进入成果管理，办理或查看"教学奖励"相关业务。', icon: 'trophy', tone: 'orange' },
-              { label: '学员评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"学员评价体系配置"相关业务。', icon: 'target', tone: 'blue' },
-              { label: '教师评价体系配置', category: '评估管理', desc: '进入评估管理，办理或查看"教师评价体系配置"相关业务。', icon: 'target', tone: 'purple' },
-              { label: '评估工具库', category: '评估管理', desc: '进入评估管理，办理或查看"评估工具库"相关业务。', icon: 'clipboard', tone: 'green' },
-              { label: '评估任务中心', category: '评估管理', desc: '进入评估管理，办理或查看"评估任务中心"相关业务。', icon: 'list', tone: 'teal' },
-              { label: '评估结果与分析', category: '评估管理', desc: '进入评估管理，办理或查看"评估结果与分析"相关业务。', icon: 'chart', tone: 'orange' }
+              { label: '轮转安排', category: '轮转管理', desc: '学员科室轮转编排', icon: 'calendar', tone: 'solid-blue' },
+              { label: '教学活动', category: '轮转管理', desc: '教学查房、小讲课、病例讨论', icon: 'presentation', tone: 'solid-blue' },
+
+              { label: '课程开发', category: '课程管理', desc: '大纲教案创建迭代', icon: 'edit', tone: 'solid-purple' },
+              { label: '课程审核', category: '课程管理', desc: '课程评审与发布审核', icon: 'clipboardCheck', tone: 'solid-purple' },
+              { label: '课程池', category: '课程管理', desc: '优质课程资产共享', icon: 'database', tone: 'solid-purple' },
+              { label: '课程实施', category: '课程管理', desc: '实施进度与课堂反馈', icon: 'play', tone: 'solid-purple' },
+
+              { label: '排课工作台', category: '排课管理', desc: '可视化排课与冲突检测', icon: 'table', tone: 'solid-orange' },
+              { label: '已排课表', category: '排课管理', desc: '已确认课表查看导出', icon: 'calendarCheck', tone: 'solid-orange' },
+              { label: '报名情况', category: '排课管理', desc: '报名与候补实时统计', icon: 'users', tone: 'solid-orange' },
+
+              { label: '空间预约审批', category: '空间管理', desc: '教室考站预约审批', icon: 'building', tone: 'solid-teal' },
+              { label: '空间资产管理', category: '空间管理', desc: '房间与设备资产台账', icon: 'box', tone: 'solid-teal' },
+              { label: '班牌和大屏管理', category: '空间管理', desc: '考站班牌与大屏管理', icon: 'monitor', tone: 'solid-teal' },
+
+              { label: '物资工作台', category: '物资管理', desc: '教具领用与跨科调度', icon: 'package', tone: 'solid-material' },
+              { label: '物资档案', category: '物资管理', desc: '物资规格与效期维护', icon: 'folder', tone: 'solid-material' },
+              { label: '维修管理', category: '物资管理', desc: '设备报修登记跟踪', icon: 'wrench', tone: 'solid-material' },
+              { label: '盘点管理', category: '物资管理', desc: '盘点任务与差异归档', icon: 'clipboardList', tone: 'solid-material' },
+
+              { label: '个人资源库', category: '教学资源库', desc: '个人课件教案云存储', icon: 'book', tone: 'solid-pink' },
+              { label: '科室资源库', category: '教学资源库', desc: '科室共享病例与文献', icon: 'database', tone: 'solid-pink' },
+              { label: '院级资源库', category: '教学资源库', desc: '全院公共资源管理', icon: 'box', tone: 'solid-pink' },
+
+              { label: '师资管理', category: '师生管理', desc: '教师档案与带教资格', icon: 'users', tone: 'solid-green' },
+              { label: '学员管理', category: '师生管理', desc: '学员学籍与轮转记录', icon: 'user', tone: 'solid-green' },
+              { label: '成果审批', category: '师生管理', desc: '成果申报审核流程', icon: 'check', tone: 'solid-green' },
+              { label: '成果档案', category: '师生管理', desc: '成果材料归档查询', icon: 'folder', tone: 'solid-green' },
+
+              { label: '学员评价体系', category: '评估管理', desc: '学员胜任力指标配置', icon: 'clipboardCheck', tone: 'solid-cyan' },
+              { label: '教师评价体系', category: '评估管理', desc: '教师评价维度权重', icon: 'chart', tone: 'solid-cyan' },
+              { label: '评估工具库', category: '评估管理', desc: '评估表单集中管理', icon: 'clipboard', tone: 'solid-cyan' },
+              { label: '评估任务中心', category: '评估管理', desc: '评估任务下发回收', icon: 'list', tone: 'solid-cyan' },
+              { label: '评估结果与分析', category: '评估管理', desc: '评估报告与改进建议', icon: 'pieChart', tone: 'solid-cyan' }
             ]
           };
         },
         computed: {
-          filteredGroups() {
+          groupedServices() {
             var keyword = this.searchQuery.trim().toLowerCase();
             var filtered = this.allServices;
-            if (this.activeCategory !== '全部') {
-              filtered = filtered.filter(function (s) { return s.category === this.activeCategory; }.bind(this));
-            }
             if (keyword) {
               filtered = filtered.filter(function (s) {
                 return s.label.toLowerCase().includes(keyword)
@@ -701,22 +784,90 @@
               });
             }
             var groups = {};
+            var self = this;
+            // Preserve canonical order from `categories`
+            this.categories.forEach(function (cat) { groups[cat] = []; });
             filtered.forEach(function (s) {
               if (!groups[s.category]) groups[s.category] = [];
               groups[s.category].push(s);
             });
-            return Object.keys(groups).map(function (cat) {
-              return { category: cat, items: groups[cat] };
-            });
+            return this.categories
+              .map(function (cat) { return { category: cat, items: groups[cat] || [] }; })
+              .filter(function (g) { return g.items.length > 0; });
+          }
+        },
+        mounted() {
+          this._scrollEl = document.querySelector('.main-inner') || window;
+          this._onScroll = this.updateActiveCategory.bind(this);
+          this._scrollEl.addEventListener('scroll', this._onScroll, { passive: true });
+          this.updateActiveCategory();
+        },
+        beforeUnmount() {
+          if (this._onScroll && this._scrollEl) {
+            this._scrollEl.removeEventListener('scroll', this._onScroll);
           }
         },
         methods: {
           getLucideIcon(iconName) {
+            // Prefer the local IconPark-style filled ("面性") icon set
+            if (iconParkIcons[iconName]) {
+              return iconParkIcons[iconName];
+            }
             var icons = window.RoleNav && window.RoleNav.icons;
             if (icons && icons[iconName]) {
               return icons[iconName];
             }
             return '';
+          },
+          categoryAnchor(cat) {
+            // Generate a URL-safe anchor id from a Chinese label
+            return 'cat-' + cat;
+          },
+          getScrollContainer() {
+            return this._scrollEl || (this._scrollEl = document.querySelector('.main-inner') || window);
+          },
+          scrollToCategory(cat) {
+            this.activeCategory = cat;
+            var id = 'anchor-' + this.categoryAnchor(cat);
+            var el = document.getElementById(id);
+            if (!el) return;
+            var container = this.getScrollContainer();
+            var containerRect = container.getBoundingClientRect();
+            var elRect = el.getBoundingClientRect();
+            // Offset: keep group header below the sticky top toolbar (64px) + sticky tab bar (~45px)
+            var offset = 64 + 48;
+            var targetTop;
+            if (container === window) {
+              targetTop = window.pageYOffset + elRect.top - offset;
+              window.scrollTo({ top: targetTop, behavior: 'smooth' });
+            } else {
+              targetTop = container.scrollTop + elRect.top - containerRect.top - offset;
+              container.scrollTo({ top: targetTop, behavior: 'smooth' });
+            }
+          },
+          updateActiveCategory() {
+            if (!this.categories || this.categories.length === 0) return;
+            var groups = document.querySelectorAll('.admin-service-group');
+            if (!groups.length) return;
+            var container = this.getScrollContainer();
+            var probe;
+            if (container === window) {
+              probe = window.pageYOffset + 120;
+            } else {
+              var containerRect = container.getBoundingClientRect();
+              probe = -containerRect.top + 120;
+            }
+            var current = this.categories[0];
+            for (var i = 0; i < groups.length; i++) {
+              var g = groups[i];
+              var top = g.getBoundingClientRect().top;
+              if (top <= 120) {
+                current = this.categories[i] || current;
+              }
+            }
+            if (current !== this.activeCategory) {
+              this.activeCategory = current;
+            }
           },
           handleServiceClick(svc) {
             if (window.navigateTo) {

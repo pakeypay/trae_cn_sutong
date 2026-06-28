@@ -2335,3 +2335,199 @@
 .material-resource-assurance .arco-btn {
   justify-self: start;
 }
+
+/* ==========================================================================
+   Content Architecture V2: material management
+   Preserve the complete legacy workflow while normalizing its shell, type,
+   spacing, controls and data-density rules with the rest of the application.
+   ========================================================================== */
+.material-page-content.app-content-v2 {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100%;
+  padding: 0 32px 48px;
+  background: #f7f8fa;
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-body, 14px);
+  line-height: var(--line-body, 22px);
+}
+
+.material-page-content.app-content-v2::before,
+.material-page-content.app-content-v2::after {
+  display: none;
+}
+
+.material-page-content.app-content-v2 .breadcrumb {
+  order: -3;
+  margin: 14px 0 8px;
+  color: var(--color-text-tertiary, #6b7785);
+  font-size: var(--font-meta, 13px);
+}
+
+.material-page-content.app-content-v2 .page-header {
+  order: -2;
+  margin: 0 -32px 24px;
+  padding: 18px 32px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border, #e5e6eb);
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.material-page-content.app-content-v2 .page-header > div:first-child h1,
+.material-page-content.app-content-v2 .archive-header-main h1 {
+  margin: 0;
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-page-title, 20px);
+  line-height: var(--line-page-title, 28px);
+}
+
+.material-page-content.app-content-v2 .page-header > div:first-child p,
+.material-page-content.app-content-v2 .archive-header-main p {
+  margin: 4px 0 0;
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-meta, 13px);
+  line-height: var(--line-meta, 20px);
+}
+
+.material-page-content.app-content-v2 .archive-page-header .archive-header-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.material-page-content.app-content-v2 .archive-page-header .archive-search-card {
+  display: block;
+}
+
+.material-page-content.app-content-v2 .header-actions {
+  gap: 8px;
+}
+
+.material-page-content.app-content-v2 .workbench-search-entry {
+  order: -1;
+  width: min(640px, 100%);
+  margin: 0 auto 24px;
+}
+
+.material-page-content.app-content-v2 .workbench-search-entry.active {
+  width: min(960px, 100%);
+}
+
+.material-page-content.app-content-v2 .workbench-search-bar {
+  min-height: 40px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.material-page-content.app-content-v2 .preheader-cards {
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.material-page-content.app-content-v2 .asset-card,
+.material-page-content.app-content-v2 .preheader-work button,
+.material-page-content.app-content-v2 .section-card,
+.material-page-content.app-content-v2 .next-action,
+.material-page-content.app-content-v2 .archive-search-card {
+  border: 1px solid var(--color-border, #e5e6eb);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.material-page-content.app-content-v2 .section-card {
+  padding: var(--layout-card-padding, 20px);
+}
+
+.material-page-content.app-content-v2 .section-card h2,
+.material-page-content.app-content-v2 .section-card h3,
+.material-page-content.app-content-v2 .drawer-section h3 {
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-section-title, 16px);
+  line-height: var(--line-section-title, 24px);
+}
+
+.material-page-content.app-content-v2 .section-card p,
+.material-page-content.app-content-v2 .next-action p,
+.material-page-content.app-content-v2 .usage-card-body {
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-body, 14px);
+  line-height: var(--line-body, 22px);
+}
+
+.material-page-content.app-content-v2 .archive-search-card {
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.material-page-content.app-content-v2 .archive-search-head,
+.material-page-content.app-content-v2 .archive-search-row,
+.material-page-content.app-content-v2 .archive-tab-filter,
+.material-page-content.app-content-v2 .search-popover-filter-row {
+  gap: 8px;
+}
+
+.material-page-content.app-content-v2 .arco-btn {
+  min-height: 32px;
+  font-size: var(--font-body, 14px);
+}
+
+.material-page-content.app-content-v2 .arco-input,
+.material-page-content.app-content-v2 .arco-select-view-value,
+.material-page-content.app-content-v2 .arco-table {
+  font-size: var(--font-body, 14px);
+}
+
+.material-page-content.app-content-v2 .arco-table-th {
+  height: 44px;
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-meta, 13px);
+  font-weight: 500;
+}
+
+.material-page-content.app-content-v2 .arco-table-td {
+  min-height: 52px;
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-meta, 13px);
+}
+
+.material-page-content.app-content-v2 .asset-name-cell strong {
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-body, 14px);
+  line-height: var(--line-body, 22px);
+}
+
+.material-page-content.app-content-v2 .asset-code-pill,
+.material-page-content.app-content-v2 .archive-search-tips,
+.material-page-content.app-content-v2 .search-popover-summary {
+  color: var(--color-text-tertiary, #6b7785);
+  font-size: var(--font-caption, 12px);
+  line-height: var(--line-caption, 18px);
+}
+
+.material-page-content.app-content-v2 .archive-batch-actions {
+  top: 12px;
+  right: 16px;
+  box-shadow: none;
+}
+
+.material-page-content.app-content-v2 .custom-tabs-header button {
+  font-size: var(--font-body, 14px);
+}
+
+@media (max-width: 1365px) {
+  .material-page-content.app-content-v2 {
+    padding-inline: 24px;
+  }
+
+  .material-page-content.app-content-v2 .page-header {
+    margin-inline: -24px;
+    padding-inline: 24px;
+  }
+}

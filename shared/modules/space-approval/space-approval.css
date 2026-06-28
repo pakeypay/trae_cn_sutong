@@ -559,3 +559,92 @@
     padding: 10px 12px;
   }
 }
+
+/* Content Architecture V2: space reservation approval */
+.sa-page.app-content-v2 {
+  margin: 0;
+  padding: 0 32px 48px;
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-body, 14px);
+  line-height: var(--line-body, 22px);
+}
+
+.sa-page.app-content-v2 .sa-top-toolbar {
+  margin: 0 -32px 24px;
+  min-height: 72px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--color-border, #e5e6eb);
+  background: #fff;
+}
+
+.sa-page.app-content-v2 .app-page-title {
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-page-title, 20px);
+  line-height: var(--line-page-title, 28px);
+}
+
+.sa-page.app-content-v2 .sa-tabs {
+  align-self: stretch;
+}
+
+.sa-page.app-content-v2 .sa-tab {
+  min-height: 40px;
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-body, 14px);
+}
+
+.sa-page.app-content-v2 .sa-search {
+  width: min(360px, 30vw);
+}
+
+.sa-page.app-content-v2 .sa-card {
+  border: 1px solid var(--color-border, #e5e6eb);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.sa-page.app-content-v2 .sa-filter-row {
+  min-height: 60px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border, #e5e6eb);
+  background: #fff;
+}
+
+.sa-page.app-content-v2 .sa-head {
+  min-height: 44px;
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-meta, 13px);
+  line-height: var(--line-meta, 20px);
+}
+
+.sa-page.app-content-v2 .sa-row {
+  min-height: 68px;
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-meta, 13px);
+  line-height: var(--line-meta, 20px);
+}
+
+.sa-page.app-content-v2 .sa-topic strong,
+.sa-page.app-content-v2 .sa-applicant strong {
+  color: var(--color-text-primary, #1d2129);
+  font-size: var(--font-body, 14px);
+}
+
+.sa-page.app-content-v2 .sa-topic p,
+.sa-page.app-content-v2 .sa-applicant small,
+.sa-page.app-content-v2 .sa-time span,
+.sa-page.app-content-v2 .sa-submit span {
+  color: var(--color-text-secondary, #4e5969);
+  font-size: var(--font-meta, 13px);
+}
+
+@media (max-width: 1365px) {
+  .sa-page.app-content-v2 {
+    padding-inline: 24px;
+  }
+
+  .sa-page.app-content-v2 .sa-top-toolbar {
+    margin-inline: -24px;
+    padding-inline: 24px;
+  }
+}

@@ -772,3 +772,287 @@
   border-color: var(--color-primary-border);
   color: var(--color-primary);
 }
+
+
+/* ================================================================
+   十六、内容区 V2 页面语法
+   仅对显式添加 .app-content-v2 的模块生效，避免影响尚未迁移页面。
+   ================================================================ */
+.app-content-v2 {
+  min-width: 0;
+  min-height: 100%;
+  color: var(--color-content-text-secondary);
+  font-size: var(--font-body);
+  line-height: var(--line-body);
+  background: var(--color-bg-1);
+}
+
+.app-content-v2 .app-page-header,
+.app-content-v2 .app-task-header {
+  position: sticky;
+  top: 0;
+  z-index: 32;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-height: 64px;
+  padding: 12px var(--content-page-padding-x);
+  border-bottom: 1px solid var(--color-border-light);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.app-content-v2 .app-page-header-main,
+.app-content-v2 .app-task-header-main,
+.app-content-v2 .app-page-header-actions,
+.app-content-v2 .app-task-header-actions {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.app-content-v2 .app-page-header-main,
+.app-content-v2 .app-task-header-main {
+  flex: 1;
+  gap: var(--space-3);
+}
+
+.app-content-v2 .app-page-header-actions,
+.app-content-v2 .app-task-header-actions {
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.app-content-v2 .app-page-heading,
+.app-content-v2 .app-task-heading {
+  min-width: 0;
+}
+
+.app-content-v2 .app-page-heading h1,
+.app-content-v2 .app-task-heading h1 {
+  margin: 0;
+  overflow: hidden;
+  color: var(--color-content-text-primary);
+  font-weight: var(--font-weight-semibold);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-content-v2 .app-page-heading h1 {
+  font-size: var(--font-page-title);
+  line-height: var(--line-page-title);
+}
+
+.app-content-v2 .app-task-heading h1 {
+  font-size: var(--font-task-title);
+  line-height: var(--line-task-title);
+}
+
+.app-content-v2 .app-page-heading p,
+.app-content-v2 .app-task-heading p,
+.app-content-v2 .app-save-state {
+  margin: 2px 0 0;
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.app-content-v2 .app-title-count,
+.app-content-v2 .app-title-status {
+  flex: 0 0 auto;
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.app-content-v2 .app-view-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  min-height: 48px;
+  padding: 0 var(--content-page-padding-x);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-bg-1);
+}
+
+.app-content-v2 .app-view-tabs button {
+  position: relative;
+  align-self: stretch;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--color-content-text-secondary);
+  font-size: var(--font-body);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+
+.app-content-v2 .app-view-tabs button.active {
+  color: var(--color-content-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.app-content-v2 .app-view-tabs button.active::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  content: '';
+}
+
+.app-content-v2 .app-control-bar,
+.app-content-v2 .app-selection-bar,
+.app-content-v2 .app-context-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 56px;
+  padding: 10px var(--content-page-padding-x);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-bg-1);
+}
+
+.app-content-v2 .app-control-bar {
+  flex-wrap: wrap;
+}
+
+.app-content-v2 .app-control-primary,
+.app-content-v2 .app-control-secondary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.app-content-v2 .app-control-primary {
+  flex: 1 1 720px;
+  flex-wrap: wrap;
+}
+
+.app-content-v2 .app-control-secondary {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.app-content-v2 .app-selection-bar {
+  color: var(--color-primary);
+  background: var(--color-primary-bg);
+}
+
+.app-content-v2 .app-context-bar {
+  margin: var(--space-4) var(--content-page-padding-x) 0;
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-md);
+  color: var(--color-content-text-secondary);
+  background: var(--color-primary-bg);
+}
+
+.app-content-v2 .app-page-body {
+  display: grid;
+  gap: var(--content-section-gap);
+  padding: var(--content-page-padding-y) var(--content-page-padding-x);
+}
+
+.app-content-v2 .app-main-aside {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  min-height: 0;
+}
+
+.app-content-v2 .app-main-pane {
+  min-width: 0;
+  padding: var(--content-page-padding-y) var(--content-page-padding-x);
+}
+
+.app-content-v2 .app-aside-pane {
+  min-width: 0;
+  padding: var(--content-page-padding-y);
+  border-left: 1px solid var(--color-border-light);
+  background: var(--color-bg-3);
+}
+
+.app-content-v2 .app-section {
+  min-width: 0;
+  padding: var(--content-card-padding);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-1);
+}
+
+.app-content-v2 .app-section + .app-section {
+  margin-top: var(--space-4);
+}
+
+.app-content-v2 .app-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.app-content-v2 .app-section-header h2 {
+  margin: 0;
+  color: var(--color-content-text-primary);
+  font-size: var(--font-section-title);
+  line-height: var(--line-section-title);
+  font-weight: var(--font-weight-semibold);
+}
+
+.app-content-v2 .app-section-header p {
+  margin: 2px 0 0;
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.app-content-v2 .app-meta,
+.app-content-v2 .app-object-meta {
+  color: var(--color-content-text-tertiary);
+  font-size: var(--font-meta);
+  line-height: var(--line-meta);
+}
+
+.app-content-v2 .arco-btn {
+  min-height: 36px;
+  font-size: var(--font-body);
+}
+
+.app-content-v2 .arco-input-wrapper,
+.app-content-v2 .arco-select-view,
+.app-content-v2 .arco-picker {
+  min-height: 36px;
+  font-size: var(--font-body);
+}
+
+.app-content-v2 .arco-table-th,
+.app-content-v2 .arco-table-td {
+  padding: 12px 16px;
+  color: var(--color-content-text-secondary);
+  font-size: var(--font-body);
+}
+
+.app-content-v2 .arco-table-th {
+  height: 44px;
+  color: var(--color-content-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.app-content-v2 .arco-table-td {
+  min-height: 52px;
+}
+
+@media (max-width: 1365px) {
+  .app-content-v2 {
+    --content-page-padding-x: 24px;
+  }
+
+  .app-content-v2 .app-main-aside {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}

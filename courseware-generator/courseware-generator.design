@@ -1,0 +1,93 @@
+{
+  "data": [
+    {
+      "id": "page-main",
+      "title": "课件生成器",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1782472302000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/main.html",
+        "interactions": [
+          {
+            "domId": "select-framework",
+            "targetPageId": "page-framework-config",
+            "transitionLabel": "选择框架后配置内容"
+          },
+          {
+            "domId": "start-chat",
+            "targetPageId": "page-ai-chatting",
+            "transitionLabel": "开始AI生成"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-framework-config",
+      "title": "框架内容配置",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1782472302000,
+      "canvasData": {
+        "x": 620,
+        "y": 0,
+        "group": 1
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/framework-config.html",
+        "interactions": [
+          {
+            "domId": "back-to-main",
+            "targetPageId": "page-main",
+            "hideEdge": true,
+            "transitionLabel": "返回主界面"
+          },
+          {
+            "domId": "start-from-config",
+            "targetPageId": "page-ai-chatting",
+            "transitionLabel": "开始AI生成"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-ai-chatting",
+      "title": "AI 生成中",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1782472302000,
+      "canvasData": {
+        "x": 1240,
+        "y": 0,
+        "group": 2
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/ai-chatting.html",
+        "interactions": [
+          {
+            "domId": "back-to-main",
+            "targetPageId": "page-main",
+            "hideEdge": true,
+            "transitionLabel": "返回主界面"
+          },
+          {
+            "domId": "back-to-config",
+            "targetPageId": "page-framework-config",
+            "hideEdge": true,
+            "transitionLabel": "修改配置"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "课件生成器"
+  }
+}

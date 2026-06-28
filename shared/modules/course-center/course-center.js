@@ -167,15 +167,18 @@
     var content = document.querySelector('.content');
     var validRoles = ['admin', 'teacher'];
     if (!content || validRoles.indexOf(document.body.dataset.role) === -1 || courseCenterPages.indexOf(document.body.dataset.active) === -1) return;
-    content.innerHTML = '<section class="course-pool-page">' +
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">' +
-      '<div class="pool-tabs"><button class="pool-tab active" data-pool="student">学员培训课程池</button><button class="pool-tab" data-pool="teacher">师资培训课程池</button></div>' +
-      '<label class="course-pool-search"><input id="globalCourseSearch" placeholder="搜索课程 / 教师"><span>⌕</span></label></div>' +
+    content.innerHTML = '<section class="course-pool-page app-content-v2">' +
+      '<header class="pool-page-header app-page-header">' +
+      '<div class="app-page-header-main"><div class="pool-heading-row"><h1 class="app-page-title">课程池</h1><span class="pool-header-count" id="poolHeaderCount"></span></div>' +
+      '<p class="app-page-description">统一管理已审核课程、授课对象、师资配置与进入排课条件。</p></div>' +
+      '<div class="app-page-header-actions"><label class="course-pool-search"><span aria-hidden="true">⌕</span><input id="globalCourseSearch" placeholder="搜索课程 / 教师"></label></div>' +
+      '</header>' +
+      '<div class="pool-tabs app-view-tabs"><button class="pool-tab active" data-pool="student">学员培训课程池</button><button class="pool-tab" data-pool="teacher">师资培训课程池</button></div>' +
       '<div class="kpi-row" id="poolKpis"></div>' +
-      '<section class="course-list-panel"><div class="course-list-head"><h2>课程列表</h2></div>' +
-      '<div class="pool-filters"><input id="courseKeyword" placeholder="搜索课程名称…"><select id="audienceFilter"></select><select id="categoryFilter"></select><select id="statusFilter"><option value="">状态：全部</option><option value="configured">已配师资</option><option value="pending">待配师资</option><option value="pushed">已推送排课</option></select>' +
-      '<div class="batch-in-filter hidden" id="batchFilterArea"><span id="selectedCount" style="white-space:nowrap;"></span><button class="pool-button" id="batchPushBtn">批量推送</button></div></div>' +
-      '<table class="course-table"><thead><tr><th style="width:30px;"><input type="checkbox" id="selectAllCheck" class="head-checkbox"></th><th>课程名称</th><th style="width:68px;">分类</th><th style="width:120px;">科室</th><th style="width:150px;">适用对象</th><th style="width:auto;">师资</th><th style="width:150px;">进入排课条件</th><th style="width:68px;">状态</th><th style="width:92px;">操作</th></tr></thead><tbody id="courseRows"></tbody></table></section>' +
+      '<section class="course-list-panel app-page-body"><div class="course-list-head"><div><h2>课程列表</h2><span id="poolResultCount"></span></div></div>' +
+      '<div class="pool-filters app-control-bar"><input id="courseKeyword" placeholder="搜索课程名称…"><select id="audienceFilter"></select><select id="categoryFilter"></select><select id="statusFilter"><option value="">状态：全部</option><option value="configured">已配师资</option><option value="pending">待配师资</option><option value="pushed">已推送排课</option></select>' +
+      '<div class="batch-in-filter app-selection-bar hidden" id="batchFilterArea"><span id="selectedCount"></span><button class="pool-button primary" id="batchPushBtn">批量推送</button></div></div>' +
+      '<div class="pool-table-wrap"><table class="course-table"><thead><tr><th style="width:30px;"><input type="checkbox" id="selectAllCheck" class="head-checkbox"></th><th>课程名称</th><th style="width:68px;">分类</th><th style="width:120px;">科室</th><th style="width:150px;">适用对象</th><th style="width:auto;">师资</th><th style="width:150px;">进入排课条件</th><th style="width:68px;">状态</th><th style="width:126px;">操作</th></tr></thead><tbody id="courseRows"></tbody></table></div></section>' +
       '<div id="drawerMask" class="drawer-mask"></div><aside id="courseDrawer" class="course-drawer"><div class="drawer-head"><h2 id="drawerTitle"></h2><button class="drawer-close" id="drawerClose">×</button></div><div id="drawerBody" class="drawer-body"></div><div class="drawer-footer" style="display:flex;justify-content:space-between;align-items:center;"><div><button class="pool-button primary" id="drawerPush" style="display:none">推送给排课管理员</button></div><div style="display:flex;gap:8px;"><button class="pool-button" id="drawerCancel">取消</button><button class="pool-button" style="border-color:#165dff;background:#165dff;color:#fff;" id="drawerSave">保存</button></div></div></aside><div id="toast" class="toast"></div>' +
       '</section>';
     bindEvents();
@@ -186,7 +189,7 @@
   function initTooltip() {
     if (tooltipEl) return;
     tooltipEl = document.createElement('div');
-    tooltipEl.className = 'chart-tooltip';
+    tooltipEl.className = 'pool-chart-tooltip';
     document.body.appendChild(tooltipEl);
     var kpiRow = document.getElementById('poolKpis');
     kpiRow.addEventListener('mousemove', function (e) {
@@ -319,6 +322,10 @@
     records.forEach(function (r) { audienceMap[r.audience] = (audienceMap[r.audience] || 0) + 1; });
     var categoryMap = {};
     records.forEach(function (r) { categoryMap[r.category] = (categoryMap[r.category] || 0) + 1; });
+    var deptMap = {};
+    records.forEach(function (r) {
+      (r.depts || []).forEach(function (dept) { deptMap[dept] = (deptMap[dept] || 0) + 1; });
+    });
     var deptSet = new Set(records.flatMap(function (r) { return r.depts || []; }));
     var titleMap = {};
     allTeacherIds.forEach(function (id) {
@@ -326,16 +333,18 @@
       var title = t ? t.title : '其他';
       titleMap[title] = (titleMap[title] || 0) + 1;
     });
+    var headerCount = document.getElementById('poolHeaderCount');
+    if (headerCount) headerCount.textContent = records.length + ' 门课程';
     document.getElementById('poolKpis').innerHTML =
       '<div class="chart-card"><div class="chart-header"><span class="chart-header-name">总课程数按学员分布</span><span class="chart-header-count">' + records.length + '</span></div><div class="chart-wrap"><svg class="donut-svg" viewBox="0 0 120 120" id="kpiSvg1"><circle class="donut-bg" cx="60" cy="60" r="44"/></svg></div></div>' +
       '<div class="chart-card"><div class="chart-header"><span class="chart-header-name">总课程按科室分布</span><span class="chart-header-count">' + deptSet.size + '</span></div><div class="chart-wrap"><svg class="donut-svg" viewBox="0 0 120 120" id="kpiSvg2"><circle class="donut-bg" cx="60" cy="60" r="44"/></svg></div></div>' +
-      '<div class="chart-card"><div class="chart-header"><span class="chart-header-name">课程师资配置进度</span><span class="chart-header-count">' + configured + '<span style="font-size:12px;color:#86909c;font-weight:400;margin-left:2px;">已配</span><span style="font-size:12px;color:#ddd;margin:0 2px;">/</span>' + pending + '<span style="font-size:12px;color:#86909c;font-weight:400;margin-left:2px;">待配</span></span></div><div class="chart-wrap"><svg class="donut-svg" viewBox="0 0 120 120" id="kpiSvg3"><circle class="donut-bg" cx="60" cy="60" r="44"/></svg></div></div>' +
+      '<div class="chart-card"><div class="chart-header"><span class="chart-header-name">师资配置（已配 / 待配）</span><span class="chart-header-count">' + configured + ' / ' + pending + '</span></div><div class="chart-wrap"><svg class="donut-svg" viewBox="0 0 120 120" id="kpiSvg3"><circle class="donut-bg" cx="60" cy="60" r="44"/></svg></div></div>' +
       '<div class="chart-card"><div class="chart-header"><span class="chart-header-name">师资职称分布</span><span class="chart-header-count">' + allTeacherIds.size + '</span></div><div class="chart-wrap"><svg class="donut-svg" viewBox="0 0 120 120" id="kpiSvg4"><circle class="donut-bg" cx="60" cy="60" r="44"/></svg></div></div>';
     var colors1 = ['#1c6ab9','#3d9be9','#64b5f6','#7c3aed','#52c41a','#faad14'];
     var segs1 = Object.entries(audienceMap).map(function (e, i) { return { name: e[0], value: e[1], color: colors1[i % colors1.length] }; });
     drawDonut(document.getElementById('kpiSvg1'), segs1, '门');
     var colors2 = ['#1c6ab9','#26c6da','#52c41a','#faad14','#f759ab'];
-    var segs2 = Object.entries(categoryMap).map(function (e, i) { return { name: e[0], value: e[1], color: colors2[i % colors2.length] }; });
+    var segs2 = Object.entries(deptMap).map(function (e, i) { return { name: e[0], value: e[1], color: colors2[i % colors2.length] }; });
     drawDonut(document.getElementById('kpiSvg2'), segs2, '门');
     var segs3 = [];
     if (configured > 0) segs3.push({ name: '已配师资', value: configured, color: '#52c41a' });
@@ -399,6 +408,8 @@
   function renderTable() {
     var rows = filteredRecords();
     var tbody = document.getElementById('courseRows');
+    var resultCount = document.getElementById('poolResultCount');
+    if (resultCount) resultCount.textContent = '显示 ' + rows.length + ' / ' + getRecords().length + ' 门';
     var checked = 0;
     tbody.innerHTML = rows.map(function (record) {
       var sel = selectedIds.has(record.id);

@@ -494,18 +494,18 @@
 
   function getTemplate() {
     return [
-      '<section class="sast-page">',
+      '<section class="sast-page app-content-v2">',
         // Top-Level Unified Page Toolbar
-        '<div class="app-page-toolbar sast-top-toolbar">',
-          '<div class="app-page-toolbar-left">',
+        '<div class="app-page-toolbar app-page-header sast-top-toolbar">',
+          '<div class="app-page-toolbar-left app-page-header-main">',
             '<strong class="app-page-title">空间资产管理</strong>',
-            '<div class="sast-tab-actions app-page-tabs" role="tablist">',
+            '<div class="sast-tab-actions app-page-tabs app-view-tabs" role="tablist">',
               '<button type="button" :class="{ active: currentTab === \'rooms\' }" @click="switchTab(\'rooms\')">场地档案管理</button>',
               '<button type="button" :class="{ active: currentTab === \'rules\' }" @click="switchTab(\'rules\')">开放规则设置</button>',
               '<button type="button" :class="{ active: currentTab === \'equipments\' }" @click="switchTab(\'equipments\')">设备物资台账</button>',
             '</div>',
           '</div>',
-          '<div class="app-page-toolbar-right">',
+          '<div class="app-page-toolbar-right app-page-header-actions">',
             '<a-input-search v-model="keyword" size="large" allow-clear class="sast-search app-page-search" placeholder="输入编号 / 名称 / 设备关键字搜索..."></a-input-search>',
           '</div>',
         '</div>',
@@ -570,12 +570,12 @@
         '</div>',
 
         // Row 2: Content side-by-side with Donut Card on the right
-        '<div class="sast-content-layout">',
+        '<div class="sast-content-layout app-main-aside">',
           // Left Column: Main Active Tab Content
-          '<div class="sast-main-content">',
+          '<div class="sast-main-content app-main-pane">',
             // TAB 1: 场地档案管理
             '<div v-if="currentTab === \'rooms\'" class="sast-card animation-fadeIn">',
-              '<div class="sast-toolbar">',
+              '<div class="sast-toolbar app-control-bar">',
                 '<a-select v-model="typeFilter" size="large" allow-clear class="sast-filter" placeholder="全部类型">',
                   '<a-option v-for="type in roomTypes" :key="type" :value="type">{{ type }}</a-option>',
                 '</a-select>',
@@ -698,7 +698,7 @@
 
             // TAB 3: 设备物资台账
             '<div v-if="currentTab === \'equipments\'" class="sast-card animation-fadeIn">',
-              '<div class="sast-toolbar">',
+              '<div class="sast-toolbar app-control-bar">',
                 '<button type="button" class="sast-new-btn" @click="openAddEq">+ 新增设备资产</button>',
               '</div>',
 
@@ -733,7 +733,7 @@
           '</div>',
 
           // Right Column: Donut Card distribution chart panel (sticky float)
-          '<div class="sast-donut-card">',
+          '<div class="sast-donut-card app-aside-pane">',
             '<h3>场地按类型分布</h3>',
             '<div class="sast-donut-body">',
               '<div class="sast-donut" :style="donutStyle">',

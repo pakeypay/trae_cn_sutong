@@ -83,59 +83,74 @@
     waitForVue(function () {
       var app = Vue.createApp({
         template: `
-          <div class="cd-app">
+          <div class="cd-app app-content-v2">
             <template v-if="page === 'list'">
               <section class="cd-workbench">
-                <div class="cd-tabs-row">
-                  <div class="cd-main-tabs" role="tablist">
-                    <button :class="{ active: mainTab === 'course' }" @click="mainTab = 'course'">课程 <span>{{ courses.length }}</span></button>
-                    <button :class="{ active: mainTab === 'program' }" @click="mainTab = 'program'">专项课程 <span>{{ programs.length }}</span></button>
+                <header class="app-page-header cd-page-header">
+                  <div class="app-page-header-main">
+                    <div class="app-page-heading">
+                      <h1>课程开发</h1>
+                      <p>管理单门课程与专项课程，持续完善课程档案并完成审核发布。</p>
+                    </div>
+                    <span class="app-title-count">{{ courses.length + programs.length }} 项</span>
                   </div>
-                  <div class="cd-toolbar-controls">
-                    <a-input-search v-model="filters.keyword" allow-clear placeholder="搜索课程名称..." class="app-toolbar-search"></a-input-search>
+                  <div class="app-page-header-actions">
+                    <a-dropdown trigger="click">
+                      <a-button type="primary"><template #icon><span class="cd-plus">＋</span></template>创建课程</a-button>
+                      <template #content>
+                        <a-doption @click="openStart">创建单门课程</a-doption>
+                        <a-doption @click="openCreateProgram">创建专项课程</a-doption>
+                      </template>
+                    </a-dropdown>
                   </div>
+                </header>
+
+                <div class="app-view-tabs cd-main-tabs" role="tablist">
+                  <button :class="{ active: mainTab === 'course' }" @click="mainTab = 'course'">课程 <span>{{ courses.length }}</span></button>
+                  <button :class="{ active: mainTab === 'program' }" @click="mainTab = 'program'">专项课程 <span>{{ programs.length }}</span></button>
                 </div>
 
-                <div class="cd-filter-row">
-                  <div v-if="mainTab === 'course'" class="cd-view-switch" aria-label="视图切换">
+                <div class="app-control-bar cd-filter-row">
+                  <div class="app-control-primary">
+                    <a-input-search v-model="filters.keyword" allow-clear placeholder="搜索课程名称..." class="app-toolbar-search"></a-input-search>
+                    <template v-if="mainTab === 'course'">
+                      <a-select v-model="filters.status" allow-clear placeholder="开发状态" style="width: 132px">
+                        <a-option value="开发中">开发中</a-option><a-option value="待审核">待审核</a-option>
+                        <a-option value="返修中">返修中</a-option><a-option value="审核通过">审核通过</a-option>
+                        <a-option value="申请修订中">申请修订中</a-option>
+                      </a-select>
+                      <a-select v-model="filters.type" allow-clear placeholder="课程类型" style="width: 156px">
+                        <a-option value="临床技术性技能课程">临床技术性技能课程</a-option><a-option value="临床非技术性技能课程">临床非技术性技能课程</a-option>
+                        <a-option value="情境模拟课程">情境模拟课程</a-option><a-option value="通识课程">通识课程</a-option>
+                      </a-select>
+                      <a-select v-model="filters.audience" allow-clear placeholder="授课对象" style="width: 142px">
+                        <a-option value="住培一年级">住培一年级</a-option>
+                        <a-option value="住培二年级">住培二年级</a-option>
+                        <a-option value="住培三年级">住培三年级</a-option>
+                        <a-option value="专培一年级">专培一年级</a-option>
+                        <a-option value="专培二年级">专培二年级</a-option>
+                        <a-option value="专培三年级">专培三年级</a-option>
+                        <a-option value="进修医师">进修医师</a-option>
+                        <a-option value="进修护士">进修护士</a-option>
+                        <a-option value="医生（本院职工）">医生（本院职工）</a-option>
+                        <a-option value="护士（本院职工）">护士（本院职工）</a-option>
+                        <a-option value="社会人员">社会人员</a-option>
+                        <a-option value="本科生">本科生</a-option>
+                        <a-option value="研究生">研究生</a-option>
+                      </a-select>
+                      <a-select v-model="filters.year" allow-clear placeholder="全部年份" style="width: 112px">
+                        <a-option value="2026">2026</a-option><a-option value="2025">2025</a-option>
+                      </a-select>
+                      <a-button v-if="filters.keyword || filters.status || filters.type || filters.audience || filters.year" type="text" @click="resetFilters">重置</a-button>
+                    </template>
+                  </div>
+                  <div v-if="mainTab === 'course'" class="app-control-secondary cd-view-switch" aria-label="视图切换">
                     <button :class="{ active: viewMode === 'card' }" @click="viewMode = 'card'" title="卡片视图">
                       <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg>
                     </button>
                     <button :class="{ active: viewMode === 'list' }" @click="viewMode = 'list'" title="列表视图">
                       <svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"></path><path d="M4 6h.01M4 12h.01M4 18h.01"></path></svg>
                     </button>
-                  </div>
-                  <a-select v-model="filters.status" allow-clear placeholder="开发状态" style="width: 132px">
-                    <a-option value="开发中">开发中</a-option><a-option value="待审核">待审核</a-option>
-                    <a-option value="返修中">返修中</a-option><a-option value="审核通过">审核通过</a-option>
-                    <a-option value="申请修订中">申请修订中</a-option>
-                  </a-select>
-                  <a-select v-model="filters.type" allow-clear placeholder="课程类型" style="width: 140px">
-                    <a-option value="临床技术性技能课程">临床技术性技能课程</a-option><a-option value="临床非技术性技能课程">临床非技术性技能课程</a-option>
-                    <a-option value="情境模拟课程">情境模拟课程</a-option><a-option value="通识课程">通识课程</a-option>
-                  </a-select>
-                  <a-select v-model="filters.audience" allow-clear placeholder="授课对象" style="width: 154px">
-                    <a-option value="住培一年级">住培一年级</a-option>
-                    <a-option value="住培二年级">住培二年级</a-option>
-                    <a-option value="住培三年级">住培三年级</a-option>
-                    <a-option value="专培一年级">专培一年级</a-option>
-                    <a-option value="专培二年级">专培二年级</a-option>
-                    <a-option value="专培三年级">专培三年级</a-option>
-                    <a-option value="进修医师">进修医师</a-option>
-                    <a-option value="进修护士">进修护士</a-option>
-                    <a-option value="医生（本院职工）">医生（本院职工）</a-option>
-                    <a-option value="护士（本院职工）">护士（本院职工）</a-option>
-                    <a-option value="社会人员">社会人员</a-option>
-                    <a-option value="本科生">本科生</a-option>
-                    <a-option value="研究生">研究生</a-option>
-                  </a-select>
-                  <a-select v-model="filters.year" allow-clear placeholder="全部年份" style="width: 112px">
-                    <a-option value="2026">2026</a-option><a-option value="2025">2025</a-option>
-                  </a-select>
-                  <a-button type="text" @click="resetFilters">重置</a-button>
-                  <div class="cd-filter-actions">
-                    <a-button @click="openCreateProgram"><template #icon><span class="cd-plus">＋</span></template>新建专项课程</a-button>
-                    <a-button type="primary" @click="openStart"><template #icon><span class="cd-plus">＋</span></template>创建课程</a-button>
                   </div>
                 </div>
 
@@ -236,9 +251,26 @@
             </template>
 
             <template v-else-if="page === 'start'">
-              <button class="cd-back cd-start-back" @click="page = 'list'"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>返回课程列表</button>
+              <header class="app-task-header cd-create-task-header">
+                <div class="app-task-header-main">
+                  <button class="cd-back" @click="page = 'list'"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>返回</button>
+                  <div class="app-task-heading">
+                    <h1>创建课程</h1>
+                    <p>选择课程内容的起始方式，后续均可进入同一教案编辑工作台继续完善。</p>
+                  </div>
+                </div>
+                <div class="app-task-header-actions">
+                  <span class="app-save-state">步骤 1 / 4</span>
+                </div>
+              </header>
               <main class="cd-create-panel">
-                <header><h1>上传 / 生成教案</h1><p>上传已有教案，使用 AI 生成，或从已确认的标准模板开始。</p></header>
+                <nav class="cd-create-steps" aria-label="课程创建步骤">
+                  <span class="active"><b>1</b>选择方式</span>
+                  <span><b>2</b>导入或配置</span>
+                  <span><b>3</b>编辑完善</span>
+                  <span><b>4</b>预览发布</span>
+                </nav>
+                <header class="cd-create-intro"><h2>上传 / 生成教案</h2><p>上传已有教案，使用 AI 生成，或从已确认的标准模板开始。</p></header>
                 <div class="cd-create-options">
                   <article>
                     <img :src="uploadImageUrl" alt="上传教案文件">
@@ -413,15 +445,24 @@
 
             <template v-else-if="page === 'editor'">
               <div class="cd-editor-layout" :class="{ 'overview-collapsed': !sidePanelOpen }">
-                <div class="cd-editor-toolbar">
-                  <div class="cd-editor-toolbar-left">
+                <header class="app-task-header cd-editor-toolbar">
+                  <div class="app-task-header-main cd-editor-toolbar-left">
                     <button class="cd-back" @click="page = 'list'"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>返回</button>
-                    <strong>{{ editingCourse.name }}</strong>
+                    <div class="app-task-heading">
+                      <h1>{{ editingCourse.name }}</h1>
+                      <p>课程教案编辑工作台</p>
+                    </div>
+                    <span :class="'cd-status tone-' + statusTone(editingCourse.status || '开发中')">{{ editingCourse.status || '开发中' }}</span>
                   </div>
-                  <button class="cd-overview-toggle" @click="sidePanelOpen = !sidePanelOpen" :title="sidePanelOpen ? '收起概览区' : '展开概览区'" :aria-label="sidePanelOpen ? '收起概览区' : '展开概览区'">
-                    <span v-html="icon(sidePanelOpen ? 'panel-right-close' : 'panel-right-open')"></span>
-                  </button>
-                </div>
+                  <div class="app-task-header-actions">
+                    <span class="app-save-state">{{ saveState }}</span>
+                    <a-button @click="saveDraft">保存草稿</a-button>
+                    <a-button type="primary" @click="page = 'review'">预览发布</a-button>
+                    <button class="cd-overview-toggle app-panel-toggle" @click="sidePanelOpen = !sidePanelOpen" :title="sidePanelOpen ? '收起概览区' : '展开概览区'" :aria-label="sidePanelOpen ? '收起概览区' : '展开概览区'">
+                      <span v-html="icon(sidePanelOpen ? 'panel-right-close' : 'panel-right-open')"></span>
+                    </button>
+                  </div>
+                </header>
                 <div class="cd-editor-shell">
                 <!-- Left Anchor Nav -->
                 <nav class="cd-anchor-nav">
@@ -440,8 +481,6 @@
                 <!-- Center Editor Main -->
                 <div class="cd-editor-main">
               <div class="cd-native-editor">
-                <div class="cd-editor-tools"><button class="cd-back" @click="page = 'list'"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>返回课程列表</button><div><a-button @click="saveDraft">保存草稿</a-button><a-button type="primary" @click="page = 'review'">预览发布</a-button></div></div>
-
                 <section class="cd-edit-hero">
                   <img :src="coverUrl" alt="课程封面">
                   <div><span>技能培训中心 · 标准课程教案</span><h1>{{ editingCourse.name }}</h1></div>
@@ -661,86 +700,20 @@
 
                     <div class="cd-overview-divider"></div>
 
-                    <section class="cd-overview-block">
+                    <section class="cd-overview-block cd-completion-block">
                       <div class="cd-overview-section-head">
-                        <h3>考核和评价 <small>{{ addedItems.length }}</small></h3>
-                        <button @click="openEditorDrawer('考核与评价')">+ 添加</button>
+                        <h3>完整性检查</h3>
+                        <small>{{ activeReviewChecks.filter(item => item.complete).length }} / {{ activeReviewChecks.length }} 完成</small>
                       </div>
-                      <div class="cd-overview-list">
-                        <button v-for="item in addedItems" :key="item.id" @click="handlePanelItemClick(item)">
-                          <span>{{ item.name }}</span><small>{{ item.desc }}</small>
+                      <div class="cd-completion-list">
+                        <button v-for="item in activeReviewChecks" :key="item.label" @click="scrollToSection(item.anchor || 'basic')">
+                          <span v-html="item.complete ? icon('check-circle') : icon('alert-circle')"></span>
+                          <span><strong>{{ item.label }}</strong><small>{{ item.note }}</small></span>
+                          <em :class="{ warning: !item.complete }">{{ item.complete ? '已完成' : '待完善' }}</em>
                         </button>
                       </div>
                     </section>
 
-                    <section class="cd-overview-block">
-                      <div class="cd-overview-section-head">
-                        <h3>课程资源 <small>{{ uploadedFiles.length + 3 }}</small></h3>
-                        <button @click="openEditorDrawer('配套资源与考核')">+ 添加资源</button>
-                      </div>
-                      <div class="cd-overview-list">
-                        <button @click="openEditorDrawer('课件')"><span>课件</span></button>
-                        <button @click="openEditorDrawer('试卷')"><span>试卷</span></button>
-                        <button @click="openEditorDrawer('外部链接')"><span>外部链接</span></button>
-                        <button v-for="file in uploadedFiles" :key="file.id" @click="handlePanelItemClick(file)">
-                          <span>{{ file.name }}</span><small>{{ file.size }}</small>
-                        </button>
-                      </div>
-                    </section>
-                    <!-- 已添加 Section -->
-                    <div class="cd-panel-section">
-                      <div class="cd-panel-section-header">
-                        <div class="cd-panel-section-title">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/><path d="M9 11V7a3 3 0 0 1 6 0v4"/></svg>
-                          已添加
-                        </div>
-                        <span class="cd-panel-section-count">{{ addedItems.length }}</span>
-                      </div>
-                      <div v-if="addedItems.length > 0">
-                        <div v-for="item in addedItems" :key="item.id" class="cd-panel-item" @click="handlePanelItemClick(item)">
-                          <div class="cd-panel-item-icon" :class="item.tone">
-                            <span v-html="icon(item.icon)"></span>
-                          </div>
-                          <div class="cd-panel-item-info">
-                            <strong>{{ item.name }}</strong>
-                            <span>{{ item.desc }}</span>
-                          </div>
-                          <div class="cd-panel-item-status">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else class="cd-panel-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-                        <p>暂无已添加项</p>
-                      </div>
-                    </div>
-
-                    <!-- 已上传 Section -->
-                    <div class="cd-panel-section">
-                      <div class="cd-panel-section-header">
-                        <div class="cd-panel-section-title">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                          已上传
-                        </div>
-                        <span class="cd-panel-section-count">{{ uploadedFiles.length }}</span>
-                      </div>
-                      <div v-if="uploadedFiles.length > 0">
-                        <div v-for="file in uploadedFiles" :key="file.id" class="cd-panel-item" @click="handlePanelItemClick(file)">
-                          <div class="cd-panel-item-icon" :class="file.tone">
-                            <span v-html="icon(file.icon)"></span>
-                          </div>
-                          <div class="cd-panel-item-info">
-                            <strong>{{ file.name }}</strong>
-                            <span>{{ file.size }}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div v-else class="cd-panel-empty">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                        <p>暂无已上传文件</p>
-                      </div>
-                    </div>
                   </div>
                 </aside>
                 </div>
@@ -1384,16 +1357,16 @@
             <template v-else-if="page === 'review'">
               <header class="cd-subpage-head">
                 <button class="cd-back" @click="page = 'editor'"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg>返回教案编辑</button>
-                <div><span>课程开发 / 儿童导尿术（男性）</span><h1>提交审核</h1><p>请确认课程档案完整后提交</p></div>
+                <div><span>课程开发 / {{ editingCourse.name }}</span><h1>提交审核</h1><p>请确认课程档案完整后提交</p></div>
                 <a-button @click="saveDraft">保存草稿</a-button>
               </header>
               <main class="cd-review-layout">
                 <section>
-                  <article class="cd-review-summary"><img :src="coverUrl" alt="儿童导尿术课程封面"><div><span class="cd-status tone-blue">临床技术性技能课程</span><h2>儿童导尿术（男性）</h2><p>住培一年级 · 负责人 刘国强 · 开发团队 8 人</p></div><strong>完整度<br><em>5 / 6</em></strong></article>
-                  <article class="cd-review-card"><header><div><h2>完整性检查</h2><p>提交前请确认六大模块内容准确、完整。</p></div><a-button @click="runCheck">重新检查</a-button></header><div class="cd-check-list"><button v-for="item in reviewChecks" :key="item.label" :class="{ warning: !item.complete }" @click="page = 'editor'"><span v-html="item.complete ? icon('check-circle') : icon('alert-circle')"></span><div><strong>{{ item.label }}</strong><small>{{ item.note }}</small></div><em>{{ item.complete ? '已完成' : '待完善' }}</em><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button></div></article>
-                  <article class="cd-missing-card"><header><h2>提交前建议完善</h2><span>1 项</span></header><div><strong>缺少学员评估表</strong><p>技能目标 S2 尚未关联学员评估工具。可暂存草稿，或返回补充后提交。</p><a-button size="small" @click="page = 'editor'">返回补充</a-button></div></article>
+                  <article class="cd-review-summary"><img :src="editingCourse.cover || coverUrl" :alt="editingCourse.name + '课程封面'"><div><span :class="'cd-status tone-' + statusTone(editingCourse.status)">{{ editingCourse.type }}</span><h2>{{ editingCourse.name }}</h2><p>{{ editingCourse.audience }} · 负责人 {{ editingCourse.owner }} · 开发团队 {{ editingCourse.team || editingCourse.teacherTeam.length }} 人</p></div><strong>完整度<br><em>{{ editingCourse.complete || 5 }} / 6</em></strong></article>
+                  <article class="cd-review-card"><header><div><h2>完整性检查</h2><p>提交前请确认六大模块内容准确、完整。</p></div><a-button @click="runCheck">重新检查</a-button></header><div class="cd-check-list"><button v-for="item in activeReviewChecks" :key="item.label" :class="{ warning: !item.complete }" @click="page = 'editor'"><span v-html="item.complete ? icon('check-circle') : icon('alert-circle')"></span><div><strong>{{ item.label }}</strong><small>{{ item.note }}</small></div><em>{{ item.complete ? '已完成' : '待完善' }}</em><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button></div></article>
+                  <article v-if="editingCourse.complete < 6" class="cd-missing-card"><header><h2>提交前建议完善</h2><span>1 项</span></header><div><strong>{{ editingCourse.missing || '资源与评估' }}待完善</strong><p>请返回课程教案补充缺失内容；也可以先保存草稿，稍后继续处理。</p><a-button size="small" @click="page = 'editor'">返回补充</a-button></div></article>
                 </section>
-                <aside class="cd-submit-panel"><h2>提交说明</h2><p>提交后课程将进入待审核状态，审核前如需修改可以撤回。</p><ul><li>管理员将审核课程内容与实施要求</li><li>返修意见会同步给课程开发团队</li><li>审核通过后成为可复用课程资产</li></ul><a-checkbox v-model="reviewConfirmed">我已确认课程档案内容准确</a-checkbox><a-button type="primary" size="large" long :disabled="!reviewConfirmed" @click="submitReview">提交审核</a-button><a-button long @click="previewCourse(editingCourse)">预览课程档案</a-button></aside>
+                <aside class="cd-submit-panel"><h2>提交说明</h2><p>提交后课程将进入待审核状态，审核前如需修改可以撤回。</p><ul><li>管理员将审核课程内容与实施要求</li><li>返修意见会同步给课程开发团队</li><li>审核通过后成为可复用课程资产</li></ul><div v-if="!canSubmitReview" class="app-context-bar">当前状态为“{{ editingCourse.status }}”，仅可查看发布检查，不能重复提交。</div><a-checkbox v-model="reviewConfirmed" :disabled="!canSubmitReview">我已确认课程档案内容准确</a-checkbox><a-button type="primary" size="large" long :disabled="!reviewConfirmed || !canSubmitReview" @click="submitReview">{{ canSubmitReview ? '提交审核' : '当前状态不可提交' }}</a-button><a-button long @click="previewCourse(editingCourse)">预览课程档案</a-button></aside>
               </main>
             </template>
 
@@ -1576,7 +1549,7 @@
         data: function () {
           return {
             page: 'list', mainTab: 'course', viewMode: 'card', coverUrl: coverUrl, uploadImageUrl: uploadImageUrl, aiImageUrl: aiImageUrl,
-            sidePanelOpen: true, activeAnchor: 'basic',
+            sidePanelOpen: true, activeAnchor: 'basic', saveState: '已保存',
             addedItems: [
               { id: 1, name: '教师评估表', desc: '授课评价 × 2', icon: 'clipboard-check', tone: 'tone-blue' },
               { id: 2, name: '学员评估表', desc: '学习问卷 × 1', icon: 'clipboard-check', tone: 'tone-green' },
@@ -1659,7 +1632,7 @@
             courseTypes: ['临床技术性技能课程', '临床非技术性技能课程', '情境模拟课程', '通识课程'],
             startForm: { name: '儿童导尿术（男性）', type: '临床技术性技能课程', audience: '住培一年级', owner: '刘国强', idea: '' },
             recognized: ['已识别技能站', '已识别实施要求', '已识别资源材料', '已识别评估表'],
-            editingCourse: { name: '儿童导尿术（男性）', type: '临床技术性技能课程', audience: '住培一年级', owner: '刘国强', teacherTeam: ['刘国强', '王雨桐', '蔡小芳'], cover: coverUrl },
+            editingCourse: { name: '儿童导尿术（男性）', type: '临床技术性技能课程', audience: '住培一年级', owner: '刘国强', team: 8, teacherTeam: ['刘国强', '王雨桐', '蔡小芳'], cover: coverUrl, status: '开发中', complete: 5, missing: '资源与评估', programs: ['儿科住培一年级基础技能训练'] },
             teacherOptions: [
               { value: '刘国强', label: '刘国强 / 主任医师', avatar: 'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f1344837483c84025a1e749c957e.png~tplv-uwbnlip3yd-webp.webp' },
               { value: '王雨桐', label: '王雨桐 / 副主任医师', avatar: 'https://p1-arco.byteimg.com/tos-cn-i-uwbnlip3yd/3ee5f1344837483c84025a1e749c957e.png~tplv-uwbnlip3yd-webp.webp' },
@@ -1857,11 +1830,27 @@
             preClass: [{ title: '课前信', value: '已生成，含学习目标与准备要求', icon: '<svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="m4 7 8 6 8-6"></path></svg>' }, { title: '课前学习资料', value: '5 份资料', icon: '<svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"></path><path d="M9 8h6M9 12h6"></path></svg>' }, { title: '课前视频', value: '1 个操作示范视频', icon: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14"></rect><path d="m10 9 5 3-5 3Z"></path></svg>' }, { title: '课前测试', value: '10 题 · 已配置', icon: '<svg viewBox="0 0 24 24"><path d="M7 3h10v18H7z"></path><path d="M10 8h4M10 12h4"></path></svg>' }],
             requirements: [{ title: '时间安排', value: '总时长 90 分钟', icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>' }, { title: '人员要求', value: '导师 4 人、助教 1 人、协调员 1 人', icon: '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M4 20v-2a5 5 0 0 1 10 0v2"></path><path d="M16 11a4 4 0 0 1 4 4v5"></path></svg>' }, { title: '场地要求', value: '技能培训中心示教室', icon: '<svg viewBox="0 0 24 24"><path d="M4 21V5l8-3v19M20 21V9l-8-4"></path></svg>' }, { title: '设备与物资', value: '模拟训练器 2 台、物资 23 项', icon: '<svg viewBox="0 0 24 24"><path d="m3 7 9-4 9 4-9 4-9-4Z"></path><path d="M3 7v10l9 4 9-4V7"></path></svg>' }],
             resources: [{ title: '学习资源', value: 'PPT 1 份、视频 1 个、文献 6 篇', warning: false, icon: '<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"></path><path d="M8 8h8M8 12h8M8 16h5"></path></svg>' }, { title: '评估工具', value: '导师评估表 4 份，缺少学员评估表', warning: true, icon: '<svg viewBox="0 0 24 24"><path d="M7 3h10v18H7z"></path><path d="m10 12 2 2 4-5"></path></svg>' }, { title: '反馈要求', value: '实时反馈、操作后反馈、Plus / Delta', warning: false, icon: '<svg viewBox="0 0 24 24"><path d="M4 4h16v13H8l-4 4V4Z"></path></svg>' }, { title: '补习计划', value: '已配置未通过处理与再考核安排', warning: false, icon: '<svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6"></path><path d="M4 4v6h6"></path></svg>' }],
-            reviewChecks: [{ label: '基本信息', complete: true, note: '课程信息、负责人和开发团队已填写' }, { label: '课程目标', complete: true, note: 'K / S / A 三类目标已配置' }, { label: '课前内容', complete: true, note: '课前信、资料、视频和课前测已配置' }, { label: '课程内容', complete: true, note: '教学模块、技能站与操作步骤已配置' }, { label: '课程实施要求', complete: true, note: '时间、人员、场地、设备和物资已配置' }, { label: '资源与评估', complete: false, note: '缺少学员评估表' }],
+            reviewChecks: [
+              { label: '基本信息', anchor: 'basic', complete: true, note: '课程信息、负责人和开发团队已填写' },
+              { label: '课程目标', anchor: 'objectives', complete: true, note: 'K / S / A 三类目标已配置' },
+              { label: '课前内容', anchor: 'content', complete: true, note: '课前信、资料、视频和课前测已配置' },
+              { label: '课程内容', anchor: 'content', complete: true, note: '教学模块、技能站与操作步骤已配置' },
+              { label: '课程实施要求', anchor: 'stages', complete: true, note: '时间、人员、场地、设备和物资已配置' },
+              { label: '资源与评估', anchor: 'assessment', complete: false, note: '缺少学员评估表' }
+            ],
             aiActions: ['补齐缺失项', '改写为标准表达', '关联课程内容与评估', '生成评估项']
           };
         },
         computed: {
+          canSubmitReview: function () {
+            return ['开发中', '返修中', '申请修订中'].indexOf(this.editingCourse.status) !== -1;
+          },
+          activeReviewChecks: function () {
+            if ((this.editingCourse.complete || 0) < 6) return this.reviewChecks;
+            return this.reviewChecks.map(function (item) {
+              return Object.assign({}, item, { complete: true, note: item.complete ? item.note : '课程资源与评估配置已完成' });
+            });
+          },
           filteredCourses: function () {
             var f = this.filters;
             return this.courses.filter(function (course) {
@@ -1977,8 +1966,13 @@
               type: '临床技术性技能课程',
               audience: '住培一年级',
               owner: '刘国强',
+              team: 8,
               teacherTeam: ['刘国强', '王雨桐', '蔡小芳'],
-              cover: coverUrl
+              cover: coverUrl,
+              status: '开发中',
+              complete: 5,
+              missing: '资源与评估',
+              programs: ['儿科住培一年级基础技能训练']
             };
             this.page = 'editor';
             window.scrollTo(0, 0);
@@ -1990,15 +1984,17 @@
               type: course.type,
               audience: course.audience,
               owner: course.owner,
+              team: course.team || 0,
               teacherTeam: ['刘国强', '王雨桐', '蔡小芳'],
-              cover: course.cover || coverUrl
+              cover: course.cover || coverUrl,
+              status: course.status || '开发中',
+              complete: typeof course.complete === 'number' ? course.complete : 6,
+              missing: course.missing || '',
+              programs: course.programs || []
             };
-            if (course.status === '开发中' || course.status === '返修中') {
-              this.page = 'editor';
-              window.scrollTo(0, 0);
-            } else {
-              this.previewCourse(course);
-            }
+            this.saveState = '已保存';
+            this.page = 'editor';
+            window.scrollTo(0, 0);
           },
           previewCourse: function (course) { this.$message.info('正在预览《' + (course.name || course.source) + '》标准课程档案'); },
           joinProgram: function (course) { if (!course.programs.includes('新生儿专科技能训练')) course.programs.push('新生儿专科技能训练'); this.$message.success('已加入专项课程'); },
@@ -2039,7 +2035,14 @@
             this.addCourseDrawerVisible = false;
             this.$message.success('已添加 ' + this.selectedPoolCourses.length + ' 门课程到《' + program.name + '》');
           },
-          saveDraft: function () { this.$message.success('课程草稿已保存'); },
+          saveDraft: function () {
+            this.saveState = '保存中…';
+            var self = this;
+            setTimeout(function () {
+              self.saveState = '刚刚已保存';
+              self.$message.success('课程草稿已保存');
+            }, 300);
+          },
           changeCover: function () { 
             this.$message.info('封面更换功能开发中');
             // Demo: 模拟更换封面

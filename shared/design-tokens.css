@@ -117,6 +117,10 @@
   --color-gray-bg:           #fafbfc;
   --color-gray-border:       #dee0e3;
 
+  /* 管理员工作台业务分类色（仅表达业务归属，不表达状态） */
+  --color-service-todo:      #526f9e;
+  --color-service-material:  #9a7424;
+
   /* ================================================================
      五、侧边导航（客户确认颜色，不改动）
      ================================================================ */
@@ -174,6 +178,30 @@
   --font-xl:   18px;
   --font-2xl:  24px;
 
+  /* ================================================================
+     九-A、内容区 V2 语义排版
+     新页面必须优先使用这些语义变量；旧字号变量暂时保留兼容。
+     ================================================================ */
+  --font-page-title: 20px;
+  --line-page-title: 28px;
+  --font-task-title: 22px;
+  --line-task-title: 30px;
+  --font-section-title: 16px;
+  --line-section-title: 24px;
+  --font-body: 14px;
+  --line-body: 22px;
+  --font-meta: 13px;
+  --line-meta: 20px;
+  --font-caption: 12px;
+  --line-caption: 18px;
+
+  /* 内容区 V2 使用更清晰的文字灰阶。 */
+  --color-content-text-primary: #1d2129;
+  --color-content-text-secondary: #4e5969;
+  --color-content-text-tertiary: #6b7785;
+  --color-content-text-placeholder: #86909c;
+  --color-content-text-disabled: #c9cdd4;
+
   /* 字重 */
   --font-weight-regular: 400;
   --font-weight-medium:  500;
@@ -225,6 +253,11 @@
   --sidebar-collapsed:   64px;
   --content-max-width:   1440px;
   --content-padding:     24px 32px;
+  --content-page-padding-x: 32px;
+  --content-page-padding-y: 24px;
+  --content-section-gap: 24px;
+  --content-card-padding: 20px;
+  --content-card-padding-compact: 16px;
 
   /* 行高 */
   --line-height-tight:  1.3;
