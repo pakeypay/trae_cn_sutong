@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>课程开发</title>
+  <style>
+    :root{
+      --nav:#175f9f;--nav-text:#d9ecff;--nav-active:rgba(255,255,255,.16);
+      --primary:#3370ff;
+      --text:#1f2329;--text2:#646a73;--text3:#8f959e;
+      --line:#dee0e3;--line-soft:#eef0f2;--bg:#f5f6f7;--white:#fff;
+      --radius:10px;--shadow:0 5px 18px rgba(31,35,41,.07);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      overflow:hidden;background:var(--nav);color:var(--text);
+      font:14px/1.5 Inter,"PingFang SC","Microsoft YaHei",sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+
+    .app{height:100vh;min-width:1180px;display:flex;padding:8px 8px 0 0}
+
+    /* 管理端导航外壳 */
+    .sidebar{width:240px;flex:0 0 240px;display:flex;flex-direction:column;color:#fff}
+    .brand{height:78px;padding:13px 14px;display:flex;align-items:center;gap:10px}
+    .logo{
+      width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;
+      color:var(--nav);background:#fff;border:3px solid rgba(255,255,255,.45);
+      font-family:serif;font-weight:700;font-size:18px;
+    }
+    .brand-copy{min-width:0}
+    .brand-copy b,.brand-copy span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .brand-copy b{font-size:15px}.brand-copy span{font-size:12px;color:var(--nav-text)}
+    .collapse{margin-left:auto;color:var(--nav-text);font-size:20px}
+    .nav{min-height:0;flex:1;padding:5px 8px;overflow:auto}
+    .nav-item{
+      min-height:42px;margin-bottom:4px;padding:0 12px;border-radius:8px;
+      display:flex;align-items:center;gap:12px;color:var(--nav-text);font-weight:500;
+    }
+    .nav-item:hover,.nav-item.active{background:var(--nav-active);color:#fff}
+    .nav-icon{width:20px;text-align:center;font-size:17px}
+    .caret{margin-left:auto;font-size:11px}
+    .subnav{margin:-1px 0 6px;padding-left:45px;color:var(--nav-text)}
+    .subnav div{padding:8px 10px;border-radius:7px}
+    .subnav .selected{background:var(--nav-active);color:#fff;font-weight:600}
+    .user{
+      margin:8px 14px 14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.14);
+      display:flex;align-items:center;gap:10px;
+    }
+    .avatar{
+      width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+      color:var(--nav);background:#fff;font-weight:700;
+    }
+    .user small{display:block;color:var(--nav-text)}
+
+    /* 主页面 */
+    .main{
+      min-width:0;flex:1;position:relative;overflow:auto;background:#fff;
+      border-radius:14px 14px 0 0;
+    }
+    .topbar{
+      height:74px;padding:0 28px;position:sticky;top:0;z-index:10;
+      display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+      border-bottom:1px solid var(--line-soft);background:rgba(255,255,255,.96);
+      backdrop-filter:blur(10px);
+    }
+    .back{
+      width:max-content;height:36px;padding:0 13px;border:1px solid var(--line);
+      border-radius:7px;background:#fff;color:var(--text2);
+    }
+    .back:hover{background:var(--bg)}
+    .business-tabs{display:flex;gap:44px;height:100%;align-items:center}
+    .business-tab{
+      height:100%;position:relative;border:0;background:transparent;
+      color:var(--text2);font-size:16px;font-weight:600;
+    }
+    .business-tab.active{color:var(--text)}
+    .business-tab.active:after{
+      content:"";position:absolute;left:0;right:0;bottom:14px;height:2px;
+      border-radius:2px;background:var(--text);
+    }
+    .step{justify-self:end;color:var(--text3);font-size:12px}
+    .stage{
+      width:min(1080px,calc(100% - 56px));margin:0 auto;padding:38px 0 145px;
+    }
+
+    /* 飞书式中心引导 */
+    .hero{text-align:center;margin-bottom:24px}
+    .sparkle{display:none}
+    .hero h1{margin:0 0 8px;font-size:26px;line-height:38px;font-weight:600;letter-spacing:.2px}
+    .hero h1 em{font-style:normal;color:inherit}
+    .hero p{margin:0;color:var(--text3)}
+    .scope-tabs{
+      width:max-content;margin:20px auto 0;padding:4px;display:flex;gap:3px;
+      border-radius:10px;background:#f5f5f7;
+    }
+    .scope{
+      min-width:116px;height:38px;border:0;border-radius:8px;background:transparent;color:var(--text2);
+    }
+    .scope.active{
+      background:#fff;color:var(--primary);font-weight:600;
+      box-shadow:0 1px 6px rgba(31,35,41,.1);
+    }
+
+    .section{margin-top:22px}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:11px}
+    .section-head h2{margin:0;font-size:16px;font-weight:600}
+    .section-head p{margin:2px 0 0;color:var(--text3);font-size:12px}
+    .selection-note{color:var(--primary);font-size:12px}
+
+    /* 课程类型：紧凑选择卡，而不是 Tab/标签 */
+    .type-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .type-card{
+      min-height:48px;padding:8px 10px;position:relative;
+      display:flex;align-items:center;gap:8px;text-align:left;
+      border:1px solid var(--line);border-radius:7px;background:#fff;
+      transition:.15s;
+    }
+    .type-card:hover{border-color:#9eb5df;background:#fafcff}
+    .type-card.active{
+      border-color:var(--primary);background:#f2f6ff;
+    }
+    .type-icon{
+      width:26px;height:26px;flex:0 0 26px;border-radius:6px;display:grid;place-items:center;
+      color:#3f67ad;background:#edf3fb;font-size:12px;font-weight:700;
+    }
+    .type-card:nth-child(2) .type-icon,
+    .type-card:nth-child(3) .type-icon,
+    .type-card:nth-child(4) .type-icon{color:#3f67ad;background:#edf3fb}
+    .type-text{min-width:0}
+    .type-text strong{display:block;font-size:14px}
+    .type-text small{display:none}
+    .type-state{
+      margin-left:auto;width:17px;height:17px;flex:0 0 17px;border:1px solid #c9cdd4;
+      border-radius:50%;display:grid;place-items:center;color:transparent;font-size:9px;
+    }
+    .type-card.active .type-state{border-color:var(--primary);background:var(--primary);color:#fff}
+    .type-role{
+      display:none;position:absolute;right:9px;top:7px;padding:2px 6px;border-radius:999px;
+      background:#eaf0ff;color:var(--primary);font-size:9px;
+    }
+    .type-card.primary .type-role{display:block}
+
+    /* 专项 / 纵向信息 */
+    .brief{
+      display:none;margin-top:12px;padding:14px;border:1px solid var(--line);
+      border-radius:8px;background:#fafbfc;
+    }
+    .brief.show{display:block}
+    .brief-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+    .brief-title b{font-size:13px}.brief-title span{color:var(--text3);font-size:11px}
+    .brief-grid{display:grid;grid-template-columns:1fr 1fr .7fr 1.4fr;gap:10px}
+    .field label{display:block;margin-bottom:5px;color:var(--text2);font-size:11px}
+    .field input,.field select{
+      width:100%;height:36px;padding:0 9px;border:1px solid var(--line);
+      border-radius:7px;outline:0;background:#fff;color:var(--text);
+    }
+    .field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(51,112,255,.09)}
+
+    /* 教学框架模板 */
+    .framework-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+    .framework{
+      height:144px;padding:0;position:relative;overflow:hidden;text-align:left;
+      border:1px solid var(--line);border-radius:11px;background:#fff;transition:.16s;
+    }
+    .framework:hover{border-color:#9eb5df;box-shadow:0 3px 10px rgba(31,35,41,.05)}
+    .framework.active{
+      border:2px solid var(--primary);box-shadow:0 0 0 3px rgba(51,112,255,.06);
+    }
+    .framework-preview{height:91px;padding:14px 16px;position:relative;background:#f5f7ff}
+    .framework:nth-child(2) .framework-preview{background:#f4fbfa}
+    .framework:nth-child(3) .framework-preview{background:#f7f4ff}
+    .framework:nth-child(4) .framework-preview{background:#f4fbfd}
+    .framework:nth-child(5) .framework-preview{background:#fff8f2}
+    .framework:nth-child(6) .framework-preview{background:#fafafa}
+    .framework-code{color:#315fbe;font-size:20px;font-weight:700;letter-spacing:.3px}
+    .framework-sub{color:var(--text2);font-size:11px}
+    .flow{position:absolute;left:16px;right:16px;bottom:13px;display:flex;gap:5px}
+    .flow i{height:7px;flex:1;border-radius:3px;background:#dbe5ff}
+    .flow i:nth-child(2n){background:#b9ccff}.flow i:nth-child(3n){background:#91afff}
+    .dots{position:absolute;right:16px;bottom:12px;display:flex;gap:5px}
+    .dots i{width:24px;height:24px;border-radius:50%;background:#bce8df}
+    .tiles{position:absolute;right:16px;bottom:12px;display:grid;grid-template-columns:repeat(2,24px);gap:4px}
+    .tiles i{height:22px;border-radius:5px;background:#ddd8fa}
+    .framework-meta{
+      height:53px;padding:8px 13px;display:flex;align-items:center;justify-content:space-between;
+      border-top:1px solid var(--line-soft);
+    }
+    .framework-meta strong{display:block;font-size:13px}
+    .framework-meta small{display:block;color:var(--text3);font-size:11px}
+    .framework-check{
+      display:none;width:20px;height:20px;border-radius:50%;place-items:center;
+      color:#fff;background:var(--primary);font-size:11px;
+    }
+    .framework.active .framework-check{display:grid}
+    .badge{
+      position:absolute;right:10px;top:9px;z-index:2;padding:2px 7px;border-radius:999px;
+      border:1px solid rgba(51,112,255,.15);background:rgba(255,255,255,.88);
+      color:var(--primary);font-size:10px;
+    }
+
+    /* 飞书式底部对话 */
+    .composer-shell{
+      position:fixed;left:240px;right:8px;bottom:0;z-index:12;padding:30px 28px 18px;
+      background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 40%);
+    }
+    .file-chip{
+      display:none;width:min(1040px,calc(100% - 56px));margin:0 auto 7px;
+      padding:6px 10px;border-radius:7px;background:var(--bg);color:var(--text2);font-size:12px;
+    }
+    .composer{
+      width:min(1040px,calc(100% - 56px));min-height:68px;margin:0 auto;padding:10px 11px;
+      display:flex;align-items:flex-end;gap:9px;border:1px solid #c9cdd4;
+      border-radius:14px;background:#fff;box-shadow:var(--shadow);
+    }
+    .upload{
+      width:38px;height:38px;flex:0 0 38px;border:1px solid var(--line);
+      border-radius:9px;background:#fff;color:var(--text2);font-size:19px;
+    }
+    .upload:hover{color:var(--primary);background:var(--bg)}
+    .composer textarea{
+      min-width:0;min-height:38px;max-height:84px;flex:1;padding:9px 4px;
+      resize:none;border:0;outline:0;background:transparent;color:var(--text);
+    }
+    .send{
+      width:40px;height:40px;flex:0 0 40px;border:0;border-radius:50%;
+      color:#fff;background:var(--primary);font-size:17px;
+    }
+    .send:hover{filter:brightness(.95)}
+    .toast{
+      position:fixed;left:calc(50% + 120px);top:86px;z-index:20;
+      padding:9px 14px;border-radius:8px;background:#1f2329;color:#fff;
+      box-shadow:0 4px 14px rgba(0,0,0,.14);opacity:0;
+      transform:translate(-50%,-8px);pointer-events:none;transition:.18s;
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:1300px){
+      .stage{width:calc(100% - 40px)}
+      .brief-grid{grid-template-columns:1fr 1fr}
+      .type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">复</div>
+      <div class="brand-copy"><b>国家儿童医学中心</b><span>复旦大学附属儿科医院</span></div>
+      <span class="collapse">≡</span>
+    </div>
+    <nav class="nav">
+      <div class="nav-item"><span class="nav-icon">⌂</span>工作台</div>
+      <div class="nav-item"><span class="nav-icon">⌁</span>数据大屏</div>
+      <div class="nav-item"><span class="nav-icon">⌁</span>轮转管理<span class="caret">⌃</span></div>
+      <div class="subnav"><div>轮转安排</div><div>教学活动</div></div>
+      <div class="nav-item active"><span class="nav-icon">▣</span>课程管理<span class="caret">⌃</span></div>
+      <div class="subnav"><div class="selected">课程开发</div><div>课程池</div><div>课程实施</div></div>
+      <div class="nav-item"><span class="nav-icon">□</span>排课管理<span class="caret">⌄</span></div>
+      <div class="nav-item"><span class="nav-icon">♙</span>空间管理<span class="caret">⌄</span></div>
+      <div class="nav-item"><span class="nav-icon">◇</span>物资管理<span class="caret">⌄</span></div>
+      <div class="nav-item"><span class="nav-icon">□</span>教学资源库</div>
+      <div class="nav-item"><span class="nav-icon">♧</span>师生管理<span class="caret">⌄</span></div>
+      <div class="nav-item"><span class="nav-icon">♙</span>成果管理</div>
+      <div class="nav-item"><span class="nav-icon">✓</span>评估管理<span class="caret">⌄</span></div>
+    </nav>
+    <div class="user"><div class="avatar">王</div><div><b>王院长</b><small>超级管理员</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="back">‹　返回</button>
+      <div class="business-tabs">
+        <button class="business-tab active">技能中心课程</button>
+        <button class="business-tab">临床教学活动</button>
+      </div>
+      <span class="step">步骤 1 / 4</span>
+    </header>
+
+    <div class="stage">
+      <section class="hero">
+        <h1>创建课程</h1>
+        <p>选择课程范围、课程类型与教学框架，也可以在下方补充具体需求</p>
+        <div class="scope-tabs" id="scopeTabs">
+          <button class="scope active" data-scope="单次课程">单次课程</button>
+          <button class="scope" data-scope="专项课程">专项课程</button>
+          <button class="scope" data-scope="纵向课程">纵向课程</button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div><h2>选择课程类型</h2><p id="typeHelp">单次课程请选择一种课程类型</p></div>
+          <span class="selection-note" id="typeNote">已选择：临床技术性技能课程</span>
+        </div>
+        <div class="type-grid" id="typeGrid">
+          <button class="type-card active primary" data-type="临床技术性技能课程">
+            <span class="type-role">主类型</span><span class="type-icon">技</span>
+            <span class="type-text"><strong>临床技术性技能课程</strong><small>操作规范、技能示教与刻意练习</small></span>
+            <span class="type-state">✓</span>
+          </button>
+          <button class="type-card" data-type="临床非技术性技能课程">
+            <span class="type-role">主类型</span><span class="type-icon">沟</span>
+            <span class="type-text"><strong>临床非技术性技能课程</strong><small>沟通、协作、领导与临床决策</small></span>
+            <span class="type-state">✓</span>
+          </button>
+          <button class="type-card" data-type="综合情境模拟课程">
+            <span class="type-role">主类型</span><span class="type-icon">景</span>
+            <span class="type-text"><strong>综合情境模拟课程</strong><small>复杂情境、团队训练与结构化复盘</small></span>
+            <span class="type-state">✓</span>
+          </button>
+          <button class="type-card" data-type="通识课程">
+            <span class="type-role">主类型</span><span class="type-icon">通</span>
+            <span class="type-text"><strong>通识课程</strong><small>共同基础、教学素养与普适能力</small></span>
+            <span class="type-state">✓</span>
+          </button>
+        </div>
+
+        <div class="brief" id="briefPanel">
+          <div class="brief-title"><b id="briefTitle">专项课程基本信息</b><span>授课对象将关联难度、目标与框架建议</span></div>
+          <div class="brief-grid">
+            <div class="field"><label>课程名称</label><input id="courseName" placeholder="请输入课程名称"></div>
+            <div class="field"><label>授课对象</label>
+              <select id="audience">
+                <option>住培一年级学员</option><option>住培二至三年级学员</option>
+                <option>专培医师</option><option>新任带教教师</option><option>模拟教学导师</option>
+              </select>
+            </div>
+            <div class="field"><label>建议难度</label>
+              <select id="difficulty"><option>入门</option><option>进阶</option><option>高级</option></select>
+            </div>
+            <div class="field"><label>培养目标</label><input id="goal" value="建立规范流程和基础临床技能"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div><h2>选择教学框架</h2><p id="frameworkHelp">单次课程选择一个主要教学框架</p></div>
+          <span class="selection-note" id="frameworkNote">已选择：BOPPPS</span>
+        </div>
+        <div class="framework-grid" id="frameworkGrid">
+          <button class="framework active" data-framework="BOPPPS">
+            <span class="badge">推荐</span>
+            <div class="framework-preview">
+              <div class="framework-code">BOPPPS</div><div class="framework-sub">六环节参与式教学设计</div>
+              <div class="flow"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="framework-meta"><div><strong>BOPPPS</strong><small>适合结构清晰的单次课程</small></div><span class="framework-check">✓</span></div>
+          </button>
+          <button class="framework" data-framework="TBL">
+            <div class="framework-preview">
+              <div class="framework-code">TBL</div><div class="framework-sub">团队式学习</div>
+              <div class="dots"><i></i><i></i><i></i></div>
+            </div>
+            <div class="framework-meta"><div><strong>TBL</strong><small>准备度测试与团队应用</small></div><span class="framework-check">✓</span></div>
+          </button>
+          <button class="framework" data-framework="CBL">
+            <div class="framework-preview">
+              <div class="framework-code">CBL</div><div class="framework-sub">案例式学习</div>
+              <div class="tiles"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="framework-meta"><div><strong>CBL</strong><small>围绕临床案例分析与决策</small></div><span class="framework-check">✓</span></div>
+          </button>
+          <button class="framework" data-framework="PBL">
+            <div class="framework-preview">
+              <div class="framework-code">PBL</div><div class="framework-sub">问题式学习</div>
+              <div class="flow"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="framework-meta"><div><strong>PBL</strong><small>问题驱动与自主探究</small></div><span class="framework-check">✓</span></div>
+          </button>
+          <button class="framework" data-framework="BOPPPS × CBL">
+            <span class="badge">组合</span>
+            <div class="framework-preview">
+              <div class="framework-code">BOPPPS × CBL</div><div class="framework-sub">结构化课堂与案例学习结合</div>
+              <div class="flow"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="framework-meta"><div><strong>组合框架</strong><small>根据课程目标选择组合</small></div><span class="framework-check">✓</span></div>
+          </button>
+          <button class="framework" data-framework="自定义框架">
+            <div class="framework-preview">
+              <div class="framework-code">＋</div><div class="framework-sub">从空白或现有教案开始</div>
+            </div>
+            <div class="framework-meta"><div><strong>自定义框架</strong><small>从现有教案或空白开始</small></div><span class="framework-check">✓</span></div>
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="composer-shell">
+  <div class="file-chip" id="fileChip"></div>
+  <div class="composer">
+    <button class="upload" id="uploadButton" title="上传教案">＋</button>
+    <input type="file" id="fileInput" hidden accept=".doc,.docx,.pdf,.ppt,.pptx">
+    <textarea id="prompt" rows="1" placeholder="补充课程主题、授课对象、难度或其他要求"></textarea>
+    <button class="send" id="sendButton" title="发送">➤</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+  const state={
+    scope:"单次课程",
+    types:new Set(["临床技术性技能课程"]),
+    primaryType:"临床技术性技能课程",
+    frameworks:new Set(["BOPPPS"])
+  };
+  const profiles={
+    "住培一年级学员":["入门","建立规范流程和基础临床技能","BOPPPS"],
+    "住培二至三年级学员":["进阶","提升临床推理、沟通与团队协作","CBL"],
+    "专培医师":["高级","解决复杂临床问题并形成独立决策能力","TBL"],
+    "新任带教教师":["入门","掌握基本教学设计与课堂组织","BOPPPS"],
+    "模拟教学导师":["高级","设计复杂情境并实施高质量引导与复盘","PBL"]
+  };
+  const $=id=>document.getElementById(id);
+  function toast(text){
+    $("toast").textContent=text;$("toast").classList.add("show");
+    clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2100);
+  }
+  function syncTypeUI(){
+    document.querySelectorAll(".type-card").forEach(card=>{
+      const value=card.dataset.type;
+      card.classList.toggle("active",state.types.has(value));
+      card.classList.toggle("primary",value===state.primaryType);
+    });
+    const values=[...state.types];
+    $("typeNote").textContent=(state.scope==="单次课程"?"已选择：":"包含：")+values.join("、");
+  }
+  function syncFrameworkUI(){
+    document.querySelectorAll(".framework").forEach(card=>{
+      card.classList.toggle("active",state.frameworks.has(card.dataset.framework));
+    });
+    $("frameworkNote").textContent=(state.scope==="单次课程"?"已选择：":"已选框架：")+[...state.frameworks].join("、");
+  }
+  function setScope(scope){
+    state.scope=scope;
+    document.querySelectorAll(".scope").forEach(x=>x.classList.toggle("active",x.dataset.scope===scope));
+    const isSingle=scope==="单次课程";
+    $("briefPanel").classList.toggle("show",!isSingle);
+    $("briefTitle").textContent=scope+"基本信息";
+    $("typeHelp").textContent=isSingle?"单次课程请选择一种课程类型":
+      scope==="专项课程"?"请选择主课程类型，可补充其他课程类型":"请选择培养体系包含的课程类型，可多选";
+    $("frameworkHelp").textContent=isSingle?"单次课程选择一个主要教学框架":"可选择多个默认框架，各课次后续仍可分别调整";
+    if(isSingle){
+      state.types=new Set([state.primaryType]);
+      state.frameworks=new Set([[...state.frameworks][0]||"BOPPPS"]);
+    }
+    syncTypeUI();syncFrameworkUI();
+  }
+  $("scopeTabs").onclick=e=>{
+    const btn=e.target.closest(".scope");if(btn)setScope(btn.dataset.scope);
+  };
+  $("typeGrid").onclick=e=>{
+    const card=e.target.closest(".type-card");if(!card)return;
+    const value=card.dataset.type;
+    if(state.scope==="单次课程"){
+      state.primaryType=value;state.types=new Set([value]);
+    }else if(state.scope==="专项课程"){
+      if(!state.types.has(value)){state.types.add(value)}
+      else if(value!==state.primaryType){state.types.delete(value)}
+      if(!state.types.has(state.primaryType))state.primaryType=value;
+      if(e.shiftKey||state.types.size===1)state.primaryType=value;
+    }else{
+      state.types.has(value)&&state.types.size>1?state.types.delete(value):state.types.add(value);
+      if(!state.types.has(state.primaryType))state.primaryType=[...state.types][0];
+    }
+    syncTypeUI();
+  };
+  $("frameworkGrid").onclick=e=>{
+    const card=e.target.closest(".framework");if(!card)return;
+    const value=card.dataset.framework;
+    if(state.scope==="单次课程")state.frameworks=new Set([value]);
+    else state.frameworks.has(value)&&state.frameworks.size>1?state.frameworks.delete(value):state.frameworks.add(value);
+    syncFrameworkUI();
+  };
+  $("audience").onchange=()=>{
+    const p=profiles[$("audience").value];
+    $("difficulty").value=p[0];$("goal").value=p[1];
+    if(state.scope==="单次课程")state.frameworks=new Set([p[2]]);
+    else state.frameworks.add(p[2]);
+    syncFrameworkUI();toast("已根据授课对象更新难度、目标与框架建议");
+  };
+  $("uploadButton").onclick=()=>$("fileInput").click();
+  $("fileInput").onchange=e=>{
+    const file=e.target.files[0];if(!file)return;
+    $("fileChip").textContent="已上传："+file.name;$("fileChip").style.display="block";
+    toast("文件已加入，将结合材料整理课程信息");
+  };
+  $("sendButton").onclick=()=>{
+    const text=$("prompt").value.trim();if(!text){toast("请先描述课程需求");return}
+    if(/纵向/.test(text))setScope("纵向课程");
+    else if(/专项/.test(text))setScope("专项课程");
+    ["BOPPPS","TBL","CBL","PBL"].forEach(name=>{
+      if(text.toUpperCase().includes(name)){
+        if(state.scope==="单次课程")state.frameworks=new Set([name]);else state.frameworks.add(name);
+      }
+    });
+    if(/非技术|沟通|协作/.test(text))state.types.add("临床非技术性技能课程");
+    else if(/情境|模拟/.test(text))state.types.add("综合情境模拟课程");
+    else if(/通识/.test(text))state.types.add("通识课程");
+    else if(/操作|技能/.test(text))state.types.add("临床技术性技能课程");
+    if(state.scope==="单次课程"){
+      const last=[...state.types].pop();state.primaryType=last;state.types=new Set([last]);
+    }
+    const title=text.match(/[《“](.*?)[》”]/);if(title)$("courseName").value=title[1];
+    syncTypeUI();syncFrameworkUI();$("prompt").value="";
+    toast("已整理需求，请确认课程类型与教学框架");
+  };
+  $("prompt").onkeydown=e=>{
+    if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("sendButton").click()}
+  };
+  setScope("单次课程");
+</script>
+</body>
+</html>
