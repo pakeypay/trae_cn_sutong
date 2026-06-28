@@ -95,14 +95,15 @@
     waitForVue(function () {
       var app = Vue.createApp({
         template: `
-          <div class="teacher-dashboard-wrapper">
-            <div class="app-page-toolbar dashboard-top-toolbar">
-              <div class="app-page-toolbar-left dashboard-toolbar-title">
-                <strong class="app-page-title">工作台</strong>
+          <div class="dashboard-wrapper teacher-dashboard-wrapper app-content-v2">
+            <div class="dashboard-top-toolbar app-page-header">
+              <div class="dashboard-toolbar-title">
+                <strong>工作台</strong>
+                <span>教学概览</span>
               </div>
-              <div class="app-page-toolbar-right">
-                <label class="dashboard-toolbar-search app-page-search">
-                  <i class="fas fa-search"></i>
+              <div>
+                <label class="dashboard-toolbar-search">
+                  <span class="dashboard-inline-icon" v-html="getDashboardIcon('search')"></span>
                   <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、通知..." @keyup.enter="handleDashboardSearch">
                 </label>
               </div>
@@ -114,16 +115,16 @@
                 <h1 class="banner-title">中午好，张老师！</h1>
                 <p class="banner-desc">今天您有 <strong class="text-primary">2 门课程</strong> 需要授课，目前待批改作业 <strong class="text-warning">3 份</strong>。各项物资准备工作已就绪。</p>
                 <div class="banner-tags">
-                  <a-tag size="small" color="arcoblue"><i class="fas fa-stethoscope" style="margin-right: 4px;"></i>科室: 儿科重症监护室 (PICU)</a-tag>
-                  <a-tag size="small" color="green"><i class="fas fa-clock" style="margin-right: 4px;"></i>今日值班: 白班教学讲师</a-tag>
+                  <a-tag size="small" color="arcoblue"><span class="dashboard-inline-icon" v-html="getDashboardIcon('building')"></span>科室: 儿科重症监护室 (PICU)</a-tag>
+                  <a-tag size="small" color="green"><span class="dashboard-inline-icon" v-html="getDashboardIcon('clock')"></span>今日值班: 白班教学讲师</a-tag>
                 </div>
               </div>
               <div class="banner-actions">
                 <a-button type="outline" @click="quickNavigate('课程开发')">
-                  <template #icon><i class="fas fa-plus"></i></template>新建课程大纲
+                  <template #icon><span class="dashboard-button-icon" v-html="getDashboardIcon('plus')"></span></template>新建课程大纲
                 </a-button>
                 <a-button type="primary" @click="quickNavigate('我的课表')">
-                  <template #icon><i class="fas fa-exchange-alt"></i></template>申请调课安排
+                  <template #icon><span class="dashboard-button-icon" v-html="getDashboardIcon('exchange')"></span></template>申请调课安排
                 </a-button>
               </div>
             </div>
@@ -136,8 +137,7 @@
                     <div class="metric-label">{{ metric.label }}</div>
                     <div class="metric-value">{{ metric.value }}</div>
                   </div>
-                  <div class="metric-icon">
-                    <i :class="metric.icon + ' fa-lg'"></i>
+                  <div class="metric-icon" :class="'tone-' + metric.tone" v-html="getDashboardIcon(metric.icon)">
                   </div>
                 </div>
               </a-col>
@@ -150,7 +150,7 @@
                 <!-- Today's Schedules timeline -->
                 <a-card title="今日教学排期日程" :bordered="false" class="db-card">
                   <template #extra>
-                    <a-button type="text" size="small" @click="quickNavigate('我的课表')">查看全部课表 <i class="fas fa-chevron-right" style="margin-left: 4px;"></i></a-button>
+                    <a-button type="text" size="small" @click="quickNavigate('我的课表')">查看全部课表</a-button>
                   </template>
                   <div class="db-col-gap">
                     <div v-for="sched in todaySchedules" :key="sched.id" class="schedule-item-row">
@@ -166,8 +166,8 @@
                             <a-tag size="small" color="gray">{{ sched.type }}</a-tag>
                           </div>
                           <div class="schedule-detail-meta">
-                            <span><i class="fas fa-map-marker-alt" style="margin-right: 4px;"></i>{{ sched.place }}</span>
-                            <span style="margin-left: 16px;"><i class="fas fa-users" style="margin-right: 4px;"></i>学员群: {{ sched.students }}</span>
+                            <span><span class="dashboard-inline-icon" v-html="getDashboardIcon('mapPin')"></span>{{ sched.place }}</span>
+                            <span style="margin-left: 16px;"><span class="dashboard-inline-icon" v-html="getDashboardIcon('users')"></span>学员群: {{ sched.students }}</span>
                           </div>
                         </div>
                       </div>
@@ -186,10 +186,10 @@
                         <a-checkbox v-model="task.completed" @change="completeTodo(task)"></a-checkbox>
                         <div>
                           <strong :class="['task-title', task.completed ? 'completed' : '']">{{ task.title }}</strong>
-                          <div class="task-deadline"><i class="far fa-calendar-alt"></i> 截止时间: {{ task.deadline }}</div>
+                          <div class="task-deadline"><span class="dashboard-inline-icon" v-html="getDashboardIcon('calendar')"></span>截止时间: {{ task.deadline }}</div>
                         </div>
                       </div>
-                      <a-button type="text" size="small" @click="quickNavigate(task.module)">去处理 <i class="fas fa-chevron-right" style="margin-left: 4px;"></i></a-button>
+                      <a-button type="text" size="small" @click="quickNavigate(task.module)">去处理</a-button>
                     </div>
                   </div>
                 </a-card>
@@ -216,7 +216,7 @@
                   <a-grid :cols="2" :col-gap="10" :row-gap="10">
                     <a-grid-item v-for="short in shortcuts" :key="short.title">
                       <div class="shortcut-box" @click="quickNavigate(short.module)">
-                        <div :style="'font-size: 20px; margin-bottom: 6px; color:' + short.color"><i :class="short.icon"></i></div>
+                        <div class="dashboard-shortcut-icon" :class="'tone-' + short.tone" v-html="getDashboardIcon(short.icon)"></div>
                         <div class="shortcut-label">{{ short.title }}</div>
                       </div>
                     </a-grid-item>
@@ -230,10 +230,10 @@
           return {
             dashboardQuery: '',
             metrics: [
-              { label: '本季度累计课时', value: '36.5 小时', icon: 'fas fa-book-reader' },
-              { label: '所授课程好评度', value: '98.4 %', icon: 'fas fa-star-and-crescent' },
-              { label: '批改进度占比', value: '92.0 %', icon: 'fas fa-tasks' },
-              { label: '所带规培生通过率', value: '95.6 %', icon: 'fas fa-user-graduate' }
+              { label: '本季度累计课时', value: '36.5 小时', icon: 'book', tone: 'blue' },
+              { label: '所授课程好评度', value: '98.4 %', icon: 'star', tone: 'orange' },
+              { label: '批改进度占比', value: '92.0 %', icon: 'tasks', tone: 'teal' },
+              { label: '所带规培生通过率', value: '95.6 %', icon: 'graduation', tone: 'green' }
             ],
             todaySchedules: [
               { id: 1, name: '急救护理综合实训', time: '14:00', duration: 180, isLive: true, statusColor: 'red', statusText: '正在进行', type: '情境模拟实训', place: '3F 302 临床技能中心', students: '专培二年级 · 重症班 (32人)', actionText: '进入课堂', targetModule: '我的课程' },
@@ -250,14 +250,15 @@
               { id: 203, title: '有新的课程大纲通过审批', desc: '您提交的《儿科医患模拟告知进阶课程》已由院部教务完成三级评审。', tag: '课程评审', tagColor: 'orange', time: '昨天 15:30' }
             ],
             shortcuts: [
-              { title: '可视课表', icon: 'fas fa-calendar-alt', color: '#165dff', module: '我的课表' },
-              { title: '备件申请', icon: 'fas fa-box-open', color: '#00b42a', module: '场地与物资申请' },
-              { title: '教研资源', icon: 'fas fa-folder-open', color: '#ff7d00', module: '教学资源库' },
-              { title: '考核评价', icon: 'fas fa-file-signature', color: '#722ed1', module: '作业考试' }
+              { title: '可视课表', icon: 'calendar', tone: 'blue', module: '我的课表' },
+              { title: '备件申请', icon: 'package', tone: 'green', module: '场地与物资申请' },
+              { title: '教研资源', icon: 'folder', tone: 'orange', module: '教学资源库' },
+              { title: '考核评价', icon: 'clipboardCheck', tone: 'purple', module: '作业考试' }
             ]
           };
         },
         methods: {
+          getDashboardIcon: getDashboardIcon,
           quickNavigate(pageName) {
             if (window.navigateTo) {
               window.navigateTo(pageName);
@@ -295,14 +296,14 @@
     waitForVue(function () {
       var app = Vue.createApp({
         template: `
-          <div class="student-dashboard-wrapper">
-            <div class="dashboard-top-toolbar">
-              <div class="dashboard-toolbar-title app-page-header-main">
+          <div class="dashboard-wrapper student-dashboard-wrapper app-content-v2">
+            <div class="dashboard-top-toolbar app-page-header">
+              <div class="dashboard-toolbar-title">
                 <strong>工作台</strong>
                 <span>学习概览</span>
               </div>
-              <label class="dashboard-toolbar-search app-page-header-actions">
-                <i class="fas fa-search"></i>
+              <label class="dashboard-toolbar-search">
+                <span class="dashboard-inline-icon" v-html="getDashboardIcon('search')"></span>
                 <input v-model="dashboardQuery" type="search" placeholder="搜索课程、任务、日程..." @keyup.enter="handleDashboardSearch">
               </label>
             </div>
@@ -313,16 +314,16 @@
                 <h1 class="banner-title">中午好，王同学！</h1>
                 <p class="banner-desc">当前轮转科室：<strong class="text-primary">儿科重症监护病房 (PICU)</strong>。带教老师：<strong>刘国强</strong>，责任导师：<strong>王一</strong>。</p>
                 <div class="banner-tags">
-                  <a-tag size="small" color="arcoblue"><i class="fas fa-hospital" style="margin-right: 4px;"></i>已轮转: 18天 / 计划: 30天</a-tag>
-                  <a-tag size="small" color="green"><i class="fas fa-book-reader" style="margin-right: 4px;"></i>今日待上课: 1 门</a-tag>
+                  <a-tag size="small" color="arcoblue"><span class="dashboard-inline-icon" v-html="getDashboardIcon('building')"></span>已轮转: 18天 / 计划: 30天</a-tag>
+                  <a-tag size="small" color="green"><span class="dashboard-inline-icon" v-html="getDashboardIcon('book')"></span>今日待上课: 1 门</a-tag>
                 </div>
               </div>
               <div class="banner-actions">
                 <a-button type="outline" @click="openCalendar">
-                  <template #icon><i class="far fa-calendar-alt"></i></template>查看学习日程
+                  <template #icon><span class="dashboard-button-icon" v-html="getDashboardIcon('calendar')"></span></template>查看学习日程
                 </a-button>
                 <a-button type="primary" @click="quickNavigate('选课报名')">
-                  <template #icon><i class="fas fa-plus"></i></template>去选课报名
+                  <template #icon><span class="dashboard-button-icon" v-html="getDashboardIcon('plus')"></span></template>去选课报名
                 </a-button>
               </div>
             </div>
@@ -335,8 +336,7 @@
                     <div class="metric-label">{{ metric.label }}</div>
                     <div class="metric-value">{{ metric.value }}</div>
                   </div>
-                  <div class="metric-icon">
-                    <i :class="metric.icon + ' fa-lg'"></i>
+                  <div class="metric-icon" :class="'tone-' + metric.tone" v-html="getDashboardIcon(metric.icon)">
                   </div>
                 </div>
               </a-col>
@@ -361,14 +361,13 @@
                   <div class="db-col-gap">
                     <div v-for="task in filteredTodos" :key="task.id" class="todo-task-row">
                       <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="todo-icon-box">
-                          <i :class="getTodoIcon(task.type)"></i>
+                        <div class="todo-icon-box" v-html="getDashboardIcon(getTodoIcon(task.type))">
                         </div>
                         <div>
                           <strong class="task-title">{{ task.name }}</strong>
                           <div class="task-meta">
                             <span>课程: {{ task.course }}</span>
-                            <span style="margin-left: 12px;"><i class="far fa-clock"></i> 截止: {{ task.due }}</span>
+                            <span style="margin-left: 12px;"><span class="dashboard-inline-icon" v-html="getDashboardIcon('clock')"></span>截止: {{ task.due }}</span>
                           </div>
                         </div>
                       </div>
@@ -391,7 +390,7 @@
                         <span class="course-pct">{{ course.pct }}%</span>
                       </div>
                       <a-progress :percent="course.pct / 100" :show-text="false" size="small" />
-                      <div class="course-tip"><i class="far fa-lightbulb"></i> {{ course.tip }}</div>
+                      <div class="course-tip"><span class="dashboard-inline-icon" v-html="getDashboardIcon('lightbulb')"></span>{{ course.tip }}</div>
                     </div>
                   </div>
                 </a-card>
@@ -426,7 +425,7 @@
                       <text x="36" y="94" font-size="12" font-weight="600" text-anchor="end" fill="var(--color-text-2)">职业素养</text>
                       
                       <!-- actual student polygon -->
-                      <polygon :points="radarPoints" fill="rgba(24,144,255,0.18)" stroke="var(--color-primary)" stroke-width="2.5" />
+                      <polygon :points="radarPoints" fill="var(--color-primary-bg)" stroke="var(--color-primary)" stroke-width="2.5" />
                       
                       <!-- active nodes dots -->
                       <circle v-for="node in radarNodes" :key="node.x" :cx="node.x" :cy="node.y" r="4.5" fill="var(--color-primary)" />
@@ -443,7 +442,7 @@
                   <a-grid :cols="2" :col-gap="10" :row-gap="10">
                     <a-grid-item v-for="short in shortcuts" :key="short.title">
                       <div class="shortcut-box" @click="quickNavigate(short.module)">
-                        <div :style="'font-size: 20px; margin-bottom: 6px; color:' + short.color"><i :class="short.icon"></i></div>
+                        <div class="dashboard-shortcut-icon" :class="'tone-' + short.tone" v-html="getDashboardIcon(short.icon)"></div>
                         <div class="shortcut-label">{{ short.title }}</div>
                       </div>
                     </a-grid-item>
@@ -455,14 +454,14 @@
             <!-- ── Calendar Schedule Drawer ── -->
             <a-drawer v-model:visible="calendarVisible" title="我的学习日程与轮转" width="560px" :footer="false">
               <div style="padding: 8px 0;">
-                <div class="calendar-drawer-title"><i class="far fa-calendar-check text-primary"></i> 近期学习与轮转日程安排</div>
+                <div class="calendar-drawer-title"><span class="dashboard-inline-icon" v-html="getDashboardIcon('calendarCheck')"></span>近期学习与轮转日程安排</div>
                 
                 <a-timeline>
                   <a-timeline-item v-for="ev in calEvents" :key="ev.title" :label="ev.date" :dot-color="getEventDotColor(ev.type)">
                     <strong class="task-title">{{ ev.title }}</strong>
                     <div class="calendar-drawer-detail">
                       <span>时间: {{ ev.time || '全天' }}</span>
-                      <span v-if="ev.place" style="margin-left: 12px;"><i class="fas fa-map-marker-alt"></i> {{ ev.place }}</span>
+                      <span v-if="ev.place" style="margin-left: 12px;"><span class="dashboard-inline-icon" v-html="getDashboardIcon('mapPin')"></span>{{ ev.place }}</span>
                     </div>
                     <div v-if="ev.teacher" class="calendar-drawer-teacher">
                       <span>授课带教: {{ ev.teacher }}</span>
@@ -479,10 +478,10 @@
             calendarVisible: false,
             todoFilter: 'all',
             metrics: [
-              { label: '本周已学时长', value: '6.5 小时', icon: 'far fa-clock' },
-              { label: '进行中课程', value: '2 门', icon: 'fas fa-book-open' },
-              { label: '已完成科室活动', value: '3 / 8 个', icon: 'fas fa-circle-check' },
-              { label: '里程碑评级', value: 'M2 · 规范实践', icon: 'fas fa-trophy' }
+              { label: '本周已学时长', value: '6.5 小时', icon: 'clock', tone: 'blue' },
+              { label: '进行中课程', value: '2 门', icon: 'book', tone: 'purple' },
+              { label: '已完成科室活动', value: '3 / 8 个', icon: 'check', tone: 'green' },
+              { label: '里程碑评级', value: 'M2 · 规范实践', icon: 'award', tone: 'orange' }
             ],
             todos: [
               { id: 1, type: 'assess', name: '技能站二：清洁、消毒与局麻', course: '儿童导尿术（男性）', due: '今日课堂', group: 'today', imminent: true, btnLabel: '进行中', btnClass: 'ongoing' },
@@ -496,10 +495,10 @@
               { name: '坏消息告知', pct: 35, statusText: '进行中 · 自主学习阶段', tip: '学习小结: 课前自主学习尚有未读章节，本周五前需提交沟通准备学习单。' }
             ],
             shortcuts: [
-              { title: '日程日历', icon: 'fas fa-calendar-alt', color: '#165dff', module: '日程日历' },
-              { title: '场地预约', icon: 'fas fa-door-open', color: '#00b42a', module: '场地与物资申请' },
-              { title: '自适应学习', icon: 'fas fa-bolt', color: '#ff7d00', module: '自适应学习' },
-              { title: '成果申报', icon: 'fas fa-trophy', color: '#722ed1', module: '成果申报' }
+              { title: '日程日历', icon: 'calendar', tone: 'blue', module: '日程日历' },
+              { title: '场地预约', icon: 'door', tone: 'green', module: '场地与物资申请' },
+              { title: '自适应学习', icon: 'bolt', tone: 'orange', module: '自适应学习' },
+              { title: '成果申报', icon: 'award', tone: 'purple', module: '成果申报' }
             ],
             competencies: [
               { name: '知识技能', level: 2 },
@@ -560,6 +559,7 @@
           }
         },
         methods: {
+          getDashboardIcon: getDashboardIcon,
           showToast(msg) {
             if (window.ArcoVue && window.ArcoVue.Message) {
               window.ArcoVue.Message.info(msg);
@@ -577,11 +577,11 @@
           },
           getTodoIcon(type) {
             return {
-              hw: 'fas fa-pencil-ruler',
-              exam: 'fas fa-file-alt',
-              assess: 'fas fa-clipboard-check',
-              course: 'fas fa-play-circle'
-            }[type] || 'fas fa-circle';
+              hw: 'edit',
+              exam: 'file',
+              assess: 'clipboardCheck',
+              course: 'play'
+            }[type] || 'clipboardList';
           },
           getEventDotColor(type) {
             return {
@@ -658,14 +658,14 @@
     waitForVue(function () {
       var app = Vue.createApp({
         template: `
-          <div class="admin-dashboard-wrapper app-content-v2">
+          <div class="dashboard-wrapper admin-dashboard-wrapper app-content-v2">
             <div class="dashboard-top-toolbar app-page-header">
               <div class="dashboard-toolbar-title">
                 <strong>工作台</strong>
                 <span>全部服务</span>
               </div>
               <label class="dashboard-toolbar-search">
-                <i class="fas fa-search"></i>
+                <span class="dashboard-inline-icon" v-html="getDashboardIcon('search')"></span>
                 <input v-model="searchQuery" type="search" placeholder="搜索应用、服务及自助办理事项..." @keyup.enter="handleSearch">
               </label>
             </div>
@@ -808,16 +808,9 @@
           }
         },
         methods: {
+          getDashboardIcon: getDashboardIcon,
           getLucideIcon(iconName) {
-            // Prefer the local IconPark-style filled ("面性") icon set
-            if (iconParkIcons[iconName]) {
-              return iconParkIcons[iconName];
-            }
-            var icons = window.RoleNav && window.RoleNav.icons;
-            if (icons && icons[iconName]) {
-              return icons[iconName];
-            }
-            return '';
+            return getDashboardIcon(iconName);
           },
           categoryAnchor(cat) {
             // Generate a URL-safe anchor id from a Chinese label
