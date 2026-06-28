@@ -4,238 +4,261 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>课程开发</title>
+  <link rel="stylesheet" href="../shared/design-tokens.css">
+  <link rel="stylesheet" href="../shared/components.css">
+  <link rel="stylesheet" href="../shared/patterns.css">
+  <link rel="stylesheet" href="../shared/nav.css">
+  <link rel="stylesheet" href="../shared/shell.css">
   <style>
-    :root{
-      --nav:#175f9f;--nav-text:#d9ecff;--nav-active:rgba(255,255,255,.16);
-      --primary:#3370ff;
-      --text:#1f2329;--text2:#646a73;--text3:#8f959e;
-      --line:#dee0e3;--line-soft:#eef0f2;--bg:#f5f6f7;--white:#fff;
-      --radius:10px;--shadow:0 5px 18px rgba(31,35,41,.07);
-    }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
     body{
-      overflow:hidden;background:var(--nav);color:var(--text);
-      font:14px/1.5 Inter,"PingFang SC","Microsoft YaHei",sans-serif;
+      overflow:hidden;background:var(--color-sidebar);color:var(--color-text-1);
+      font-family:var(--font-family);font-size:var(--font-base);line-height:var(--line-height-normal);
       -webkit-font-smoothing:antialiased;
     }
     button,input,select,textarea{font:inherit}
-    button{cursor:pointer}
+    button{cursor:pointer;border:0;background:transparent}
 
-    .app{height:100vh;min-width:1180px;display:flex;padding:8px 8px 0 0}
+    .app{height:100vh;min-width:1180px;display:flex;padding:var(--space-2) var(--space-2) 0 0}
 
-    /* 管理端导航外壳 */
-    .sidebar{width:240px;flex:0 0 240px;display:flex;flex-direction:column;color:#fff}
-    .brand{height:78px;padding:13px 14px;display:flex;align-items:center;gap:10px}
+    /* 管理端导航外壳 — 复用 nav.css */
+    .sidebar{width:var(--sidebar-width);flex:0 0 var(--sidebar-width);display:flex;flex-direction:column;color:var(--color-text-white)}
+    .brand{height:72px;padding:var(--space-4) var(--space-3);display:flex;align-items:center;gap:var(--space-2)}
     .logo{
-      width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;
-      color:var(--nav);background:#fff;border:3px solid rgba(255,255,255,.45);
-      font-family:serif;font-weight:700;font-size:18px;
+      width:40px;height:40px;flex:0 0 40px;border-radius:50%;display:grid;place-items:center;
+      color:var(--color-sidebar);background:var(--color-bg-1);
+      font-family:serif;font-weight:var(--font-weight-bold);font-size:var(--font-lg);
     }
-    .brand-copy{min-width:0}
+    .brand-copy{min-width:0;display:flex;flex-direction:column;line-height:1.4}
     .brand-copy b,.brand-copy span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .brand-copy b{font-size:15px}.brand-copy span{font-size:12px;color:var(--nav-text)}
-    .collapse{margin-left:auto;color:var(--nav-text);font-size:20px}
-    .nav{min-height:0;flex:1;padding:5px 8px;overflow:auto}
+    .brand-copy b{font-size:var(--font-base);font-weight:var(--font-weight-semibold);color:var(--color-text-white)}
+    .brand-copy span{font-size:var(--font-sm);color:var(--color-sidebar-text)}
+    .collapse{margin-left:auto;display:grid;place-items:center;width:30px;height:30px;color:var(--color-sidebar-text)}
+    .collapse:hover{background:var(--color-sidebar-hover);color:var(--color-text-white);border-radius:var(--radius-sm)}
+    .collapse svg{width:18px;height:18px}
+    .nav{min-height:0;flex:1;padding:var(--space-1) var(--space-2) var(--space-3);overflow:auto}
+    .nav::-webkit-scrollbar{width:0}
     .nav-item{
-      min-height:42px;margin-bottom:4px;padding:0 12px;border-radius:8px;
-      display:flex;align-items:center;gap:12px;color:var(--nav-text);font-weight:500;
+      min-height:40px;margin-bottom:var(--space-1);padding:0 var(--space-3);border-radius:var(--radius-sm);
+      display:flex;align-items:center;gap:var(--space-3);color:var(--color-sidebar-text);
+      font-size:var(--font-base);font-weight:var(--font-weight-medium);
+      transition:background var(--transition-fast),color var(--transition-fast);cursor:pointer;
     }
-    .nav-item:hover,.nav-item.active{background:var(--nav-active);color:#fff}
-    .nav-icon{width:20px;text-align:center;font-size:17px}
-    .caret{margin-left:auto;font-size:11px}
-    .subnav{margin:-1px 0 6px;padding-left:45px;color:var(--nav-text)}
-    .subnav div{padding:8px 10px;border-radius:7px}
-    .subnav .selected{background:var(--nav-active);color:#fff;font-weight:600}
+    .nav-item:hover,.nav-item.active{background:var(--color-sidebar-active);color:var(--color-text-white)}
+    .nav-icon{width:18px;height:18px;flex:0 0 18px;display:inline-flex;align-items:center;justify-content:center}
+    .nav-icon svg{display:block;width:100%;height:100%}
+    .caret{margin-left:auto;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;transition:transform var(--transition-fast)}
+    .caret svg{width:100%;height:100%}
+    .subnav{margin:-2px 0 var(--space-2);padding-left:42px;color:var(--color-sidebar-text)}
+    .subnav div{padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);font-size:var(--font-md)}
+    .subnav .selected{background:var(--color-sidebar-active);color:var(--color-text-white);font-weight:var(--font-weight-semibold)}
     .user{
-      margin:8px 14px 14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.14);
-      display:flex;align-items:center;gap:10px;
+      margin:var(--space-2) var(--space-3) var(--space-3);padding-top:var(--space-3);
+      border-top:1px solid var(--color-sidebar-soft);
+      display:flex;align-items:center;gap:var(--space-2);
     }
     .avatar{
-      width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
-      color:var(--nav);background:#fff;font-weight:700;
+      width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+      color:var(--color-sidebar);background:var(--color-text-white);font-weight:var(--font-weight-bold);font-size:var(--font-sm);
     }
-    .user small{display:block;color:var(--nav-text)}
+    .user b{font-size:var(--font-base);font-weight:var(--font-weight-semibold);color:var(--color-text-white)}
+    .user small{display:block;color:var(--color-sidebar-text);font-size:var(--font-sm)}
 
     /* 主页面 */
     .main{
-      min-width:0;flex:1;position:relative;overflow:auto;background:#fff;
-      border-radius:14px 14px 0 0;
+      min-width:0;flex:1;position:relative;overflow:auto;background:var(--color-bg-1);
+      border-radius:var(--radius-lg) var(--radius-lg) 0 0;
     }
     .topbar{
-      height:74px;padding:0 28px;position:sticky;top:0;z-index:10;
+      height:64px;padding:0 var(--space-8);position:sticky;top:0;z-index:10;
       display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-      border-bottom:1px solid var(--line-soft);background:rgba(255,255,255,.96);
+      border-bottom:1px solid var(--color-border-light);background:rgba(255,255,255,.96);
       backdrop-filter:blur(10px);
     }
     .back{
-      width:max-content;height:36px;padding:0 13px;border:1px solid var(--line);
-      border-radius:7px;background:#fff;color:var(--text2);
+      display:inline-flex;align-items:center;gap:var(--space-1);
+      width:max-content;height:32px;padding:0 var(--space-3);
+      border:1px solid var(--color-border);border-radius:var(--radius-sm);
+      background:var(--color-bg-1);color:var(--color-text-2);font-size:var(--font-md);
+      transition:background var(--transition-fast),border-color var(--transition-fast);
     }
-    .back:hover{background:var(--bg)}
+    .back:hover{background:var(--color-bg-2);border-color:var(--color-primary-border)}
+    .back svg{width:14px;height:14px}
     .business-tabs{display:flex;gap:44px;height:100%;align-items:center}
     .business-tab{
       height:100%;position:relative;border:0;background:transparent;
-      color:var(--text2);font-size:16px;font-weight:600;
+      color:var(--color-text-2);font-size:var(--font-lg);font-weight:var(--font-weight-semibold);
     }
-    .business-tab.active{color:var(--text)}
+    .business-tab.active{color:var(--color-text-1)}
     .business-tab.active:after{
-      content:"";position:absolute;left:0;right:0;bottom:14px;height:2px;
-      border-radius:2px;background:var(--text);
+      content:"";position:absolute;left:0;right:0;bottom:12px;height:2px;
+      border-radius:2px;background:var(--color-text-1);
     }
-    .step{justify-self:end;color:var(--text3);font-size:12px}
+    .step{justify-self:end;color:var(--color-text-3);font-size:var(--font-sm)}
     .stage{
-      width:min(1080px,calc(100% - 56px));margin:0 auto;padding:38px 0 145px;
+      width:min(1080px,calc(100% - 56px));margin:0 auto;padding:var(--space-10) 0 145px;
     }
 
-    /* 飞书式中心引导 */
-    .hero{text-align:center;margin-bottom:24px}
-    .sparkle{display:none}
-    .hero h1{margin:0 0 8px;font-size:26px;line-height:38px;font-weight:600;letter-spacing:.2px}
-    .hero h1 em{font-style:normal;color:inherit}
-    .hero p{margin:0;color:var(--text3)}
+    /* 中心引导 */
+    .hero{text-align:center;margin-bottom:var(--space-6)}
+    .hero h1{margin:0 0 var(--space-2);font-size:var(--font-page-title);line-height:var(--line-page-title);font-weight:var(--font-weight-semibold);letter-spacing:.2px;color:var(--color-text-1)}
+    .hero p{margin:0;color:var(--color-text-3);font-size:var(--font-body);line-height:var(--line-body)}
     .scope-tabs{
-      width:max-content;margin:20px auto 0;padding:4px;display:flex;gap:3px;
-      border-radius:10px;background:#f5f5f7;
+      width:max-content;margin:var(--space-5) auto 0;padding:3px;display:flex;gap:3px;
+      border-radius:var(--radius-sm);background:var(--color-bg-2);
     }
     .scope{
-      min-width:116px;height:38px;border:0;border-radius:8px;background:transparent;color:var(--text2);
+      min-width:116px;height:32px;border:0;border-radius:var(--radius-xs);background:transparent;
+      color:var(--color-text-2);font-size:var(--font-md);font-weight:var(--font-weight-medium);
+      transition:all var(--transition-fast);
     }
     .scope.active{
-      background:#fff;color:var(--primary);font-weight:600;
-      box-shadow:0 1px 6px rgba(31,35,41,.1);
+      background:var(--color-bg-1);color:var(--color-primary);font-weight:var(--font-weight-semibold);
+      box-shadow:var(--shadow-sm);
     }
 
-    .section{margin-top:22px}
-    .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:11px}
-    .section-head h2{margin:0;font-size:16px;font-weight:600}
-    .section-head p{margin:2px 0 0;color:var(--text3);font-size:12px}
-    .selection-note{color:var(--primary);font-size:12px}
+    .section{margin-top:var(--space-6)}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:var(--space-3)}
+    .section-head h2{margin:0;font-size:var(--font-section-title);font-weight:var(--font-weight-semibold);color:var(--color-text-1);line-height:var(--line-section-title)}
+    .section-head p{margin:var(--space-1) 0 0;color:var(--color-text-3);font-size:var(--font-caption);line-height:var(--line-caption)}
+    .selection-note{color:var(--color-primary);font-size:var(--font-caption)}
 
-    /* 课程类型：紧凑选择卡，而不是 Tab/标签 */
-    .type-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    /* 课程类型：紧凑选择卡 */
+    .type-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-2)}
     .type-card{
-      min-height:48px;padding:8px 10px;position:relative;
-      display:flex;align-items:center;gap:8px;text-align:left;
-      border:1px solid var(--line);border-radius:7px;background:#fff;
-      transition:.15s;
+      min-height:48px;padding:var(--space-2) var(--space-3);position:relative;
+      display:flex;align-items:center;gap:var(--space-2);text-align:left;
+      border:1px solid var(--color-border);border-radius:var(--radius-sm);background:var(--color-bg-1);
+      transition:all var(--transition-fast);
     }
-    .type-card:hover{border-color:#9eb5df;background:#fafcff}
+    .type-card:hover{border-color:var(--color-primary-border);background:var(--color-primary-bg)}
     .type-card.active{
-      border-color:var(--primary);background:#f2f6ff;
+      border-color:var(--color-primary);background:var(--color-primary-bg);
     }
     .type-icon{
-      width:26px;height:26px;flex:0 0 26px;border-radius:6px;display:grid;place-items:center;
-      color:#3f67ad;background:#edf3fb;font-size:12px;font-weight:700;
+      width:26px;height:26px;flex:0 0 26px;border-radius:var(--radius-xs);display:grid;place-items:center;
+      color:var(--color-primary);background:var(--color-primary-bg);font-size:var(--font-xs);font-weight:var(--font-weight-bold);
     }
-    .type-card:nth-child(2) .type-icon,
-    .type-card:nth-child(3) .type-icon,
-    .type-card:nth-child(4) .type-icon{color:#3f67ad;background:#edf3fb}
     .type-text{min-width:0}
-    .type-text strong{display:block;font-size:14px}
+    .type-text strong{display:block;font-size:var(--font-base);color:var(--color-text-1)}
     .type-text small{display:none}
     .type-state{
-      margin-left:auto;width:17px;height:17px;flex:0 0 17px;border:1px solid #c9cdd4;
-      border-radius:50%;display:grid;place-items:center;color:transparent;font-size:9px;
+      margin-left:auto;width:17px;height:17px;flex:0 0 17px;border:1px solid var(--color-border-strong);
+      border-radius:50%;display:grid;place-items:center;color:transparent;
     }
-    .type-card.active .type-state{border-color:var(--primary);background:var(--primary);color:#fff}
+    .type-state svg{display:none;width:11px;height:11px}
+    .type-card.active .type-state{border-color:var(--color-primary);background:var(--color-primary);color:var(--color-text-white)}
+    .type-card.active .type-state svg{display:block}
     .type-role{
-      display:none;position:absolute;right:9px;top:7px;padding:2px 6px;border-radius:999px;
-      background:#eaf0ff;color:var(--primary);font-size:9px;
+      display:none;position:absolute;right:var(--space-2);top:7px;padding:2px var(--space-2);border-radius:var(--radius-pill);
+      background:var(--color-primary-bg);color:var(--color-primary);font-size:var(--font-xs);
     }
     .type-card.primary .type-role{display:block}
 
     /* 专项 / 纵向信息 */
     .brief{
-      display:none;margin-top:12px;padding:14px;border:1px solid var(--line);
-      border-radius:8px;background:#fafbfc;
+      display:none;margin-top:var(--space-3);padding:var(--space-4);border:1px solid var(--color-border);
+      border-radius:var(--radius-md);background:var(--color-bg-3);
     }
     .brief.show{display:block}
-    .brief-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-    .brief-title b{font-size:13px}.brief-title span{color:var(--text3);font-size:11px}
-    .brief-grid{display:grid;grid-template-columns:1fr 1fr .7fr 1.4fr;gap:10px}
-    .field label{display:block;margin-bottom:5px;color:var(--text2);font-size:11px}
+    .brief-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3)}
+    .brief-title b{font-size:var(--font-md);color:var(--color-text-1)}
+    .brief-title span{color:var(--color-text-3);font-size:var(--font-xs)}
+    .brief-grid{display:grid;grid-template-columns:1fr 1fr .7fr 1.4fr;gap:var(--space-3)}
+    .field label{display:block;margin-bottom:var(--space-1);color:var(--color-text-2);font-size:var(--font-xs)}
     .field input,.field select{
-      width:100%;height:36px;padding:0 9px;border:1px solid var(--line);
-      border-radius:7px;outline:0;background:#fff;color:var(--text);
+      width:100%;height:36px;padding:0 var(--space-3);border:1px solid var(--color-border);
+      border-radius:var(--radius-sm);outline:0;background:var(--color-bg-1);color:var(--color-text-1);
+      font-size:var(--font-md);transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
     }
-    .field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(51,112,255,.09)}
+    .field input:focus,.field select:focus{border-color:var(--color-primary);box-shadow:var(--shadow-focus)}
 
     /* 教学框架模板 */
-    .framework-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+    .framework-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4) var(--space-5)}
     .framework{
       height:144px;padding:0;position:relative;overflow:hidden;text-align:left;
-      border:1px solid var(--line);border-radius:11px;background:#fff;transition:.16s;
+      border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg-1);
+      transition:border-color var(--transition-fast),box-shadow var(--transition-fast);
     }
-    .framework:hover{border-color:#9eb5df;box-shadow:0 3px 10px rgba(31,35,41,.05)}
+    .framework:hover{border-color:var(--color-primary-border);box-shadow:var(--shadow-sm)}
     .framework.active{
-      border:2px solid var(--primary);box-shadow:0 0 0 3px rgba(51,112,255,.06);
+      border:2px solid var(--color-primary);box-shadow:0 0 0 3px rgba(23,88,152,.06);
     }
-    .framework-preview{height:91px;padding:14px 16px;position:relative;background:#f5f7ff}
-    .framework:nth-child(2) .framework-preview{background:#f4fbfa}
-    .framework:nth-child(3) .framework-preview{background:#f7f4ff}
-    .framework:nth-child(4) .framework-preview{background:#f4fbfd}
-    .framework:nth-child(5) .framework-preview{background:#fff8f2}
-    .framework:nth-child(6) .framework-preview{background:#fafafa}
-    .framework-code{color:#315fbe;font-size:20px;font-weight:700;letter-spacing:.3px}
-    .framework-sub{color:var(--text2);font-size:11px}
-    .flow{position:absolute;left:16px;right:16px;bottom:13px;display:flex;gap:5px}
-    .flow i{height:7px;flex:1;border-radius:3px;background:#dbe5ff}
-    .flow i:nth-child(2n){background:#b9ccff}.flow i:nth-child(3n){background:#91afff}
-    .dots{position:absolute;right:16px;bottom:12px;display:flex;gap:5px}
-    .dots i{width:24px;height:24px;border-radius:50%;background:#bce8df}
-    .tiles{position:absolute;right:16px;bottom:12px;display:grid;grid-template-columns:repeat(2,24px);gap:4px}
-    .tiles i{height:22px;border-radius:5px;background:#ddd8fa}
+    .framework-preview{height:91px;padding:var(--space-4);position:relative;background:var(--color-primary-bg)}
+    .framework:nth-child(2) .framework-preview{background:var(--color-success-bg)}
+    .framework:nth-child(3) .framework-preview{background:var(--color-purple-bg)}
+    .framework:nth-child(4) .framework-preview{background:var(--color-cyan-bg)}
+    .framework:nth-child(5) .framework-preview{background:var(--color-warning-bg)}
+    .framework:nth-child(6) .framework-preview{background:var(--color-bg-3)}
+    .framework-code{color:var(--color-primary);font-size:var(--font-2xl);font-weight:var(--font-weight-bold);letter-spacing:.3px}
+    .framework-sub{color:var(--color-text-2);font-size:var(--font-xs)}
+    .flow{position:absolute;left:var(--space-4);right:var(--space-4);bottom:13px;display:flex;gap:5px}
+    .flow i{height:7px;flex:1;border-radius:3px;background:var(--color-primary-border)}
+    .flow i:nth-child(2n){background:var(--color-primary-disabled)}
+    .flow i:nth-child(3n){background:var(--color-primary-bg-hover)}
+    .dots{position:absolute;right:var(--space-4);bottom:12px;display:flex;gap:5px}
+    .dots i{width:24px;height:24px;border-radius:50%;background:var(--color-success-border)}
+    .tiles{position:absolute;right:var(--space-4);bottom:12px;display:grid;grid-template-columns:repeat(2,24px);gap:4px}
+    .tiles i{height:22px;border-radius:var(--radius-xs);background:var(--color-purple-border)}
     .framework-meta{
-      height:53px;padding:8px 13px;display:flex;align-items:center;justify-content:space-between;
-      border-top:1px solid var(--line-soft);
+      height:53px;padding:var(--space-2) var(--space-3);display:flex;align-items:center;justify-content:space-between;
+      border-top:1px solid var(--color-border-light);
     }
-    .framework-meta strong{display:block;font-size:13px}
-    .framework-meta small{display:block;color:var(--text3);font-size:11px}
+    .framework-meta strong{display:block;font-size:var(--font-md);color:var(--color-text-1)}
+    .framework-meta small{display:block;color:var(--color-text-3);font-size:var(--font-xs)}
     .framework-check{
       display:none;width:20px;height:20px;border-radius:50%;place-items:center;
-      color:#fff;background:var(--primary);font-size:11px;
+      color:var(--color-text-white);background:var(--color-primary);
     }
+    .framework-check svg{width:12px;height:12px}
     .framework.active .framework-check{display:grid}
     .badge{
-      position:absolute;right:10px;top:9px;z-index:2;padding:2px 7px;border-radius:999px;
-      border:1px solid rgba(51,112,255,.15);background:rgba(255,255,255,.88);
-      color:var(--primary);font-size:10px;
+      position:absolute;right:10px;top:9px;z-index:2;padding:2px var(--space-2);border-radius:var(--radius-pill);
+      border:1px solid var(--color-primary-border);background:rgba(255,255,255,.88);
+      color:var(--color-primary);font-size:var(--font-xs);
     }
 
-    /* 飞书式底部对话 */
+    /* 底部对话 */
     .composer-shell{
-      position:fixed;left:240px;right:8px;bottom:0;z-index:12;padding:30px 28px 18px;
-      background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 40%);
+      position:fixed;left:var(--sidebar-width);right:var(--space-2);bottom:0;z-index:12;padding:30px var(--space-8) var(--space-5);
+      background:linear-gradient(to bottom,rgba(255,255,255,0),var(--color-bg-1) 40%);
     }
     .file-chip{
-      display:none;width:min(1040px,calc(100% - 56px));margin:0 auto 7px;
-      padding:6px 10px;border-radius:7px;background:var(--bg);color:var(--text2);font-size:12px;
+      display:none;width:min(1040px,calc(100% - 56px));margin:0 auto var(--space-2);
+      padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);background:var(--color-bg-2);color:var(--color-text-2);font-size:var(--font-sm);
     }
     .composer{
-      width:min(1040px,calc(100% - 56px));min-height:68px;margin:0 auto;padding:10px 11px;
-      display:flex;align-items:flex-end;gap:9px;border:1px solid #c9cdd4;
-      border-radius:14px;background:#fff;box-shadow:var(--shadow);
+      width:min(1040px,calc(100% - 56px));min-height:68px;margin:0 auto;padding:var(--space-3);
+      display:flex;align-items:flex-end;gap:var(--space-2);border:1px solid var(--color-border);
+      border-radius:var(--radius-md);background:var(--color-bg-1);box-shadow:var(--shadow-md);
     }
     .upload{
-      width:38px;height:38px;flex:0 0 38px;border:1px solid var(--line);
-      border-radius:9px;background:#fff;color:var(--text2);font-size:19px;
+      width:38px;height:38px;flex:0 0 38px;border:1px solid var(--color-border);
+      border-radius:var(--radius-sm);background:var(--color-bg-1);color:var(--color-text-2);
+      display:grid;place-items:center;transition:color var(--transition-fast),background var(--transition-fast);
     }
-    .upload:hover{color:var(--primary);background:var(--bg)}
+    .upload:hover{color:var(--color-primary);background:var(--color-bg-2)}
+    .upload svg{width:18px;height:18px}
     .composer textarea{
-      min-width:0;min-height:38px;max-height:84px;flex:1;padding:9px 4px;
-      resize:none;border:0;outline:0;background:transparent;color:var(--text);
+      min-width:0;min-height:38px;max-height:84px;flex:1;padding:var(--space-2) var(--space-1);
+      resize:none;border:0;outline:0;background:transparent;color:var(--color-text-1);
+      font-size:var(--font-base);line-height:var(--line-height-normal);
     }
+    .composer textarea::placeholder{color:var(--color-text-3)}
     .send{
       width:40px;height:40px;flex:0 0 40px;border:0;border-radius:50%;
-      color:#fff;background:var(--primary);font-size:17px;
+      color:var(--color-text-white);background:var(--color-primary);
+      display:grid;place-items:center;transition:filter var(--transition-fast);
     }
     .send:hover{filter:brightness(.95)}
+    .send svg{width:17px;height:17px}
     .toast{
-      position:fixed;left:calc(50% + 120px);top:86px;z-index:20;
-      padding:9px 14px;border-radius:8px;background:#1f2329;color:#fff;
-      box-shadow:0 4px 14px rgba(0,0,0,.14);opacity:0;
-      transform:translate(-50%,-8px);pointer-events:none;transition:.18s;
+      position:fixed;left:calc(50% + 110px);top:86px;z-index:20;
+      padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);background:var(--color-text-1);color:var(--color-text-white);
+      box-shadow:var(--shadow-md);opacity:0;
+      transform:translate(-50%,-8px);pointer-events:none;transition:opacity var(--transition-normal),transform var(--transition-normal);
+      font-size:var(--font-sm);
     }
     .toast.show{opacity:1;transform:translate(-50%,0)}
     @media(max-width:1300px){
@@ -251,29 +274,29 @@
     <div class="brand">
       <div class="logo">复</div>
       <div class="brand-copy"><b>国家儿童医学中心</b><span>复旦大学附属儿科医院</span></div>
-      <span class="collapse">≡</span>
+      <span class="collapse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h10"/><path d="M4 18h16"/><path d="m18 9 3 3-3 3"/></svg></span>
     </div>
     <nav class="nav">
-      <div class="nav-item"><span class="nav-icon">⌂</span>工作台</div>
-      <div class="nav-item"><span class="nav-icon">⌁</span>数据大屏</div>
-      <div class="nav-item"><span class="nav-icon">⌁</span>轮转管理<span class="caret">⌃</span></div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span>工作台</div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>数据大屏</div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></span>轮转管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
       <div class="subnav"><div>轮转安排</div><div>教学活动</div></div>
-      <div class="nav-item active"><span class="nav-icon">▣</span>课程管理<span class="caret">⌃</span></div>
+      <div class="nav-item active"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg></span>课程管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
       <div class="subnav"><div class="selected">课程开发</div><div>课程池</div><div>课程实施</div></div>
-      <div class="nav-item"><span class="nav-icon">□</span>排课管理<span class="caret">⌄</span></div>
-      <div class="nav-item"><span class="nav-icon">♙</span>空间管理<span class="caret">⌄</span></div>
-      <div class="nav-item"><span class="nav-icon">◇</span>物资管理<span class="caret">⌄</span></div>
-      <div class="nav-item"><span class="nav-icon">□</span>教学资源库</div>
-      <div class="nav-item"><span class="nav-icon">♧</span>师生管理<span class="caret">⌄</span></div>
-      <div class="nav-item"><span class="nav-icon">♙</span>成果管理</div>
-      <div class="nav-item"><span class="nav-icon">✓</span>评估管理<span class="caret">⌄</span></div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>排课管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 13v.01"/><path d="M9 17v.01"/></svg></span>空间管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>物资管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>教学资源库</div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>师生管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>成果管理</div>
+      <div class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>评估管理<span class="caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
     </nav>
     <div class="user"><div class="avatar">王</div><div><b>王院长</b><small>超级管理员</small></div></div>
   </aside>
 
   <main class="main">
     <header class="topbar">
-      <button class="back">‹　返回</button>
+      <button class="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>　返回</button>
       <div class="business-tabs">
         <button class="business-tab active">技能中心课程</button>
         <button class="business-tab">临床教学活动</button>
@@ -301,22 +324,22 @@
           <button class="type-card active primary" data-type="临床技术性技能课程">
             <span class="type-role">主类型</span><span class="type-icon">技</span>
             <span class="type-text"><strong>临床技术性技能课程</strong><small>操作规范、技能示教与刻意练习</small></span>
-            <span class="type-state">✓</span>
+            <span class="type-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           </button>
           <button class="type-card" data-type="临床非技术性技能课程">
             <span class="type-role">主类型</span><span class="type-icon">沟</span>
             <span class="type-text"><strong>临床非技术性技能课程</strong><small>沟通、协作、领导与临床决策</small></span>
-            <span class="type-state">✓</span>
+            <span class="type-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           </button>
           <button class="type-card" data-type="综合情境模拟课程">
             <span class="type-role">主类型</span><span class="type-icon">景</span>
             <span class="type-text"><strong>综合情境模拟课程</strong><small>复杂情境、团队训练与结构化复盘</small></span>
-            <span class="type-state">✓</span>
+            <span class="type-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           </button>
           <button class="type-card" data-type="通识课程">
             <span class="type-role">主类型</span><span class="type-icon">通</span>
             <span class="type-text"><strong>通识课程</strong><small>共同基础、教学素养与普适能力</small></span>
-            <span class="type-state">✓</span>
+            <span class="type-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           </button>
         </div>
 
@@ -350,28 +373,28 @@
               <div class="framework-code">BOPPPS</div><div class="framework-sub">六环节参与式教学设计</div>
               <div class="flow"><i></i><i></i><i></i><i></i><i></i><i></i></div>
             </div>
-            <div class="framework-meta"><div><strong>BOPPPS</strong><small>适合结构清晰的单次课程</small></div><span class="framework-check">✓</span></div>
+            <div class="framework-meta"><div><strong>BOPPPS</strong><small>适合结构清晰的单次课程</small></div><span class="framework-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </button>
           <button class="framework" data-framework="TBL">
             <div class="framework-preview">
               <div class="framework-code">TBL</div><div class="framework-sub">团队式学习</div>
               <div class="dots"><i></i><i></i><i></i></div>
             </div>
-            <div class="framework-meta"><div><strong>TBL</strong><small>准备度测试与团队应用</small></div><span class="framework-check">✓</span></div>
+            <div class="framework-meta"><div><strong>TBL</strong><small>准备度测试与团队应用</small></div><span class="framework-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </button>
           <button class="framework" data-framework="CBL">
             <div class="framework-preview">
               <div class="framework-code">CBL</div><div class="framework-sub">案例式学习</div>
               <div class="tiles"><i></i><i></i><i></i><i></i></div>
             </div>
-            <div class="framework-meta"><div><strong>CBL</strong><small>围绕临床案例分析与决策</small></div><span class="framework-check">✓</span></div>
+            <div class="framework-meta"><div><strong>CBL</strong><small>围绕临床案例分析与决策</small></div><span class="framework-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </button>
           <button class="framework" data-framework="PBL">
             <div class="framework-preview">
               <div class="framework-code">PBL</div><div class="framework-sub">问题式学习</div>
               <div class="flow"><i></i><i></i><i></i><i></i></div>
             </div>
-            <div class="framework-meta"><div><strong>PBL</strong><small>问题驱动与自主探究</small></div><span class="framework-check">✓</span></div>
+            <div class="framework-meta"><div><strong>PBL</strong><small>问题驱动与自主探究</small></div><span class="framework-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </button>
           <button class="framework" data-framework="BOPPPS × CBL">
             <span class="badge">组合</span>
@@ -379,13 +402,13 @@
               <div class="framework-code">BOPPPS × CBL</div><div class="framework-sub">结构化课堂与案例学习结合</div>
               <div class="flow"><i></i><i></i><i></i><i></i><i></i></div>
             </div>
-            <div class="framework-meta"><div><strong>组合框架</strong><small>根据课程目标选择组合</small></div><span class="framework-check">✓</span></div>
+            <div class="framework-meta"><div><strong>组合框架</strong><small>根据课程目标选择组合</small></div><span class="framework-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </button>
           <button class="framework" data-framework="自定义框架">
             <div class="framework-preview">
-              <div class="framework-code">＋</div><div class="framework-sub">从空白或现有教案开始</div>
+              <div class="framework-code" style="display:flex;align-items:center;gap:6px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div><div class="framework-sub">从空白或现有教案开始</div>
             </div>
-            <div class="framework-meta"><div><strong>自定义框架</strong><small>从现有教案或空白开始</small></div><span class="framework-check">✓</span></div>
+            <div class="framework-meta"><div><strong>自定义框架</strong><small>从现有教案或空白开始</small></div><span class="framework-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>
           </button>
         </div>
       </section>
@@ -396,10 +419,10 @@
 <div class="composer-shell">
   <div class="file-chip" id="fileChip"></div>
   <div class="composer">
-    <button class="upload" id="uploadButton" title="上传教案">＋</button>
+    <button class="upload" id="uploadButton" title="上传教案"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></button>
     <input type="file" id="fileInput" hidden accept=".doc,.docx,.pdf,.ppt,.pptx">
     <textarea id="prompt" rows="1" placeholder="补充课程主题、授课对象、难度或其他要求"></textarea>
-    <button class="send" id="sendButton" title="发送">➤</button>
+    <button class="send" id="sendButton" title="发送"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
   </div>
 </div>
 <div class="toast" id="toast"></div>
